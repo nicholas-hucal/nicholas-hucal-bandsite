@@ -1,0 +1,26 @@
+@use "colors";
+@use "variables";
+@use "typography";
+@use "mixins";
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    padding: 0 1rem;
+    @include mixins.tablet {
+        padding: 0 2.25rem;
+    }
+}
+.row {
+    width: 100%;
+    @include mixins.desktop {
+        width: 64rem;
+        margin: 0 auto;
+    } 
+}
+.logo {
+    background-color: colors.$primary-black;
+    height: 1.25rem;
+}
