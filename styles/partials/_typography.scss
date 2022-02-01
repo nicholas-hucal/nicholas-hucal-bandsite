@@ -23,8 +23,8 @@ body {
 }
 h1 {
     margin: 0;
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
+    // padding-top: 1.5rem;
+    // padding-bottom: 1rem;
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -37,8 +37,8 @@ h1 {
 }
 h2 {
     margin: 0;
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
+    // padding-top: 1.5rem;
+    // padding-bottom: 1rem;
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -51,8 +51,8 @@ h2 {
 }
 h3 {
     margin: 0;
-    padding-top: 1.5rem;
-    padding-bottom: 1rem;
+    // padding-top: 1.5rem;
+    // padding-bottom: 1rem;
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 1.375rem;
@@ -65,8 +65,8 @@ h3 {
 }
 p {
     margin: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    // padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
     font-weight: 400;
     font-size: 0.8125rem;
     line-height: 1.125rem;
@@ -75,10 +75,10 @@ p {
         line-height: 1.375rem;
     }
 }
-footer > p {
+footer p, footer a {
     margin: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    // padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
     font-weight: 400;
     font-size: 0.8125rem;
     line-height: 1.125rem;
@@ -96,4 +96,21 @@ label, button {
         font-size: 0.75rem;
         line-height: 1.25rem;
     }
+}
+cite {
+    font-style: normal;
+}
+figcaption, blockquote {
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    @include mixins.tablet {
+        padding-top: 3rem;
+        padding-bottom: 2.25rem;
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+}
+figcaption:before {
+    content: '- ';
 }

@@ -3,7 +3,7 @@
 @use "typography";
 @use "mixins";
 
-html, body {
+html, body, figure, blockquote {
     margin: 0;
     padding: 0;
 }
@@ -15,12 +15,130 @@ html, body {
 }
 .row {
     width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     @include mixins.desktop {
         width: 64rem;
         margin: 0 auto;
-    } 
+    }
+    &--no-pad {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+.main-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: colors.$primary-black;
+    &__logo-container {
+        text-align: center;
+    }
+    
+    &__list-container {
+        width: 100%;
+
+    }
+
+    &__list {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__list-item {
+        width: 50%;
+        text-align: center;
+        text-transform: capitalize;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid colors.$primary-black;
+        &--active {
+            border-bottom: 3px solid colors.$primary-white;
+            font-weight: 700;
+
+        }
+    }
+
+    &__list-link {
+        display: inline-block;
+        color: colors.$primary-white;
+        text-decoration: none;
+    }
 }
 .logo {
     background-color: colors.$primary-black;
     height: 1.25rem;
+    padding: 1rem 0 0.5rem 0;
+}
+.hero {
+    background-image: url('../../assets/images/hero-bio.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    &__heading {
+        color: colors.$primary-white;
+        text-transform: capitalize;
+        padding: 5rem 0;
+    }
+}
+.about {
+    &__heading {
+        padding-top: 1rem;
+    }
+    &__main-image-container {
+        height: 80%;
+    }
+    &__main-image {
+        width: 100%;
+    }
+}
+.photo-gallery {
+    margin-top: 2rem;
+    &__image {
+        width: 100%;
+        padding-bottom: 0.5rem;
+        &--last {
+            padding-bottom: 0;
+        }
+    }
+}
+.main-footer {
+    background-color: colors.$primary-black;
+    color: colors.$primary-white;
+    &__heading {
+        padding-top: 1.5rem;
+    }
+}
+
+.social-media {
+    &__link {
+        margin-right: 2rem;
+    }
+}
+
+.contact {
+    &__email {
+        color: colors.$primary-white;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 1rem;
+    }
+    &__name {
+        font-weight: 700;
+    }
+    &__company {
+        font-weight: 700;
+    }
+}
+.copyright {
+    &__logo {
+        margin-top: 2rem;
+    }
+    &__details {
+        margin-bottom: 0.5rem;
+    }
 }
