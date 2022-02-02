@@ -132,11 +132,11 @@ html, body, figure, blockquote {
   padding: 0;
 }
 
-.container {
+.container, .main-nav {
   padding: 0 1rem;
 }
 @media (min-width: 768px) {
-  .container {
+  .container, .main-nav {
     padding: 0 2.25rem;
   }
 }
@@ -164,11 +164,30 @@ html, body, figure, blockquote {
   align-items: center;
   background-color: #323232;
 }
+@media (min-width: 768px) {
+  .main-nav {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+}
 .main-nav__logo-container {
   text-align: center;
 }
+@media (min-width: 768px) {
+  .main-nav__logo-container {
+    text-align: left;
+    margin-right: 1.5rem;
+    padding: 0.75rem 0;
+  }
+}
 .main-nav__list-container {
   width: 100%;
+}
+@media (min-width: 768px) {
+  .main-nav__list-container {
+    width: auto;
+  }
 }
 .main-nav__list {
   list-style: none;
@@ -184,6 +203,13 @@ html, body, figure, blockquote {
   padding-bottom: 0.5rem;
   border-bottom: 3px solid #323232;
 }
+@media (min-width: 768px) {
+  .main-nav__list-item {
+    width: 100%;
+    padding: 1.25rem 0;
+    margin: 0 1.5rem;
+  }
+}
 .main-nav__list-item--active {
   border-bottom: 3px solid #FFFFFF;
   font-weight: 700;
@@ -193,15 +219,14 @@ html, body, figure, blockquote {
   color: #FFFFFF;
   text-decoration: none;
 }
-
-.logo {
+.main-nav__logo {
   background-color: #323232;
   height: 1.25rem;
   padding: 1rem 0 0.5rem 0;
 }
 
 .hero {
-  background-image: url("../../assets/images/hero-bio.jpg");
+  background-image: linear-gradient(rgba(50, 50, 50, 0.5), rgba(50, 50, 50, 0.5)), url("../../assets/images/hero-bio.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -211,9 +236,22 @@ html, body, figure, blockquote {
   text-transform: capitalize;
   padding: 5rem 0;
 }
+@media (min-width: 768px) {
+  .hero__heading {
+    padding: 10rem 0;
+  }
+}
 
 .about__heading {
   padding-top: 1rem;
+}
+@media (min-width: 768px) {
+  .about__heading {
+    padding-top: 2rem;
+  }
+}
+.about__band-name {
+  font-weight: 600;
 }
 .about__main-image-container {
   height: 80%;
@@ -221,16 +259,56 @@ html, body, figure, blockquote {
 .about__main-image {
   width: 100%;
 }
+@media (min-width: 768px) {
+  .about__band {
+    padding: 0 4rem;
+  }
+}
+@media (min-width: 768px) {
+  .about__article {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+@media (min-width: 768px) {
+  .about__article-column--first {
+    margin-right: 1rem;
+  }
+}
 
 .photo-gallery {
   margin-top: 2rem;
 }
-.photo-gallery__image {
+@media (min-width: 768px) {
+  .photo-gallery__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+.photo-gallery__image-container {
   width: 100%;
   padding-bottom: 0.5rem;
 }
-.photo-gallery__image--last {
+.photo-gallery__image-container--last {
   padding-bottom: 0;
+}
+@media (min-width: 768px) {
+  .photo-gallery__image-container {
+    width: 31%;
+    margin-right: 1rem;
+    padding-bottom: 1rem;
+  }
+  .photo-gallery__image-container--third {
+    margin-right: 0%;
+  }
+  .photo-gallery__image-container--last {
+    padding-bottom: 1rem;
+  }
+}
+.photo-gallery__image {
+  width: 100%;
 }
 
 .main-footer {
@@ -240,11 +318,46 @@ html, body, figure, blockquote {
 .main-footer__heading {
   padding-top: 1.5rem;
 }
+@media (min-width: 768px) {
+  .main-footer__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+@media (min-width: 768px) {
+  .main-footer__info-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+}
+@media (min-width: 768px) {
+  .main-footer__mobile-info {
+    display: none;
+  }
+}
 
+@media (min-width: 768px) {
+  .social-media {
+    margin-left: 1.5rem;
+  }
+}
 .social-media__link {
   margin-right: 2rem;
 }
 
+@media (min-width: 768px) {
+  .contact {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+@media (min-width: 768px) {
+  .contact__column {
+    margin-right: 2.5rem;
+  }
+}
 .contact__email {
   color: #FFFFFF;
   text-decoration: none;
@@ -260,6 +373,11 @@ html, body, figure, blockquote {
 
 .copyright__logo {
   margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .copyright__logo {
+    display: none;
+  }
 }
 .copyright__details {
   margin-bottom: 0.5rem;
