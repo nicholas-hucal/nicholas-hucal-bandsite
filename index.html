@@ -9,47 +9,45 @@
 </head>
 <body>
     <header class="main-nav">
-        <div class="main-nav__logo-container">
-            <img class="main-nav__logo" src="./assets/logos/logo-bandsite.svg" alt="Bandsite Logo" />
-        </div>
-        <nav class="main-nav__list-container">
-            <ul class="main-nav__list">
-                <li class="main-nav__list-item main-nav__list-item--active"><a class="main-nav__list-link" href="#">biography</a></li>
-                <li class="main-nav__list-item"><a class="main-nav__list-link"  href="#">shows</a></li>
-            </ul>
-        </nav>
+        <section class="main-nav__container">
+            <div class="main-nav__logo-container">
+                <img class="main-nav__logo" src="./assets/logos/logo-bandsite.svg" alt="Bandsite Logo" />
+            </div>
+            <nav class="main-nav__list-container">
+                <ul class="main-nav__list">
+                    <li class="main-nav__list-item main-nav__list-item--active"><a class="main-nav__list-link" href="#">biography</a></li>
+                    <li class="main-nav__list-item"><a class="main-nav__list-link"  href="#">shows</a></li>
+                </ul>
+            </nav>
+        </section>
     </header>
     <main>
-        <section class="container hero">
-            <div class="hero__overlay"></div>
-            <div class="row">
+        <section class="hero">
+            <div class="hero__container">
+                <div class="hero__overlay"></div>
                 <h1 class="hero__heading">the bees knees</h1>
             </div>
         </section> 
-        <section class="container about">
-            <div class="row">
-                <h2 class="about__heading">About the Musicians</h2>
-            </div>
+        <section class="about">
+            <h2 class="about__heading">About the Musicians</h2>
             <div class="about__band">
-                <figure class="row about__main-image-container">
+                <figure class="about__main-image-container">
                     <img class="about__main-image" src="./assets/images/band.jpg" alt="the bees knees in concert" />
                 </figure>
-                <figure class="row about__quote-container">
+                <figure class="about__quote-container">
                     <blockquote class="about__quote">
                         "We push each other to be the best. It’s not uncommon for one of us to say ‘this needs to be better, back to the drawing board'"
                     </blockquote>
                     <figcaption class="about__quote-attributed">Bryan Teddy, <cite>lead vocalist of The Bees Knees</cite></figcaption>
                 </figure>
-                <div class="row">
-                    <h3 class="about__band-name">The Bees Knees</h3>
-                </div>
+                <h3 class="about__band-name">The Bees Knees</h3>
                 <article class="about__article">
-                    <div class="row about__article-column--first">
+                    <div class="about__article-column about__article-column--first">
                         <p class="about__details">
                             The Bees Knees is a pop rock band originating from San Francisco, California. The band consists of lead vocalist Bryan Teddy, guitarist Mack Tolkens, guitarist Andrew Green, bassist Kent Zulkee and drummer Freddie Fischer. The band achieved its first commercial success as an unsigned act, drawing attention from manager Cam Adams. Having worked with other popular acts (The Elephant In The Room, One Trick Pony, The Cat’s Meow), Adams was confident the band could succeed even further, pushing them to sign with Magenta Records. 
                         </p>
                     </div>
-                    <div class="row about__article-column">
+                    <div class="about__article-column">
                         <p class="about__details">
                             From there, the band has soared, gaining international recognition and ranking in the top 10 on the Poster Charts. New fans immediately fell in love with the band’s original and organic attitude, solidifying their place as one of the hottest and fastest up and coming acts of this century. Fans affectionately refer to themselves as “The Hive” and are drawn to their candid and authentic performances on stage. Looking forward to touring in the future, The Bees Knees are currently recording their second studio album, looking to be released in late 2021.
                         </p>
@@ -57,11 +55,9 @@
                 </article>
             </div>
         </section>
-        <section class="container photo-gallery">
-            <div class="row">
-                <h2 class="photo-gallery__heading">Photo Gallery</h2>
-            </div>
-            <div class="row photo-gallery__container">
+        <section class="photo-gallery">
+            <h2 class="photo-gallery__heading">Photo Gallery</h2>
+            <div class="photo-gallery__container">
                 <figure class="photo-gallery__image-container">
                     <img class="photo-gallery__image" src="./assets/images/Photo-gallery-1.jpg" alt="photo of crowd at a concert" />
                 </figure>
@@ -92,11 +88,11 @@
             </div>
         </section>
     </main>
-    <footer>
-        <div class="container main-footer">
-            <div class="main-footer__mobile-info">
-                <h2 class="row main-footer__heading">Get in Touch</h2>
-                <section class="row social-media">
+    <footer class="main-footer">
+        <div class="main-footer__container">
+            <div class="main-footer__info--mobile">
+                <h2 class="main-footer__heading">Get in Touch</h2>
+                <section class="social-media">
                     <a href="https://instagram.com" class="social-media__link"><img class="social-media__icon" src="./assets/icons/Icon-instagram.svg"/></a>
                     <a href="https://facebook.com" class="social-media__link"><img class="social-media__icon" src="./assets/icons/Icon-facebook.svg"/></a>
                     <a href="https://twitter.com" class="mocial-media__link"><img class="social-media__icon" src="./assets/icons/Icon-twitter.svg"/></a>
@@ -117,50 +113,50 @@
             </div>
             <section class="contact">
                 <div class="contact__column">
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__name">Cam Adams</p>
                         <p class="contact__company">The Bees Knees Management</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__details-line-1">503 Broadway Penthouse,</p>
                         <p class="contact__details-line-2">New York, NY 10012, USA</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <a class="contact__email" href="mailto:info@thebeesknees.com">info@thebeesknees.com</a>
                     </div>
                 </div>
                 <div class="contact__column">
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__name">Pearl Gregg</p>
                         <p class="contact__company">Limitless Artist Group</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__details-line-1">Booking Agent for</p>
                         <p class="contact__details-line-2">US / South America / Japan</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <a class="contact__email" href="mailto:pearl.gregg@limitlessag.com">pearl.gregg@limitlessag.com</a>
                     </div>
                 </div>
                 <div class="contact__column">
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__name">Carson Whyte</p>
                         <p class="contact__company">ARCH Entertainment</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <p class="contact__details-line-1">Booking Agent for</p>
                         <p class="contact__details-line-2">UK / EU / AU</p>
                     </div>
-                    <div class="row contact__row">
+                    <div class="contact__row">
                         <a class="contact__email" href="mailto:cwhyte@archentertainment.com">cwhyte@archentertainment.com</a>
                     </div>
                 </div>
             </section>
             <section class="copyright">
-                <div class="row">
+                <div class="copyright__row">
                     <img class="copyright__logo" src="./assets/logos/logo-bandsite.svg" alt="Bandsite Logo" />
                 </div>
-                <div class="row">
+                <div class="copyright__row">
                     <p class="copyright__details">Copyright The Bees Knees &copy; 2021 All Rights Reserved</p>
                 </div>
             </section>
