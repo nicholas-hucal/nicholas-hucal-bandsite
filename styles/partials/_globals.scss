@@ -56,6 +56,7 @@ html, body, figure, blockquote {
         text-transform: capitalize;
         padding-bottom: 0.5rem;
         border-bottom: 3px solid colors.$primary-black;
+        transition: all 0.75s ease;
         @include mixins.tablet {
             width: 100%;
             padding: 1.25rem 0;
@@ -69,12 +70,16 @@ html, body, figure, blockquote {
             font-weight: 600;
         }
     }
+    &__list-item:hover {
+        border-bottom: 3px solid colors.$primary-silver;
+    }
 
     &__list-link {
         display: inline-block;
         color: colors.$secondary-alabaster;
         text-decoration: none;
     }
+
     &__logo {
         background-color: colors.$primary-black;
         height: 1.25rem;
@@ -158,6 +163,10 @@ html, body, figure, blockquote {
         text-decoration: none;
         display: block;
         margin-bottom: 1rem;
+        transition: 0.75s ease;
+    }
+    &__email:hover {
+        color: colors.$primary-silver;
     }
     &__name {
         font-weight: 700;

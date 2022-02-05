@@ -143,6 +143,11 @@
     }
     &__image {
         width: 100%;
+        filter: grayscale(100%);
+        transition: all 1s ease;
+    }
+    &__image:hover {
+        filter: grayscale(0%);
     }
 
 }

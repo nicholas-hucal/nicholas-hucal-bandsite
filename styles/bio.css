@@ -197,6 +197,7 @@ html, body, figure, blockquote {
   text-transform: capitalize;
   padding-bottom: 0.5rem;
   border-bottom: 3px solid #323232;
+  transition: all 0.75s ease;
 }
 @media (min-width: 768px) {
   .nav__list-item {
@@ -213,6 +214,9 @@ html, body, figure, blockquote {
 .nav__list-item--active {
   border-bottom: 3px solid #FFFFFF;
   font-weight: 600;
+}
+.nav__list-item:hover {
+  border-bottom: 3px solid #AFAFAF;
 }
 .nav__list-link {
   display: inline-block;
@@ -325,6 +329,10 @@ html, body, figure, blockquote {
   text-decoration: none;
   display: block;
   margin-bottom: 1rem;
+  transition: 0.75s ease;
+}
+.contact__email:hover {
+  color: #AFAFAF;
 }
 .contact__name {
   font-weight: 700;
@@ -557,4 +565,9 @@ html, body, figure, blockquote {
 }
 .photo-gallery__image {
   width: 100%;
+  filter: grayscale(100%);
+  transition: all 1s ease;
+}
+.photo-gallery__image:hover {
+  filter: grayscale(0%);
 }
