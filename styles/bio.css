@@ -566,7 +566,7 @@ html, body, figure, blockquote {
 .photo-gallery__image {
   width: 100%;
   filter: grayscale(100%);
-  transition: all 1s ease;
+  transition: all 0.75s ease-in-out;
 }
 .photo-gallery__image:hover {
   filter: grayscale(0%);

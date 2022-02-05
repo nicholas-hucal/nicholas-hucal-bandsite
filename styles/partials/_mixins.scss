@@ -17,10 +17,12 @@
     } @else {
         padding: 0 1rem;
     }
+
     @include tablet {
         padding-left: 2.25rem;
         padding-right: 2.25rem;
     }
+    
     @include desktop {
         max-width: 64rem;
         margin: auto;

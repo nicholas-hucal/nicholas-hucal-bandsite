@@ -70,6 +70,7 @@ html, body, figure, blockquote {
             font-weight: 600;
         }
     }
+
     &__list-item:hover {
         border-bottom: 3px solid colors.$primary-silver;
     }
@@ -96,13 +97,16 @@ html, body, figure, blockquote {
         padding-top: 2rem;
         padding-bottom: 1.5rem;
     }
+    
     &__container {
         @include mixins.container;
     }
+
     &__heading {
         padding-top: 1.5rem;
         @include mixins.row;
     }
+
     &__info {
         @include mixins.tablet {
             display: flex;
@@ -110,6 +114,7 @@ html, body, figure, blockquote {
             align-items: baseline;
         }
     }
+
     &__info-left {
         @include mixins.tablet {
             display: flex;
@@ -122,6 +127,7 @@ html, body, figure, blockquote {
             display: none;
         }
     }
+
     &__info {
         display: none;
         @include mixins.tablet {
@@ -136,6 +142,7 @@ html, body, figure, blockquote {
     @include mixins.tablet {
         margin-left: 1.5rem;
     }
+
     &__link {
         margin-right: 2rem;
     }
@@ -146,11 +153,13 @@ html, body, figure, blockquote {
         display: flex;
         justify-content: flex-start;
     }
+
     &__column {
         @include mixins.tablet {
             margin-right: 2.5rem;
         }
     }
+
     &__row {
         @include mixins.row;
         @include mixins.tablet {
@@ -158,6 +167,7 @@ html, body, figure, blockquote {
             padding-bottom: 0.75rem;
         }
     }
+
     &__email {
         color: colors.$primary-white;
         text-decoration: none;
@@ -165,12 +175,15 @@ html, body, figure, blockquote {
         margin-bottom: 1rem;
         transition: 0.75s ease;
     }
+
     &__email:hover {
         color: colors.$primary-silver;
     }
+
     &__name {
         font-weight: 700;
     }
+
     &__company {
         font-weight: 700;
     }
@@ -179,12 +192,14 @@ html, body, figure, blockquote {
     &__row {
         @include mixins.row;
     }
+
     &__logo {
         margin-top: 2rem;
         @include mixins.tablet {
             display: none;
         }
     }
+    
     &__details {
         margin-bottom: 0.5rem;
         font-size: 0.7rem;
