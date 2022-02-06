@@ -433,6 +433,11 @@ html, body, figure, blockquote {
     padding-bottom: 2rem;
   }
 }
+@media (min-width: 768px) {
+  .about__band {
+    padding: 0 4rem;
+  }
+}
 .about__main-image-container {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -450,12 +455,6 @@ html, body, figure, blockquote {
   .about__main-image {
     height: 40vw;
   }
-}
-.about__band-name {
-  margin-top: 1rem;
-  font-weight: 600;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 .about__quote-container {
   padding-top: 0.5rem;
@@ -481,26 +480,25 @@ html, body, figure, blockquote {
     margin-top: 0;
   }
 }
-.about__quote-details:before {
-  content: "- ";
-}
+
 @media (min-width: 768px) {
-  .about__band {
-    padding: 0 4rem;
-  }
-}
-@media (min-width: 768px) {
-  .about__article {
+  .article__container {
     display: flex;
     justify-content: flex-start;
   }
 }
-.about__article-column {
+.article__band {
+  margin-top: 1rem;
+  font-weight: 600;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.article__column {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
 @media (min-width: 768px) {
-  .about__article-column--first {
+  .article__column--first {
     margin-right: 1rem;
   }
 }

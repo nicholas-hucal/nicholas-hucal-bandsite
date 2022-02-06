@@ -50,6 +50,12 @@
         }
     }
 
+    &__band {
+        @include mixins.tablet {
+            padding: 0 4rem;
+        }
+    }
+
     &__main-image-container {
         @include mixins.row;
     }
@@ -63,12 +69,6 @@
         @include mixins.tablet {
             height: 40vw;
         }
-    }
-
-    &__band-name {
-        margin-top: 1rem;
-        font-weight: 600;
-        @include mixins.row;
     }
 
     &__quote-container {
@@ -90,31 +90,37 @@
         }
     }
 
-    &__quote-details:before {
-            content: '- ';
-    }
+}
 
-    &__band {
-        @include mixins.tablet {
-            padding: 0 4rem;
-        }
-    }
+.article {
 
-    &__article {
+    &__container {
+
         @include mixins.tablet {
             display: flex;
             justify-content: flex-start;
 
         }
+
     }
 
-    &__article-column {
+    &__band {
+
+        margin-top: 1rem;
+        font-weight: 600;
+        @include mixins.row;
+
+    }
+
+    &__column {
+
         @include mixins.row;
         &--first {
             @include mixins.tablet {
                 margin-right: 1rem;
             }
         }
+
     }
 
 }
