@@ -182,6 +182,12 @@ html, body, figure, blockquote {
         }
     }
 
+    &__row-item {
+        &--bold {
+            font-weight: 600;    
+        }
+    }
+
     &__email {
         color: colors.$primary-white;
         text-decoration: none;
@@ -192,14 +198,6 @@ html, body, figure, blockquote {
 
     &__email:hover {
         color: colors.$primary-silver;
-    }
-
-    &__name {
-        font-weight: 700;
-    }
-
-    &__company {
-        font-weight: 700;
     }
 
 }

@@ -13,7 +13,7 @@
 @font-face {
   font-family: "avenir", sans-serif;
   src: url("../assets/fonts/AvenirNextLTPro-Bold.otf");
-  font-weight: 600;
+  font-weight: 700;
   font-style: normal;
 }
 body {
@@ -328,6 +328,9 @@ html, body, figure, blockquote {
     padding-bottom: 0.75rem;
   }
 }
+.contact__row-item--bold {
+  font-weight: 600;
+}
 .contact__email {
   color: #FFFFFF;
   text-decoration: none;
@@ -337,12 +340,6 @@ html, body, figure, blockquote {
 }
 .contact__email:hover {
   color: #AFAFAF;
-}
-.contact__name {
-  font-weight: 700;
-}
-.contact__company {
-  font-weight: 700;
 }
 
 .copyright__row {
@@ -560,25 +557,14 @@ html, body, figure, blockquote {
 }
 .photo-gallery__image-container {
   width: 100%;
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1.25%;
+  padding-top: 1.25%;
 }
 @media (min-width: 768px) {
   .photo-gallery__image-container {
-    width: 31%;
-    margin-right: 1rem;
-    padding-bottom: 1rem;
-  }
-  .photo-gallery__image-container--third {
-    margin-right: 0%;
-  }
-}
-@media (min-width: 1280px) {
-  .photo-gallery__image-container {
+    padding-bottom: 0.75%;
+    padding-top: 0.75%;
     width: 32%;
-    margin-right: 0.5rem;
-    padding-bottom: 0.5rem;
   }
 }
 .photo-gallery__image {
