@@ -329,7 +329,7 @@ html, body, figure, blockquote {
   }
 }
 .contact__email {
-  color: #E1E1E1;
+  color: #FFFFFF;
   text-decoration: none;
   display: block;
   margin-bottom: 1rem;
@@ -343,12 +343,6 @@ html, body, figure, blockquote {
 }
 .contact__company {
   font-weight: 700;
-}
-.contact__details-line-1 {
-  color: #E1E1E1;
-}
-.contact__details-line-2 {
-  color: #E1E1E1;
 }
 
 .copyright__row {
@@ -401,18 +395,10 @@ html, body, figure, blockquote {
   padding-bottom: 0.5rem;
   color: #FFFFFF;
   text-transform: capitalize;
-  padding: 5rem 0;
-}
-@media (min-width: 768px) {
-  .hero__heading {
-    padding-top: 10rem;
-    padding-bottom: 10rem;
-  }
-}
-@media (min-width: 1280px) {
-  .hero__heading {
-    padding: 17.5rem 0;
-  }
+  height: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .about {
@@ -450,6 +436,24 @@ html, body, figure, blockquote {
     padding-bottom: 2rem;
   }
 }
+.about__main-image-container {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.about__main-image {
+  width: 100%;
+  height: 50vw;
+  max-height: 30rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: 0 70%;
+     object-position: 0 70%;
+}
+@media (min-width: 768px) {
+  .about__main-image {
+    height: 40vw;
+  }
+}
 .about__band-name {
   margin-top: 1rem;
   font-weight: 600;
@@ -482,24 +486,6 @@ html, body, figure, blockquote {
 }
 .about__quote-details:before {
   content: "- ";
-}
-.about__main-image-container {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.about__main-image {
-  width: 100%;
-  height: 50vw;
-  max-height: 30rem;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: 0 70%;
-     object-position: 0 70%;
-}
-@media (min-width: 768px) {
-  .about__main-image {
-    height: 40vw;
-  }
 }
 @media (min-width: 768px) {
   .about__band {
@@ -593,9 +579,6 @@ html, body, figure, blockquote {
     width: 32%;
     margin-right: 0.5rem;
     padding-bottom: 0.5rem;
-  }
-  .photo-gallery__image-container--third {
-    margin-right: 0%;
   }
 }
 .photo-gallery__image {

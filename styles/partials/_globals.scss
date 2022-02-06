@@ -4,11 +4,14 @@
 @use "mixins";
 
 html, body, figure, blockquote {
+
     margin: 0;
     padding: 0;
+    
 }
 
 .nav {
+
     background-color: colors.$primary-black;
     &__container {
         @include mixins.container('no-padding');
@@ -89,9 +92,11 @@ html, body, figure, blockquote {
         height: 1.25rem;
         padding: 1rem 0 0.5rem 0;
     }
+
 }
 
 .footer {
+
     background-color: colors.$primary-black;
     color: colors.$primary-white;
     padding-top: 1.5rem;
@@ -140,9 +145,11 @@ html, body, figure, blockquote {
             padding-bottom: 1.5rem;
         }
     }
+
 }
 
 .social-media {
+
     @include mixins.row;
     @include mixins.tablet {
         margin-left: 1.5rem;
@@ -151,9 +158,11 @@ html, body, figure, blockquote {
     &__link {
         margin-right: 2rem;
     }
+
 }
 
 .contact {
+
     @include mixins.tablet {
         display: flex;
         justify-content: flex-start;
@@ -174,7 +183,7 @@ html, body, figure, blockquote {
     }
 
     &__email {
-        color: colors.$secondary-mercury;
+        color: colors.$primary-white;
         text-decoration: none;
         display: block;
         margin-bottom: 1rem;
@@ -192,14 +201,10 @@ html, body, figure, blockquote {
     &__company {
         font-weight: 700;
     }
-    &__details-line-1 {
-        color: colors.$secondary-mercury;
-    }
-    &__details-line-2 {
-        color: colors.$secondary-mercury;
-    }
+
 }
 .copyright {
+
     &__row {
         @include mixins.row;
     }
@@ -219,4 +224,5 @@ html, body, figure, blockquote {
             font-size: 0.875rem;
         }
     }
+
 }
