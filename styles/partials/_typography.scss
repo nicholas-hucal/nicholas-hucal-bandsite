@@ -1,30 +1,35 @@
 @use "mixins";
+@use "colors";
+
 @font-face {
     font-family: 'avenir', sans-serif;
     src: url('../assets/fonts/AvenirNextLTPro-Regular.otf');
     font-weight: 400;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'avenir', sans-serif;
     src: url('../assets/fonts/AvenirNextLTPro-Demi.otf');
     font-weight: 600;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'avenir', sans-serif;
     src: url('../assets/fonts/AvenirNextLTPro-Bold.otf');
     font-weight: 600;
     font-style: normal;
 }
+
 body {
     font-size: 16px;
     font-family: 'avenir';
+    color: colors.$primary-black;
 }
+
 h1 {
     margin: 0;
-    // padding-top: 1.5rem;
-    // padding-bottom: 1rem;
     font-weight: 600;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -35,10 +40,9 @@ h1 {
         line-height: 4.25rem;
     }
 }
+
 h2 {
     margin: 0;
-    // padding-top: 1.5rem;
-    // padding-bottom: 1rem;
     font-weight: 600;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -49,10 +53,9 @@ h2 {
         line-height: 2.75rem;
     }
 }
+
 h3 {
     margin: 0;
-    // padding-top: 1.5rem;
-    // padding-bottom: 1rem;
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 1.375rem;
@@ -63,10 +66,9 @@ h3 {
         line-height: 2rem;
     }
 }
+
 p {
     margin: 0;
-    // padding-top: 0.5rem;
-    // padding-bottom: 0.5rem;
     font-weight: 400;
     font-size: 0.8125rem;
     line-height: 1.125rem;
@@ -75,10 +77,9 @@ p {
         line-height: 1.375rem;
     }
 }
+
 footer p, footer a {
     margin: 0;
-    // padding-top: 0.5rem;
-    // padding-bottom: 0.5rem;
     font-weight: 400;
     font-size: 0.8125rem;
     line-height: 1.125rem;
@@ -87,6 +88,7 @@ footer p, footer a {
         line-height: 1.25rem;
     }
 }
+
 label, button {
     margin: 0;
     font-weight: 700;
@@ -97,10 +99,12 @@ label, button {
         line-height: 1.25rem;
     }
 }
-cite {
+
+cite, address {
     font-style: normal;
 }
-figcaption, blockquote {
+
+figcaption, blockquote, cite {
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 1.375rem;
@@ -111,6 +115,7 @@ figcaption, blockquote {
         line-height: 2rem;
     }
 }
-figcaption:before {
+
+cite:before {
     content: '- ';
 }

@@ -77,8 +77,11 @@ html, body, figure, blockquote {
 
     &__list-link {
         display: inline-block;
-        color: colors.$secondary-alabaster;
+        color: colors.$primary-silver;
         text-decoration: none;
+        &--active {
+            color: colors.$secondary-alabaster;
+        }
     }
 
     &__logo {
@@ -122,14 +125,16 @@ html, body, figure, blockquote {
             align-items: baseline;
         }
     }
-    &__info--mobile {
+
+    &__info-right {
+        display: none;
         @include mixins.tablet {
-            display: none;
+            display: block;
         }
     }
 
     &__info {
-        display: none;
+        // display: none;
         @include mixins.tablet {
             display: flex;
             padding-bottom: 1.5rem;
@@ -169,7 +174,7 @@ html, body, figure, blockquote {
     }
 
     &__email {
-        color: colors.$primary-white;
+        color: colors.$secondary-mercury;
         text-decoration: none;
         display: block;
         margin-bottom: 1rem;
@@ -187,6 +192,12 @@ html, body, figure, blockquote {
     &__company {
         font-weight: 700;
     }
+    &__details-line-1 {
+        color: colors.$secondary-mercury;
+    }
+    &__details-line-2 {
+        color: colors.$secondary-mercury;
+    }
 }
 .copyright {
     &__row {
@@ -203,5 +214,9 @@ html, body, figure, blockquote {
     &__details {
         margin-bottom: 0.5rem;
         font-size: 0.7rem;
+        color: colors.$secondary-mercury;
+        @include mixins.tablet {
+            font-size: 0.875rem;
+        }
     }
 }

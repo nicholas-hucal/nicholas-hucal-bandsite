@@ -19,6 +19,7 @@
 body {
   font-size: 16px;
   font-family: "avenir";
+  color: #323232;
 }
 
 h1 {
@@ -105,17 +106,17 @@ label, button {
   }
 }
 
-cite {
+cite, address {
   font-style: normal;
 }
 
-figcaption, blockquote {
+figcaption, blockquote, cite {
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.375rem;
 }
 @media (min-width: 768px) {
-  figcaption, blockquote {
+  figcaption, blockquote, cite {
     padding-top: 1rem;
     padding-bottom: 1rem;
     font-size: 1.35rem;
@@ -123,7 +124,7 @@ figcaption, blockquote {
   }
 }
 
-figcaption:before {
+cite:before {
   content: "- ";
 }
 
@@ -220,8 +221,11 @@ html, body, figure, blockquote {
 }
 .nav__list-link {
   display: inline-block;
-  color: #FAFAFA;
+  color: #AFAFAF;
   text-decoration: none;
+}
+.nav__list-link--active {
+  color: #FAFAFA;
 }
 .nav__logo {
   background-color: #323232;
@@ -275,13 +279,13 @@ html, body, figure, blockquote {
     align-items: baseline;
   }
 }
-@media (min-width: 768px) {
-  .footer__info--mobile {
-    display: none;
-  }
-}
-.footer__info {
+.footer__info-right {
   display: none;
+}
+@media (min-width: 768px) {
+  .footer__info-right {
+    display: block;
+  }
 }
 @media (min-width: 768px) {
   .footer__info {
@@ -325,7 +329,7 @@ html, body, figure, blockquote {
   }
 }
 .contact__email {
-  color: #FFFFFF;
+  color: #E1E1E1;
   text-decoration: none;
   display: block;
   margin-bottom: 1rem;
@@ -339,6 +343,12 @@ html, body, figure, blockquote {
 }
 .contact__company {
   font-weight: 700;
+}
+.contact__details-line-1 {
+  color: #E1E1E1;
+}
+.contact__details-line-2 {
+  color: #E1E1E1;
 }
 
 .copyright__row {
@@ -356,6 +366,12 @@ html, body, figure, blockquote {
 .copyright__details {
   margin-bottom: 0.5rem;
   font-size: 0.7rem;
+  color: #E1E1E1;
+}
+@media (min-width: 768px) {
+  .copyright__details {
+    font-size: 0.875rem;
+  }
 }
 
 .hero {
@@ -440,11 +456,6 @@ html, body, figure, blockquote {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-.about__main-image-container {
-  height: 80%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
 .about__quote-container {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -461,6 +472,7 @@ html, body, figure, blockquote {
 }
 .about__quote-attributed {
   margin-top: 0.5rem;
+  font-weight: 700;
 }
 @media (min-width: 768px) {
   .about__quote-attributed {
@@ -468,8 +480,26 @@ html, body, figure, blockquote {
     margin-top: 0;
   }
 }
+.about__quote-details:before {
+  content: "- ";
+}
+.about__main-image-container {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 .about__main-image {
   width: 100%;
+  height: 50vw;
+  max-height: 30rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: 0 70%;
+     object-position: 0 70%;
+}
+@media (min-width: 768px) {
+  .about__main-image {
+    height: 40vw;
+  }
 }
 @media (min-width: 768px) {
   .about__band {
@@ -517,15 +547,20 @@ html, body, figure, blockquote {
   }
 }
 .photo-gallery__images {
-  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 @media (min-width: 768px) {
   .photo-gallery__images {
-    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+  }
+}
+@media (min-width: 1280px) {
+  .photo-gallery__images {
+    padding-bottom: 1.5rem;
   }
 }
 .photo-gallery__heading {
