@@ -40,10 +40,16 @@
 .card {
     @include mixins.container;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-direction: column;
     border-bottom: 1px solid colors.$secondary-mercury;
-    // box-sizing: border-box;
+    text-align: left;
+
+    @include mixins.tablet {
+        flex-direction: row;
+        align-items: center;
+    }
+
     &--last {
         margin-bottom: 1rem;
     }
@@ -53,6 +59,33 @@
         font-size: 0.6rem;
         font-weight: 600;
         padding-top: 0.75rem;
+        @include mixins.tablet {
+            display: none;
+        }
+        &--tablet-plus {
+            @include mixins.tablet {
+                display: block;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+
+    &__header {
+        text-transform: uppercase;
+        color: colors.$primary-silver;
+        font-size: 0.6rem;
+        font-weight: 600;
+        padding-top: 0.75rem;
+        @include mixins.tablet {
+            font-size: 0.75rem;
+        }
+    }
+
+    &__header-row {
+        @include mixins.container;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
     }
 
     &__date {
@@ -77,6 +110,15 @@
             width: auto;
             padding-left: 2rem;
             padding-right: 2rem;
+        }
+        &--hidden {
+            visibility: hidden;
+        }
+    }
+
+    &__date, &__venue, &__location, &__button, &__header {
+        @include mixins.tablet {
+            width: 24%;
         }
     }
 

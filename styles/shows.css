@@ -446,9 +446,10 @@ input:focus, textarea:focus, select:focus {
 .card {
   padding: 0 1rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
   border-bottom: 1px solid #E1E1E1;
+  text-align: left;
 }
 @media (min-width: 768px) {
   .card {
@@ -463,6 +464,12 @@ input:focus, textarea:focus, select:focus {
     margin-right: auto;
   }
 }
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
 .card--last {
   margin-bottom: 1rem;
 }
@@ -472,6 +479,48 @@ input:focus, textarea:focus, select:focus {
   font-size: 0.6rem;
   font-weight: 600;
   padding-top: 0.75rem;
+}
+@media (min-width: 768px) {
+  .card__description {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .card__description--tablet-plus {
+    display: block;
+    margin-bottom: 2rem;
+  }
+}
+.card__header {
+  text-transform: uppercase;
+  color: #AFAFAF;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding-top: 0.75rem;
+}
+@media (min-width: 768px) {
+  .card__header {
+    font-size: 0.75rem;
+  }
+}
+.card__header-row {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+@media (min-width: 768px) {
+  .card__header-row {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1280px) {
+  .card__header-row {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .card__date {
   font-weight: 700;
@@ -496,5 +545,13 @@ input:focus, textarea:focus, select:focus {
     width: auto;
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+.card__button--hidden {
+  visibility: hidden;
+}
+@media (min-width: 768px) {
+  .card__date, .card__venue, .card__location, .card__button, .card__header {
+    width: 24%;
   }
 }
