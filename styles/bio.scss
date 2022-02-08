@@ -178,3 +178,128 @@
     }
 
 }
+
+.conversation {
+    padding-top: 1rem;
+    &__container {
+        @include mixins.container;
+    }
+
+    &__heading {
+        padding-bottom: 1rem;
+
+    }
+
+    &__form-container {
+        display: flex;
+        flex-wrap: none;
+        justify-content: space-between;
+    }
+
+}
+
+.comment {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: none;
+    padding: 1rem 0;
+    border-top: 2px solid colors.$secondary-mercury;
+
+    &--last {
+        border-bottom: 2px solid colors.$secondary-mercury;
+    }
+
+    &__container {
+        @include mixins.container;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    &__column {
+
+    }
+
+    &__row {
+        padding-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        margin-left: 1rem;
+    }
+
+    &__name {
+        font-weight: 700;
+    }
+
+    &__date {
+        color: colors.$primary-silver;
+    }
+
+    &__details {
+        margin-left: 1rem;
+    }
+  
+}
+
+.form {
+    width: 85%;
+
+    &__row {
+    }
+
+    &__label {
+        color: colors.$primary-silver;
+        text-transform: uppercase;
+    }
+
+    &__input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    &__textarea, &__input {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        color: colors.$primary-black;
+        border: 2px solid colors.$secondary-mercury;
+        margin-bottom: 1rem;
+        resize: none;
+    }
+
+    &__submit-button {
+        width: 100%;
+        background-color: colors.$primary-black;
+        color: colors.$primary-white;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        padding: 0.5rem 0;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+}
+
+.avatar {
+    
+    width: 2rem;
+    height: 2rem;
+    overflow: hidden;
+    border-radius: 50%;
+
+    &__image {
+        margin: 0 auto;
+        height: 100%;
+    }
+    &--no-image {
+        margin: 0 auto;
+        height: 100%;
+        background-color: colors.$secondary-mercury;
+    }
+    
+    &--padded {
+        margin-top:1.5rem;
+    }
+
+}

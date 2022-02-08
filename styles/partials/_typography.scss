@@ -119,3 +119,7 @@ figcaption, blockquote, cite {
 cite:before {
     content: '- ';
 }
+
+form, textarea, input {
+    font-family: 'avenir';
+}

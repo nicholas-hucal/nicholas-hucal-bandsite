@@ -128,6 +128,10 @@ cite:before {
   content: "- ";
 }
 
+form, textarea, input {
+  font-family: "avenir";
+}
+
 html, body, figure, blockquote {
   margin: 0;
   padding: 0;
@@ -573,4 +577,126 @@ html, body, figure, blockquote {
 }
 .photo-gallery__image:hover {
   filter: grayscale(0%);
+}
+
+.conversation {
+  padding-top: 1rem;
+}
+.conversation__container {
+  padding: 0 1rem;
+}
+@media (min-width: 768px) {
+  .conversation__container {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1280px) {
+  .conversation__container {
+    max-width: 64rem;
+    margin: auto;
+  }
+}
+.conversation__heading {
+  padding-bottom: 1rem;
+}
+.conversation__form-container {
+  display: flex;
+  flex-wrap: none;
+  justify-content: space-between;
+}
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: none;
+  padding: 1rem 0;
+  border-top: 2px solid #E1E1E1;
+}
+.comment--last {
+  border-bottom: 2px solid #E1E1E1;
+}
+.comment__container {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .comment__container {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1280px) {
+  .comment__container {
+    max-width: 64rem;
+    margin: auto;
+  }
+}
+.comment__row {
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+}
+.comment__name {
+  font-weight: 700;
+}
+.comment__date {
+  color: #AFAFAF;
+}
+.comment__details {
+  margin-left: 1rem;
+}
+
+.form {
+  width: 85%;
+}
+.form__label {
+  color: #AFAFAF;
+  text-transform: uppercase;
+}
+.form__input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.form__textarea, .form__input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  color: #323232;
+  border: 2px solid #E1E1E1;
+  margin-bottom: 1rem;
+  resize: none;
+}
+.form__submit-button {
+  width: 100%;
+  background-color: #323232;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.avatar__image {
+  margin: 0 auto;
+  height: 100%;
+}
+.avatar--no-image {
+  margin: 0 auto;
+  height: 100%;
+  background-color: #E1E1E1;
+}
+.avatar--padded {
+  margin-top: 1.5rem;
 }
