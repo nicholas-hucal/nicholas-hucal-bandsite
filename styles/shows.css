@@ -175,7 +175,8 @@ input:focus, textarea:focus, select:focus {
 @media (min-width: 1280px) {
   .nav__container {
     max-width: 64rem;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 @media (min-width: 768px) {
@@ -280,7 +281,8 @@ input:focus, textarea:focus, select:focus {
 @media (min-width: 1280px) {
   .footer__container {
     max-width: 64rem;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 .footer__heading {

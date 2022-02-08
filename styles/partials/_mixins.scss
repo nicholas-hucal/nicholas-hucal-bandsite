@@ -30,7 +30,8 @@
 
     @include desktop {
         max-width: 64rem;
-        margin: auto;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 }
