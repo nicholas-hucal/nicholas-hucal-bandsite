@@ -132,9 +132,28 @@ form, textarea, input {
   font-family: "avenir";
 }
 
+::-moz-placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
+::placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
 html, body, figure, blockquote {
   margin: 0;
   padding: 0;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
 }
 
 .nav {

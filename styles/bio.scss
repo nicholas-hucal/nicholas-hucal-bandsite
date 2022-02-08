@@ -203,10 +203,10 @@
     justify-content: space-between;
     flex-wrap: none;
     padding: 1rem 0;
-    border-top: 2px solid colors.$secondary-mercury;
+    border-top: 1px solid colors.$secondary-mercury;
 
     &--last {
-        border-bottom: 2px solid colors.$secondary-mercury;
+        border-bottom: 1px solid colors.$secondary-mercury;
     }
 
     &__container {
@@ -237,27 +237,32 @@
 }
 
 .form {
-    width: 85%;
+    width: 82%;
 
     &__label {
         color: colors.$primary-silver;
         text-transform: uppercase;
     }
 
-    &__input {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
     &__textarea, &__input {
         width: 100%;
         box-sizing: border-box;
         border-radius: 0.25rem;
-        padding: 0.5rem;
+        padding: 0.75rem;
         color: colors.$primary-black;
-        border: 2px solid colors.$secondary-mercury;
-        margin-bottom: 1rem;
+        border: 1px solid colors.$secondary-mercury;
+        margin-bottom: 0.75rem;
         resize: none;
+        @include mixins.tablet {
+            min-height: 3rem;
+            padding: 1rem;
+        }
+        &:focus {
+            border: 1px solid colors.$primary-black;
+        }
+        &--has-error {
+            border: 1px solid colors.$error-red;
+        }
     }
 
     &__submit-button {
@@ -267,32 +272,40 @@
         border: none;
         border-radius: 0.25rem;
         font-size: 1rem;
-        padding: 0.5rem 0;
+        height: 2.5rem;
         font-weight: 400;
         text-transform: uppercase;
+        &:hover {
+            background-color: colors.$secondary-black;
+        }
     }
 
 }
 
 .avatar {
     
-    width: 2rem;
-    height: 2rem;
+    width: 2.25rem;
+    height: 2.25rem;
     overflow: hidden;
     border-radius: 50%;
+
+    @include mixins.tablet {
+        height: 3rem;
+        width: 3rem;
+    }
 
     &__image {
         margin: 0 auto;
         height: 100%;
-    }
-    &--no-image {
-        margin: 0 auto;
-        height: 100%;
-        background-color: colors.$secondary-mercury;
+
+        &--no-image {
+            background-color: colors.$secondary-mercury;
+        }
     }
     
+    
     &--padded {
-        margin-top:1.5rem;
+        margin-top:1.55rem;
     }
 
 }

@@ -132,9 +132,28 @@ form, textarea, input {
   font-family: "avenir";
 }
 
+::-moz-placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
+::placeholder {
+  color: #323232;
+  opacity: 1;
+}
+
 html, body, figure, blockquote {
   margin: 0;
   padding: 0;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
 }
 
 .nav {
@@ -611,10 +630,10 @@ html, body, figure, blockquote {
   justify-content: space-between;
   flex-wrap: none;
   padding: 1rem 0;
-  border-top: 2px solid #E1E1E1;
+  border-top: 1px solid #E1E1E1;
 }
 .comment--last {
-  border-bottom: 2px solid #E1E1E1;
+  border-bottom: 1px solid #E1E1E1;
 }
 .comment__container {
   padding: 0 1rem;
@@ -650,25 +669,33 @@ html, body, figure, blockquote {
 }
 
 .form {
-  width: 85%;
+  width: 82%;
 }
 .form__label {
   color: #AFAFAF;
   text-transform: uppercase;
 }
-.form__input {
-  width: 100%;
-  box-sizing: border-box;
-}
 .form__textarea, .form__input {
   width: 100%;
   box-sizing: border-box;
   border-radius: 0.25rem;
-  padding: 0.5rem;
+  padding: 0.75rem;
   color: #323232;
-  border: 2px solid #E1E1E1;
-  margin-bottom: 1rem;
+  border: 1px solid #E1E1E1;
+  margin-bottom: 0.75rem;
   resize: none;
+}
+@media (min-width: 768px) {
+  .form__textarea, .form__input {
+    min-height: 3rem;
+    padding: 1rem;
+  }
+}
+.form__textarea:focus, .form__input:focus {
+  border: 1px solid #323232;
+}
+.form__textarea--has-error, .form__input--has-error {
+  border: 1px solid #D22D2D;
 }
 .form__submit-button {
   width: 100%;
@@ -677,26 +704,33 @@ html, body, figure, blockquote {
   border: none;
   border-radius: 0.25rem;
   font-size: 1rem;
-  padding: 0.5rem 0;
+  height: 2.5rem;
   font-weight: 400;
   text-transform: uppercase;
 }
+.form__submit-button:hover {
+  background-color: #000000;
+}
 
 .avatar {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   overflow: hidden;
   border-radius: 50%;
+}
+@media (min-width: 768px) {
+  .avatar {
+    height: 3rem;
+    width: 3rem;
+  }
 }
 .avatar__image {
   margin: 0 auto;
   height: 100%;
 }
-.avatar--no-image {
-  margin: 0 auto;
-  height: 100%;
+.avatar__image--no-image {
   background-color: #E1E1E1;
 }
 .avatar--padded {
-  margin-top: 1.5rem;
+  margin-top: 1.55rem;
 }

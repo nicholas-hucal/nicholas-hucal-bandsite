@@ -10,6 +10,10 @@ html, body, figure, blockquote {
     
 }
 
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
 .nav {
 
     background-color: colors.$primary-black;
