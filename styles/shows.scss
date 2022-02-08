@@ -3,3 +3,81 @@
 @use "partials/variables";
 @use "partials/typography";
 @use "partials/mixins";
+
+.hero {
+
+    color: colors.$primary-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: linear-gradient(
+        colors.$primary-black-rgba-50-percent,
+        colors.$primary-black-rgba-50-percent
+        ), url('../assets/images/hero-shows.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    padding: 2rem 0;
+
+    &__container {
+        @include mixins.container;
+    }
+
+    &__heading, &__subheading {
+        @include mixins.row;
+
+    }
+
+}
+
+.shows {
+    margin-top: 2rem;
+    &__heading {
+        @include mixins.container;
+    }
+}
+
+.card {
+    @include mixins.container;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    border-bottom: 1px solid colors.$secondary-mercury;
+    // box-sizing: border-box;
+    &--last {
+        margin-bottom: 1rem;
+    }
+    &__description {
+        text-transform: uppercase;
+        color: colors.$primary-silver;
+        font-size: 0.6rem;
+        font-weight: 600;
+        padding-top: 0.75rem;
+    }
+
+    &__date {
+        font-weight: 700;
+    }
+
+    &__button {
+        width: 100%;
+        margin: 1rem 0;
+        background-color: colors.$primary-black;
+        color: colors.$primary-white;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        height: 2.5rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        &:hover {
+            background-color: colors.$secondary-black;
+        }
+        @include mixins.tablet {
+            width: auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+
+}
