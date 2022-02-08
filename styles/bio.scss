@@ -215,10 +215,6 @@
         margin-bottom: 1rem;
     }
 
-    &__column {
-
-    }
-
     &__row {
         padding-bottom: 1rem;
         display: flex;
@@ -242,9 +238,6 @@
 
 .form {
     width: 85%;
-
-    &__row {
-    }
 
     &__label {
         color: colors.$primary-silver;
