@@ -5,7 +5,6 @@
 @use "partials/mixins";
 
 .hero {
-
     color: colors.$primary-white;
     display: flex;
     flex-direction: column;
@@ -18,22 +17,68 @@
     background-position: center center;
     background-size: cover;
     padding: 2rem 0;
+    @include mixins.tablet {
+        padding: 4rem 0;
+    }
+    @include mixins.desktop {
+        padding: 16rem 0;
+    }
 
     &__container {
         @include mixins.container;
+        @include mixins.tablet {
+            width: 65%;
+        }
+        @include mixins.desktop {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
     }
 
     &__heading, &__subheading {
         @include mixins.row;
-
     }
 
+    &__soundcloud {
+        @include mixins.tablet {
+            width: 80%;
+            margin-top: 2rem;
+        }
+        @include mixins.desktop {
+            width: 90%;
+            margin-left: 6rem;
+        }
+    }
 }
 
 .shows {
     margin-top: 2rem;
-    &__heading {
+    @include mixins.desktop {       
         @include mixins.container;
+        display: flex;
+        margin-right: -3rem;
+    }
+
+    &__heading {
+        @include mixins.tablet {
+            padding-bottom: 0;
+        }
+        @include mixins.desktop {
+            margin-left: -2.25rem;
+            margin-right: 5rem;
+        }
+    }
+
+    &__heading-container {
+        @include mixins.container;
+    }
+}
+
+.cards {
+    @include mixins.desktop {
+        flex: 1;
+        margin-right: -2.25rem;
     }
 }
 
@@ -53,6 +98,7 @@
     &--last {
         margin-bottom: 1rem;
     }
+
     &__description {
         text-transform: uppercase;
         color: colors.$primary-silver;
@@ -62,6 +108,7 @@
         @include mixins.tablet {
             display: none;
         }
+
         &--tablet-plus {
             @include mixins.tablet {
                 display: block;
@@ -82,10 +129,13 @@
     }
 
     &__header-row {
-        @include mixins.container;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
+        display: none;
+        @include mixins.tablet{
+            @include mixins.container;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
     }
 
     &__date {
@@ -103,23 +153,22 @@
         height: 2.5rem;
         font-weight: 400;
         text-transform: uppercase;
-        &:hover {
-            background-color: colors.$secondary-black;
-        }
         @include mixins.tablet {
             width: auto;
             padding-left: 2rem;
             padding-right: 2rem;
+        }
+        &:hover {
+            background-color: colors.$secondary-black;
         }
         &--hidden {
             visibility: hidden;
         }
     }
 
-    &__date, &__venue, &__location, &__button, &__header {
+    &__date, &__venue, &__location, &__header {
         @include mixins.tablet {
-            width: 24%;
+            flex: 1;    
         }
     }
-
 }

@@ -1,48 +1,39 @@
 @use "variables" as *;
 
 @mixin tablet($padding: false) {
-
     @media (min-width: $tablet-breakpoint) {
         @content;
     }
-
 }
-@mixin desktop($padding: false) {
 
+@mixin desktop($padding: false) {
     @media (min-width: $desktop-breakpoint) {
         @content;
     }
-
 }
 
 @mixin container($padding: false) {
-
     @if ($padding == 'no-padding') {
         padding: 0;
     } @else {
         padding: 0 1rem;
     }
-
     @include tablet {
         padding-left: 2.25rem;
         padding-right: 2.25rem;
     }
-
     @include desktop {
         max-width: 64rem;
         margin-left: auto;
         margin-right: auto;
     }
-
 }
 
 @mixin row($padding: false) {
-
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     @if ($padding == 'no-padding') {
         padding-top: 0;
         padding-bottom: 0;
     }
-    
 }

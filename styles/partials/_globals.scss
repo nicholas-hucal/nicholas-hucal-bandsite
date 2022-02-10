@@ -14,9 +14,14 @@ input:focus, textarea:focus, select:focus{
     outline: none;
 }
 
-.nav {
+::placeholder { 
+    color: colors.$primary-black;
+    opacity: 1;
+}
 
+.nav {
     background-color: colors.$primary-black;
+    
     &__container {
         @include mixins.container('no-padding');
         display: flex;
@@ -72,6 +77,7 @@ input:focus, textarea:focus, select:focus{
         @include mixins.desktop {
             padding: 2.25rem 0;
         }
+
         &--active {
             border-bottom: 3px solid colors.$primary-white;
             font-weight: 600;
@@ -86,6 +92,7 @@ input:focus, textarea:focus, select:focus{
         display: inline-block;
         color: colors.$primary-silver;
         text-decoration: none;
+
         &--active {
             color: colors.$secondary-alabaster;
         }
@@ -100,7 +107,6 @@ input:focus, textarea:focus, select:focus{
 }
 
 .footer {
-
     background-color: colors.$primary-black;
     color: colors.$primary-white;
     padding-top: 1.5rem;
@@ -143,17 +149,14 @@ input:focus, textarea:focus, select:focus{
     }
 
     &__info {
-        // display: none;
         @include mixins.tablet {
             display: flex;
             padding-bottom: 1.5rem;
         }
     }
-
 }
 
 .social-media {
-
     @include mixins.row;
     @include mixins.tablet {
         margin-left: 1.5rem;
@@ -163,11 +166,9 @@ input:focus, textarea:focus, select:focus{
         margin-right: 2rem;
         text-decoration: none;
     }
-
 }
 
 .contact {
-
     @include mixins.tablet {
         display: flex;
         justify-content: flex-start;
@@ -204,10 +205,9 @@ input:focus, textarea:focus, select:focus{
     &__email:hover {
         color: colors.$primary-silver;
     }
-
 }
-.copyright {
 
+.copyright {
     &__row {
         @include mixins.row;
     }
@@ -227,5 +227,4 @@ input:focus, textarea:focus, select:focus{
             font-size: 0.875rem;
         }
     }
-
 }

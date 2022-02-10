@@ -6,7 +6,6 @@
 
 
 .hero {
-
     background-image: linear-gradient(
         colors.$primary-black-rgba-50-percent,
         colors.$primary-black-rgba-50-percent
@@ -29,11 +28,9 @@
         flex-direction: column;
         justify-content: center;
     }
-
 }
 
 .about {
-
     @include mixins.container;
     margin-bottom: 1rem;
     @include mixins.desktop {
@@ -49,11 +46,9 @@
             padding-bottom: 2rem;
         }
     }
-
 }
 
 .article {
-
     @include mixins.tablet {
         padding: 0 4rem;
     }
@@ -93,38 +88,30 @@
     }
 
     &__container {
-
         @include mixins.tablet {
             display: flex;
             justify-content: flex-start;
 
         }
-        
     }
 
     &__band {
-
         margin-top: 1rem;
         font-weight: 600;
         @include mixins.row;
-
     }
 
     &__column {
-
         @include mixins.row;
         &--first {
             @include mixins.tablet {
                 margin-right: 1rem;
             }
         }
-
     }
-
 }
 
 .photo-gallery {
-
     background-color: colors.$secondary-alabaster;
     
     &__container {
@@ -176,11 +163,11 @@
     &__image:hover {
         filter: grayscale(0%);
     }
-
 }
 
 .conversation {
     padding-top: 1rem;
+
     &__container {
         @include mixins.container;
     }
@@ -203,7 +190,6 @@
             margin-right: 16rem;
         }
     }
-
 }
 
 .comment {
@@ -220,6 +206,7 @@
         margin-left: 16rem;
         margin-right: 16rem;
     }
+
     &--last {
         border-bottom: 1px solid colors.$secondary-mercury;
     }
@@ -243,12 +230,11 @@
     &__date {
         color: colors.$primary-silver;
     }
-
 }
 
 .form {
-    // width: 82%;
     flex: 1;
+
     &__label {
         color: colors.$primary-silver;
         text-transform: uppercase;
@@ -263,7 +249,6 @@
         border: 1px solid colors.$secondary-mercury;
         margin-bottom: 0.75rem;
         background-color: colors.$secondary-alabaster;
-        resize: none;
         @include mixins.tablet {
             min-height: 3rem;
             padding: 1rem;
@@ -274,6 +259,11 @@
         &--has-error {
             border: 1px solid colors.$error-red;
         }
+    }
+
+    &__textarea {
+        height: 6rem;
+        resize: none;
     }
 
     &__submit-button {
@@ -301,17 +291,14 @@
             text-align: right;
         }
     }
-
 }
 
 .avatar {
-    
     width: 2.25rem;
     height: 2.25rem;
     overflow: hidden;
     border-radius: 50%;
     margin-right: 1rem;
-
     @include mixins.tablet {
         height: 3rem;
         width: 3rem;
@@ -326,9 +313,7 @@
         }
     }
     
-    
     &--padded {
         margin-top:1.55rem;
     }
-
 }

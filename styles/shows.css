@@ -132,6 +132,15 @@ form, textarea, input {
   font-family: "avenir";
 }
 
+html, body, figure, blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
 ::-moz-placeholder {
   color: #323232;
   opacity: 1;
@@ -145,15 +154,6 @@ form, textarea, input {
 ::placeholder {
   color: #323232;
   opacity: 1;
-}
-
-html, body, figure, blockquote {
-  margin: 0;
-  padding: 0;
-}
-
-input:focus, textarea:focus, select:focus {
-  outline: none;
 }
 
 .nav {
@@ -402,6 +402,16 @@ input:focus, textarea:focus, select:focus {
   background-size: cover;
   padding: 2rem 0;
 }
+@media (min-width: 768px) {
+  .hero {
+    padding: 4rem 0;
+  }
+}
+@media (min-width: 1280px) {
+  .hero {
+    padding: 16rem 0;
+  }
+}
 .hero__container {
   padding: 0 1rem;
 }
@@ -418,28 +428,90 @@ input:focus, textarea:focus, select:focus {
     margin-right: auto;
   }
 }
+@media (min-width: 768px) {
+  .hero__container {
+    width: 65%;
+  }
+}
+@media (min-width: 1280px) {
+  .hero__container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
 .hero__heading, .hero__subheading {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+@media (min-width: 768px) {
+  .hero__soundcloud {
+    width: 80%;
+    margin-top: 2rem;
+  }
+}
+@media (min-width: 1280px) {
+  .hero__soundcloud {
+    width: 90%;
+    margin-left: 6rem;
+  }
 }
 
 .shows {
   margin-top: 2rem;
 }
-.shows__heading {
+@media (min-width: 768px) {
+  .shows__heading {
+    padding-bottom: 0;
+  }
+}
+@media (min-width: 1280px) {
+  .shows__heading {
+    margin-left: -2.25rem;
+    margin-right: 5rem;
+  }
+}
+.shows__heading-container {
   padding: 0 1rem;
 }
 @media (min-width: 768px) {
-  .shows__heading {
+  .shows__heading-container {
     padding-left: 2.25rem;
     padding-right: 2.25rem;
   }
 }
 @media (min-width: 1280px) {
-  .shows__heading {
+  .shows__heading-container {
     max-width: 64rem;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+@media (min-width: 1280px) {
+  .shows {
+    padding: 0 1rem;
+    display: flex;
+    margin-right: -3rem;
+  }
+}
+@media (min-width: 1280px) and (min-width: 768px) {
+  .shows {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1280px) and (min-width: 1280px) {
+  .shows {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .cards {
+    flex: 1;
+    margin-right: -2.25rem;
   }
 }
 
@@ -504,18 +576,23 @@ input:focus, textarea:focus, select:focus {
   }
 }
 .card__header-row {
-  padding: 0 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  display: none;
 }
 @media (min-width: 768px) {
+  .card__header-row {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+@media (min-width: 768px) and (min-width: 768px) {
   .card__header-row {
     padding-left: 2.25rem;
     padding-right: 2.25rem;
   }
 }
-@media (min-width: 1280px) {
+@media (min-width: 768px) and (min-width: 1280px) {
   .card__header-row {
     max-width: 64rem;
     margin-left: auto;
@@ -551,7 +628,7 @@ input:focus, textarea:focus, select:focus {
   visibility: hidden;
 }
 @media (min-width: 768px) {
-  .card__date, .card__venue, .card__location, .card__button, .card__header {
-    width: 24%;
+  .card__date, .card__venue, .card__location, .card__header {
+    flex: 1;
   }
 }
