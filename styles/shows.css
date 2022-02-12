@@ -394,16 +394,11 @@ input:focus, textarea:focus, select:focus {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  padding: 2rem 0;
-}
-@media (min-width: 768px) {
-  .hero {
-    padding: 4rem 0;
-  }
+  padding: 10vw 0;
 }
 @media (min-width: 1280px) {
   .hero {
-    padding: 16rem 0;
+    padding: 20vw 0;
   }
 }
 .hero__container {
@@ -424,35 +419,54 @@ input:focus, textarea:focus, select:focus {
 }
 @media (min-width: 768px) {
   .hero__container {
-    width: 65%;
+    width: 75%;
   }
 }
 @media (min-width: 1280px) {
   .hero__container {
+    width: 100%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
   }
 }
-.hero__heading, .hero__subheading {
+.hero__heading {
+  margin-bottom: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+.hero__subheading {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+}
+@media (min-width: 768px) {
+  .hero__subheading {
+    font-size: 1.5rem;
+  }
+}
 @media (min-width: 768px) {
   .hero__soundcloud {
-    width: 80%;
+    width: 70%;
     margin-top: 2rem;
   }
 }
 @media (min-width: 1280px) {
   .hero__soundcloud {
-    width: 90%;
-    margin-left: 6rem;
+    width: 80%;
+    margin-left: 4rem;
   }
 }
 
 .shows {
   margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .shows {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
 }
 @media (min-width: 1280px) {
   .shows {
