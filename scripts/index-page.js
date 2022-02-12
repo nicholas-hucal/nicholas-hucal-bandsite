@@ -24,9 +24,67 @@ displayAllComments();
 
 function formSubmit(event) {
     event.preventDefault();
-    createComment(event);
-    displayAllComments();
-    this.reset();
+
+    createCommentPromise(event)
+        .then((result) => {
+            displayAllComments();
+            displayNotification(result);
+            this.reset();
+        })
+        .catch((error) => {
+            displayNotification(error);
+        })
+}
+
+function createCommentPromise(event) {
+    return new Promise((resolve, reject) => {
+        let comment = createComment(event);
+        if (comment) {
+
+            return resolve({
+                    status: 'Success',
+                    message: 'Added comment to page, thanks for your input',
+                    timestamp: comment.date 
+                })
+        }
+        return reject({
+                status: 'Error',
+                message: 'Was not able to create new comment. Please refresh page and try again',
+                timestamp: Date.now() 
+            })
+    })
+}
+
+function displayNotification(notification) {
+    let containerEl = document.createElement('div');
+    containerEl.classList.add('notification');
+
+    let headingEl = document.createElement('h4');
+    headingEl.classList.add('notification__heading');
+    headingEl.innerText = notification.status;
+
+    let bodyEl = document.createElement('p');
+    bodyEl.classList.add('notification__body');
+    bodyEl.innerText = notification.message;
+
+    containerEl.appendChild(headingEl);
+    containerEl.appendChild(bodyEl);
+
+    document.querySelector('body').appendChild(containerEl);
+    setTimeout(() => {
+        document.querySelector('.notification').remove();
+    }, 3000);
+}
+
+function createComment(event) {
+    const comment = {
+        name: event.target.name.value,
+        image: event.target.image.value,
+        body: event.target.body.value,
+        date: Date.now()
+    }
+    comments.push(comment);
+    return comment;
 }
 
 function displayAllComments() {
@@ -67,16 +125,6 @@ function displayComment(comment) {
     articleEl.appendChild(column2El);
 
     commentContainerEl.prepend(articleEl);
-}
-
-function createComment(event) {
-    const comment = {
-        name: event.target.name.value,
-        image: event.target.image.value,
-        body: event.target.body.value,
-        date: Date.now()
-    }
-    comments.push(comment);
 }
 
 function createCommentImage(comment) {

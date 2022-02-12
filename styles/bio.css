@@ -137,6 +137,10 @@ html, body, figure, blockquote {
   padding: 0;
 }
 
+body {
+  position: relative;
+}
+
 input:focus, textarea:focus, select:focus {
   outline: none;
 }
@@ -383,6 +387,21 @@ input:focus, textarea:focus, select:focus {
   .copyright__details {
     font-size: 0.875rem;
   }
+}
+
+.notification {
+  position: fixed;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  bottom: 1rem;
+  right: 1.5rem;
+  width: 30vw;
+  z-index: 2;
+  color: white;
+  background-color: #AFAFAF;
+}
+.notification__heading {
+  margin: 0rem;
 }
 
 .hero {

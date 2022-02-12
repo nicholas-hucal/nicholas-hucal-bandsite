@@ -10,6 +10,10 @@ html, body, figure, blockquote {
     
 }
 
+body {
+    position: relative;
+}
+
 input:focus, textarea:focus, select:focus{
     outline: none;
 }
@@ -219,5 +223,21 @@ input:focus, textarea:focus, select:focus{
         @include mixins.tablet {
             font-size: 0.875rem;
         }
+    }
+}
+
+.notification {
+    position:fixed;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    bottom: 1rem;
+    right: 1.5rem;
+    width: 30vw;
+    z-index: 2;
+    color: white;
+    background-color: colors.$primary-silver;
+
+    &__heading {
+        margin: 0rem;
     }
 }
