@@ -20,14 +20,14 @@ document.getElementById('addComment')
     .addEventListener('submit', formSubmit);
 
 const commentContainerEl = document.getElementById('comment__container');
-displayAllComments();
+displayAllComments('desc');
 
 function formSubmit(event) {
     event.preventDefault();
 
     createCommentPromise(event)
         .then((result) => {
-            displayAllComments();
+            displayAllComments('desc');
             displayNotification(result);
             this.reset();
         })
@@ -55,27 +55,6 @@ function createCommentPromise(event) {
     })
 }
 
-function displayNotification(notification) {
-    let containerEl = document.createElement('div');
-    containerEl.classList.add('notification');
-
-    let headingEl = document.createElement('h4');
-    headingEl.classList.add('notification__heading');
-    headingEl.innerText = notification.status;
-
-    let bodyEl = document.createElement('p');
-    bodyEl.classList.add('notification__body');
-    bodyEl.innerText = notification.message;
-
-    containerEl.appendChild(headingEl);
-    containerEl.appendChild(bodyEl);
-
-    document.querySelector('body').appendChild(containerEl);
-    setTimeout(() => {
-        document.querySelector('.notification').remove();
-    }, 3000);
-}
-
 function createComment(event) {
     const comment = {
         name: event.target.name.value,
@@ -87,10 +66,13 @@ function createComment(event) {
     return comment;
 }
 
-function displayAllComments() {
+function displayAllComments(order) {
     commentContainerEl.innerHTML = '';
     comments
         .sort((a,b) => {
+            if (order == 'asc') {
+                return new Date(b.date) - new Date(a.date);
+            }
             return new Date(a.date) - new Date(b.date);
         })
         .forEach((comment, index) => {
@@ -178,4 +160,25 @@ function createCommentColumn(wide) {
         columnEl.classList.add('comment__column--wide')
     }
     return columnEl; 
+}
+
+function displayNotification(notification) {
+    let containerEl = document.createElement('div');
+    containerEl.classList.add('notification');
+
+    let headingEl = document.createElement('h4');
+    headingEl.classList.add('notification__heading');
+    headingEl.innerText = notification.status;
+
+    let bodyEl = document.createElement('p');
+    bodyEl.classList.add('notification__body');
+    bodyEl.innerText = notification.message;
+
+    containerEl.appendChild(headingEl);
+    containerEl.appendChild(bodyEl);
+
+    document.querySelector('body').appendChild(containerEl);
+    setTimeout(() => {
+        document.querySelector('.notification').remove();
+    }, 3000);
 }

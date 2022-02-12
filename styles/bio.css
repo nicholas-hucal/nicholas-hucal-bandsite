@@ -398,7 +398,8 @@ input:focus, textarea:focus, select:focus {
   width: 30vw;
   z-index: 2;
   color: white;
-  background-color: #AFAFAF;
+  background-color: #323232;
+  border: 1px solid #AFAFAF;
 }
 .notification__heading {
   margin: 0rem;

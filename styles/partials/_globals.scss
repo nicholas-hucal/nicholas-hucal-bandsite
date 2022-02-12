@@ -235,7 +235,8 @@ input:focus, textarea:focus, select:focus{
     width: 30vw;
     z-index: 2;
     color: white;
-    background-color: colors.$primary-silver;
+    background-color: colors.$primary-black;
+    border: 1px solid colors.$primary-silver;
 
     &__heading {
         margin: 0rem;
