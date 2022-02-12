@@ -681,12 +681,16 @@ input:focus, textarea:focus, select:focus {
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .comment__name {
   font-weight: 700;
 }
 .comment__date {
   color: #AFAFAF;
+}
+.comment__column--wide {
+  flex: 1;
 }
 
 .form {

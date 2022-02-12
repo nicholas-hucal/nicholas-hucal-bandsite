@@ -221,6 +221,7 @@
         padding-bottom: 1rem;
         display: flex;
         justify-content: space-between;
+        width: 100%;
     }
 
     &__name {
@@ -229,6 +230,12 @@
 
     &__date {
         color: colors.$primary-silver;
+    }
+
+    &__column {
+        &--wide {
+            flex: 1;
+        }
     }
 }
 

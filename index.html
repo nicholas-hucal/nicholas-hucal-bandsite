@@ -113,14 +113,15 @@
                     <figure class="avatar avatar--padded">
                         <img src="./assets/images/Mohan-muruge.jpg" class="avatar__image" alt="Mohan Muruge profile pic" />
                     </figure>
-                    <form class="form">
+                    <form id="addComment" class="form">
                         <div class="form__row">
                             <label class="form__label">Name</label>
-                            <input class="form__input" placeholder="Enter your name" type="text"/>
+                            <input class="form__input" name="name" placeholder="Enter your name" type="text"/>
+                            <input name="image" type="hidden" value="./assets/images/Mohan-muruge.jpg" />
                         </div>
                         <div class="form__row">
                             <label class="form__label">Comment</label>
-                            <textarea class="form__textarea" placeholder="Add a new comment"></textarea>
+                            <textarea class="form__textarea" name="body" placeholder="Add a new comment"></textarea>
                         </div>
                         <div class="form__row form__row--right-align">
                             <button class="form__submit-button">
