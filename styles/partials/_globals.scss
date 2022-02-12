@@ -119,18 +119,25 @@ input:focus, textarea:focus, select:focus{
     &__container {
         @include mixins.container;
     }
+}
+
+.social-media {
+    @include mixins.tablet {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    &__link-container {
+        @include mixins.row;
+        @include mixins.tablet {
+            margin-left: 1.5rem;
+        }    
+    }
 
     &__heading {
         padding-top: 1.5rem;
         @include mixins.row;
-    }
-
-    &__info {
-        @include mixins.tablet {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
     }
 
     &__info-left {
@@ -146,20 +153,6 @@ input:focus, textarea:focus, select:focus{
         @include mixins.tablet {
             display: block;
         }
-    }
-
-    &__info {
-        @include mixins.tablet {
-            display: flex;
-            padding-bottom: 1.5rem;
-        }
-    }
-}
-
-.social-media {
-    @include mixins.row;
-    @include mixins.tablet {
-        margin-left: 1.5rem;
     }
 
     &__link {
