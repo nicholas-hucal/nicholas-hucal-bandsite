@@ -111,6 +111,14 @@
         margin-bottom: 1rem;
     }
 
+    &--active {
+        background-color: colors.$secondary-mercury;
+    }
+
+    &:hover {
+        background-color: colors.$secondary-alabaster;
+    }
+
     &__description {
         text-transform: uppercase;
         color: colors.$primary-silver;

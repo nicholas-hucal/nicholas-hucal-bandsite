@@ -31,7 +31,7 @@ const concerts = [
     },
 ]
 
-const cardsContainer = document.getElementById('cards');
+const cardsContainer = document.getElementById('cardsContainer');
 
 function displayConcerts(order) {
     concerts
@@ -88,3 +88,26 @@ function createConcert(concert) {
 
 displayConcerts('asc');
 
+const cards = document.querySelectorAll('.card');
+cards.forEach((card) => {
+    card.addEventListener('click', addActiveClass);
+})
+
+function addActiveClass(event) {
+    const target = event.target.classList;
+    const parent = event.target.parentElement.classList;
+    if (target.contains('card')) {
+        clearActiveClass()
+        target.add('card--active')
+    } else if (parent.contains('card')) {
+        clearActiveClass()
+        parent.add('card--active');
+    }
+    return;
+}
+
+function clearActiveClass() {
+    cards.forEach((card) => {
+        card.classList.remove('card--active');
+    })
+}

@@ -573,6 +573,12 @@ input:focus, textarea:focus, select:focus {
 .card--last {
   margin-bottom: 1rem;
 }
+.card--active {
+  background-color: #E1E1E1;
+}
+.card:hover {
+  background-color: #FAFAFA;
+}
 .card__description {
   text-transform: uppercase;
   color: #AFAFAF;
