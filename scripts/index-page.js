@@ -2,31 +2,36 @@ const comments = [
     {
         name: 'Miles Acosta',
         body: `I can't stop listening. Every time I hear one of their songs - the vocals - it gives me goosebumps. Shivers straight down my spine. What a beautiful expression of creativity. Can't get enough.`,
-        date: '12/20/2020'
+        date: '12/20/2020',
+        timestamp: '1608447600000'
     },
     {
         name: 'Connor Walton',
         body: `This is art. This is inexplicable magic expressed in the purest way, everything that makes up this majestic work deserves reverence. Let us appreciate this for what it is and what it contains.`,
-        date: '02/17/2021'
+        date: '02/17/2021',
+        timestamp: '1613545200000'
     },
     {
         name: 'Emilie Beach',
         body: `I feel blessed to have seen them in person. What a show! They were just perfection. If there was one day of my life I could relive, this would be it. What an incredible day.`,
-        date: '01/09/2021'
+        date: '01/09/2021',
+        timestamp: '1610175600000'
     }
 ]
+const commentContainerEl = document.getElementById('comment__container');
 
 document.getElementById('addComment')
     .addEventListener('submit', formSubmit);
 
-const commentContainerEl = document.getElementById('comment__container');
 displayAllComments('desc');
+// setInterval(getTimesDifferencesForDates, 30000);
 
 function formSubmit(event) {
     event.preventDefault();
     if (!validateForm(event)) {
         return;
     }
+
     createCommentPromise(event)
         .then((result) => {
             displayAllComments('desc');
@@ -55,7 +60,8 @@ function validateForm(form) {
         nameIsValid = true;
         nameInputHelp.innerText = '';
     }
-    if (commentInput.value < 10) {
+
+    if (commentInput.value.length < 10) {
         commentInput.classList.add('form__textarea--has-error');
         textareaHelp.innerText = 'Your comment has to be longer than 10 characters';
     } else {
@@ -67,6 +73,7 @@ function validateForm(form) {
     if (commentIsValid && nameIsValid) {
         return true;
     }
+
     return false;
 }
 
@@ -74,7 +81,6 @@ function createCommentPromise(event) {
     return new Promise((resolve, reject) => {
         let comment = createComment(event);
         if (comment) {
-
             return resolve({
                     status: 'Success',
                     message: 'Added comment to page, thanks for your input',
@@ -94,9 +100,11 @@ function createComment(event) {
         name: event.target.name.value,
         image: event.target.image.value,
         body: event.target.body.value,
-        date: Date.now()
+        date: Date.now(),
+        timestamp: new Date().getTime()
     }
     comments.push(comment);
+    
     return comment;
 }
 
@@ -114,14 +122,15 @@ function displayAllComments(order) {
                 comment.last = true;
             }
             comment.date = new Date(comment.date).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
-
             displayComment(comment);
         });
+        getTimesDifferencesForDates();
 }
 
 function displayComment(comment) {
     const articleEl = document.createElement('article');
     articleEl.classList.add('comment');
+    
     if (comment.last) {
         articleEl.classList.add('comment--last');
     }
@@ -158,6 +167,7 @@ function createCommentImage(comment) {
         avatarImgEl.src = comment.image;
         avatarFigureEl.appendChild(avatarImgEl);
     }
+
     return avatarFigureEl;
 }
 
@@ -171,6 +181,7 @@ function createCommentNameDate(comment) {
 
     const dateEl = document.createElement('p');
     dateEl.classList.add('comment__date');
+    dateEl.setAttribute('data-timestamp', comment.timestamp);
     dateEl.innerText = comment.date;
 
     rowEl.appendChild(nameEl);
@@ -190,9 +201,11 @@ function createCommentParagraph(comment) {
 function createCommentColumn(wide) {
     const columnEl = document.createElement('div');
     columnEl.classList.add('comment__column');
+    
     if (wide) {
         columnEl.classList.add('comment__column--wide')
     }
+
     return columnEl; 
 }
 
@@ -214,5 +227,29 @@ function displayNotification(notification) {
     document.querySelector('body').appendChild(containerEl);
     setTimeout(() => {
         document.querySelector('.notification').remove();
-    }, 3000);
+    }, 4000);
+}
+
+function getTimesDifferencesForDates() {
+    const currentDates = document.querySelectorAll('.comment__date');
+    currentDates.forEach((currentDate) => {
+        const timestamp = currentDate.getAttribute('data-timestamp');
+        getTimesFromApi(timestamp, currentDate);
+    })
+}
+
+function getTimesFromApi(dateToSend, dateToEdit) {
+    const differenceURL = 'https://myarchive.ca/api/time/difference';
+    const API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
+
+    axios
+        .get(differenceURL, { params: { api_key: API_KEY, date: dateToSend } })
+        .then((response) => {
+            if (response.data.difference) {
+                dateToEdit.innerText = response.data.difference;
+            }
+        })
+        .catch((error) => {
+            console.log(error.error);
+        })
 }

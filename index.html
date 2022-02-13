@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/bio.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js" type="text/javascript"></script>
     <title>Bandsite &#124; Bio &dash; The Bees Knees</title>
 </head>
 <body>
@@ -116,13 +117,13 @@
                     <form id="addComment" class="form">
                         <div class="form__row">
                             <label class="form__label">Name</label>
-                            <input class="form__input" name="name" placeholder="Enter your name" type="text"/>
+                            <input id="form__input" class="form__input" name="name" placeholder="Enter your name" type="text"/>
                             <p class="form__help-name"></p>
                             <input name="image" type="hidden" value="./assets/images/Mohan-muruge.jpg" />
                         </div>
                         <div class="form__row">
                             <label class="form__label">Comment</label>
-                            <textarea class="form__textarea" name="body" placeholder="Add a new comment"></textarea>
+                            <textarea id="form__textarea" class="form__textarea" name="body" placeholder="Add a new comment"></textarea>
                             <p class="form__help-textarea"></p>
                         </div>
                         <div class="form__row form__row--right-align">
