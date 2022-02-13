@@ -254,18 +254,27 @@
         padding: 0.75rem;
         color: colors.$primary-black;
         border: 1px solid colors.$secondary-mercury;
-        margin-bottom: 0.75rem;
         background-color: colors.$secondary-alabaster;
         @include mixins.tablet {
             min-height: 3rem;
             padding: 1rem;
         }
+
         &:focus {
             border: 1px solid colors.$primary-black;
         }
+
         &--has-error {
             border: 1px solid colors.$error-red;
         }
+    }
+
+    &__help-name, &__help-textarea {
+        color: colors.$error-red;
+        font-size: 0.75rem;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        display: inline-block;
     }
 
     &__textarea {

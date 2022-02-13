@@ -1,4 +1,4 @@
-const concerts = [
+const shows = [
     {
         date: 'Mon Sept 06 2021 ',
         venue: 'Ronald Lane ',
@@ -33,23 +33,23 @@ const concerts = [
 
 const cardsContainer = document.getElementById('cardsContainer');
 
-function displayConcerts(order) {
-    concerts
+function displayShows(order) {
+    shows
         .sort((a,b) => {
             if (order == 'desc') {
                 return new Date(b.date) - new Date(a.date);
             }
             return new Date(a.date) - new Date(b.date);
-        }).forEach((concert, index, array) => {
-            const createdConcert = createConcert(concert);
+        }).forEach((show, index, array) => {
+            const createdShow = createShow(show);
             if (index === array.length - 1) {
-                createdConcert.classList.add('card--last');
+                createdShow.classList.add('card--last');
             }
-            cardsContainer.appendChild(createdConcert);
+            cardsContainer.appendChild(createdShow);
         })
 }
 
-function createConcert(concert) {
+function createShow(show) {
     let cardEl = document.createElement('section');
     cardEl.classList.add('card');
 
@@ -59,7 +59,7 @@ function createConcert(concert) {
 
     let dateEl = document.createElement('p');
     dateEl.classList.add('card__date');
-    dateEl.innerText = concert.date;
+    dateEl.innerText = show.date;
 
     let venueTitleEl = document.createElement('p');
     venueTitleEl.classList.add('card__description');
@@ -67,7 +67,7 @@ function createConcert(concert) {
 
     let venueEl = document.createElement('p');
     venueEl.classList.add('card__venue');
-    venueEl.innerText = concert.venue;
+    venueEl.innerText = show.venue;
 
     let locationTitleEl = document.createElement('p');
     locationTitleEl.classList.add('card__description');
@@ -75,7 +75,7 @@ function createConcert(concert) {
 
     let locationEl = document.createElement('p');
     locationEl.classList.add('card__location');
-    locationEl.innerText = concert.location;
+    locationEl.innerText = show.location;
 
     let buttonEl = document.createElement('button');
     buttonEl.classList.add('card__button');
@@ -86,9 +86,35 @@ function createConcert(concert) {
     return cardEl;
 }
 
-displayConcerts('asc');
+function createAndDisplayShowsHeaderRow() {
+    let headerEl = document.createElement('section');
+    headerEl.classList.add('card__header-row');
+    
+    let dateEl = document.createElement('p');
+    dateEl.classList.add('card__header');
+    dateEl.innerText = 'Date';
+
+    let venueEl = document.createElement('p');
+    venueEl.classList.add('card__header');
+    venueEl.innerText = 'Venue'
+
+    let locationEl = document.createElement('p');
+    locationEl.classList.add('card__header');
+    locationEl.innerText = 'Location';
+
+    let buttonEl = document.createElement('button');
+    buttonEl.classList.add('card__button');
+    buttonEl.classList.add('card__button--hidden');
+    buttonEl.innerText = 'Buy Tickets';
+
+    headerEl.append(dateEl, venueEl, locationEl, buttonEl);
+    cardsContainer.appendChild(headerEl);
+}
+createAndDisplayShowsHeaderRow();
+displayShows('asc');
 
 const cards = document.querySelectorAll('.card');
+console.log(cards);
 cards.forEach((card) => {
     card.addEventListener('click', addActiveClass);
 })

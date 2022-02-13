@@ -117,11 +117,13 @@
                         <div class="form__row">
                             <label class="form__label">Name</label>
                             <input class="form__input" name="name" placeholder="Enter your name" type="text"/>
+                            <p class="form__help-name"></p>
                             <input name="image" type="hidden" value="./assets/images/Mohan-muruge.jpg" />
                         </div>
                         <div class="form__row">
                             <label class="form__label">Comment</label>
                             <textarea class="form__textarea" name="body" placeholder="Add a new comment"></textarea>
+                            <p class="form__help-textarea"></p>
                         </div>
                         <div class="form__row form__row--right-align">
                             <button class="form__submit-button">
@@ -131,69 +133,7 @@
                     </form>
                 </div>
             </div>
-            <div id="comment__container" class="comment__container">
-                <!-- <article class="comment">
-                    <div class="comment__column">
-                        <figure class="avatar">
-                            <div class="avatar__image avatar__image--no-image"></div>
-                        </figure>
-                    </div>
-                    <div class="comment__column">
-                        <div class="comment__row">
-                            <p class="comment__name">
-                                Connor Walton
-                            </p>
-                            <p class="comment__date">
-                                02/17/2021
-                            </p>
-                        </div>
-                        <p class="comment__details">
-                            This is art. This is inexplicable magic expressed in the purest way, everything that makes up this majestic work deserves reverence. Let us appreciate this for what it is and what it contains.
-                        </p>
-                    </div>
-                </article>
-                <article class="comment">
-                    <div class="comment__column">
-                        <figure class="avatar">
-                            <div class="avatar__image avatar__image--no-image"></div>
-                        </figure>
-                    </div>
-                    <div class="comment__column">
-                        <div class="comment__row">
-                            <p class="comment__name">
-                                Emilie Beach
-                            </p>
-                            <p class="comment__date">
-                                01/09/2021
-                            </p>
-                        </div>
-                        <p class="comment__details">
-                            I feel blessed to have seen them in person. What a show! They were just perfection. If there was one day of my life I could relive, this would be it. What an incredible day.
-                        </p>
-                    </div>
-                </article>
-                <article class="comment comment--last">
-                    <div class="comment__column">
-                        <figure class="avatar">
-                            <div class="avatar__image avatar__image--no-image"></div>
-                        </figure>
-                    </div>
-                    <div class="comment__column">
-                        <div class="comment__row">
-                            <p class="comment__name">
-                                Miles Acosta
-                            </p>
-                            <p class="comment__date">
-                                12/20/2020
-                            </p>
-                        </div>
-                        <p class="comment__details">
-                            I can't stop listening. Every time I hear one of their songs - the vocals - it gives me goosebumps. Shivers straight down my spine. What a beautiful expression of creativity. Can't get enough.
-
-                        </p>
-                    </div>
-                </article> -->
-            </div>
+            <div id="comment__container" class="comment__container"></div>
         </section>
     </main>
     <footer class="footer">

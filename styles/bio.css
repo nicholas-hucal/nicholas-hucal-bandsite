@@ -727,7 +727,6 @@ input:focus, textarea:focus, select:focus {
   padding: 0.75rem;
   color: #323232;
   border: 1px solid #E1E1E1;
-  margin-bottom: 0.75rem;
   background-color: #FAFAFA;
 }
 @media (min-width: 768px) {
@@ -741,6 +740,13 @@ input:focus, textarea:focus, select:focus {
 }
 .form__textarea--has-error, .form__input--has-error {
   border: 1px solid #D22D2D;
+}
+.form__help-name, .form__help-textarea {
+  color: #D22D2D;
+  font-size: 0.75rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  display: inline-block;
 }
 .form__textarea {
   height: 6rem;

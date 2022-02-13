@@ -24,7 +24,9 @@ displayAllComments('desc');
 
 function formSubmit(event) {
     event.preventDefault();
-
+    if (!validateForm(event)) {
+        return;
+    }
     createCommentPromise(event)
         .then((result) => {
             displayAllComments('desc');
@@ -34,6 +36,38 @@ function formSubmit(event) {
         .catch((error) => {
             displayNotification(error);
         })
+}
+
+function validateForm(form) {
+    const nameInput = form.target.name;
+    const commentInput = form.target.body;
+    const nameInputHelp = document.querySelector('.form__help-name');
+    const textareaHelp =  document.querySelector('.form__help-textarea');
+    
+    let nameIsValid = false;
+    let commentIsValid = false;
+    
+    if (nameInput.value.length < 3) {
+        nameInput.classList.add('form__input--has-error');
+        nameInputHelp.innerText = 'Please enter more than 3 characters';
+    } else {
+        nameInput.classList.remove('form__input--has-error');
+        nameIsValid = true;
+        nameInputHelp.innerText = '';
+    }
+    if (commentInput.value < 10) {
+        commentInput.classList.add('form__textarea--has-error');
+        textareaHelp.innerText = 'Your comment has to be longer than 10 characters';
+    } else {
+        commentInput.classList.remove('form__textarea--has-error');
+        commentIsValid = true;
+        textareaHelp.innerText = '';
+    }
+    
+    if (commentIsValid && nameIsValid) {
+        return true;
+    }
+    return false;
 }
 
 function createCommentPromise(event) {
