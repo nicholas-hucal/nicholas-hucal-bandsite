@@ -26,6 +26,14 @@ document.getElementById('addComment')
 displayAllComments('desc');
 // setInterval(getTimesDifferencesForDates, 30000);
 
+
+/**
+ * Attempts to submit form. Calls the validateForm() function first. If that returns true it attempts to complete a promise
+ * then, will displayAllComments(), displayNotification() and reset form if successful. Otherwise it will return
+ * a notification with the resulting error.
+ * @param {Object} event the form event 
+ */
+
 function formSubmit(event) {
     event.preventDefault();
     if (!validateForm(event)) {
@@ -42,6 +50,13 @@ function formSubmit(event) {
             displayNotification(error);
         })
 }
+
+/**
+ * Validation of form object on attempted submit. 
+ * Appends error classes to inputs and resulting help blocks if form is not valid.
+ * @param {Object} form the form object
+ * @return {Boolean} will return true or false depending on the state of validation.
+ */
 
 function validateForm(form) {
     const nameInput = form.target.name;
@@ -77,6 +92,14 @@ function validateForm(form) {
     return false;
 }
 
+/**
+ * A promise to check whether or not the comment was successfully created.
+ * Not entirely required, just wanted to include some promise functionality to JS
+ * Returns a promise with a resolve/reject for displayNotification() in formSubmit()
+ * @param {Object} event the form details
+ * @return {Promise}
+ */
+
 function createCommentPromise(event) {
     return new Promise((resolve, reject) => {
         let comment = createComment(event);
@@ -95,6 +118,13 @@ function createCommentPromise(event) {
     })
 }
 
+
+/**
+ * Creates a comment object from the form submission. Adds comment to the comments array;
+ * @param {Event} event the form event 
+ * @return {Object} returns a comment
+ */
+
 function createComment(event) {
     const comment = {
         name: event.target.name.value,
@@ -107,6 +137,14 @@ function createComment(event) {
     
     return comment;
 }
+
+/**
+ * Displays all comments from the comments array. Accepts a sort order 
+ * to apply sorting by date defaults to descending. Also calls the 
+ * getTimesDifferencesForDates() function which call an API via axios to calculate
+ * the difference between timestamps
+ * @param {String} order checks for sort order. 
+ */
 
 function displayAllComments(order) {
     commentContainerEl.innerHTML = '';
@@ -126,6 +164,12 @@ function displayAllComments(order) {
         });
         getTimesDifferencesForDates();
 }
+
+/**
+ * Displays individual comments. Accepts a comment object and displays
+ * it in the commentContainerEl. Used by a forEach method in displayAllComment()
+ * @param {Object} comment a comment object
+ */
 
 function displayComment(comment) {
     const articleEl = document.createElement('article');
@@ -152,6 +196,13 @@ function displayComment(comment) {
     commentContainerEl.prepend(articleEl);
 }
 
+/**
+ * Creates a figure container for an image for the displayed comment
+ * Accepts a comment object, and returns an avatar element to be appended.
+ * @param {Object} comment a comment object
+ * @returns {Element}
+ */
+
 function createCommentImage(comment) {
     const avatarFigureEl = document.createElement('figure');
     avatarFigureEl.classList.add('avatar');
@@ -170,6 +221,13 @@ function createCommentImage(comment) {
 
     return avatarFigureEl;
 }
+
+/**
+ * Creates a name and date row to be displayed in a comment
+ * Accepts a comment object, and returns an div element to be appended.
+ * @param {Object} comment a comment object
+ * @returns {Element}
+ */
 
 function createCommentNameDate(comment) {
     const rowEl = document.createElement('div');
@@ -190,6 +248,13 @@ function createCommentNameDate(comment) {
     return rowEl;
 }
 
+/**
+ * Creates a comment paragraph element to be displayed in a comment
+ * Accepts a comment object, and returns an p element to be appended.
+ * @param {Object} comment a comment object
+ * @returns {Element}
+ */
+
 function createCommentParagraph(comment) {
     const detailsEl = document.createElement('p');
     detailsEl.classList.add('comment__details');
@@ -197,6 +262,14 @@ function createCommentParagraph(comment) {
 
     return detailsEl;
 }
+
+/**
+ * Creates a comment__column to be displayed in a comment
+ * Accepts a boolean to determine if additional class to be added, 
+ * and returns an div element to be appended.
+ * @param {Boolean} wide a boolean 
+ * @returns {Element}
+ */
 
 function createCommentColumn(wide) {
     const columnEl = document.createElement('div');
@@ -208,6 +281,13 @@ function createCommentColumn(wide) {
 
     return columnEl; 
 }
+
+/**
+ * Accepts a notification object. Creates an element to 
+ * be appended to the body with a message. Appears for 4000ms
+ * and then is removed from the DOM.
+ * @param {Object} notification a notification object
+ */
 
 function displayNotification(notification) {
     let containerEl = document.createElement('div');
@@ -230,6 +310,12 @@ function displayNotification(notification) {
     }, 4000);
 }
 
+/**
+ * Called by displayAllComments(). Gets all current comment__date elements and
+ * creates a new array of them. Goes through a forEach to run the getTimesFromApi()
+ * function on each date element.
+ */
+
 function getTimesDifferencesForDates() {
     const currentDates = document.querySelectorAll('.comment__date');
     currentDates.forEach((currentDate) => {
@@ -237,6 +323,20 @@ function getTimesDifferencesForDates() {
         getTimesFromApi(timestamp, currentDate);
     })
 }
+
+/**
+ * An API call to calculate the time since in human readable format.
+ * Called by getTimesDifferencesForDates(), on page load, and every 30 secs by setInterval();
+ * The API is a basic PHP script which calculates the difference between two
+ * timestamps and sends back a JSON object whether an error or success.
+ * More details are available at https://myarchive.ca/api on my server.
+ * The API was created by me, just to try out the axios feature we learned last week.
+ * Originally provided calculation in JS, but wanted some further challenge.
+ * @param {String} dateToSend a timestamp in JS milleseconds format
+ * @param {Element} dateToEdit a comment__date element
+ */
+
+getTimesDifferencesForDates
 
 function getTimesFromApi(dateToSend, dateToEdit) {
     const differenceURL = 'https://myarchive.ca/api/time/difference';
