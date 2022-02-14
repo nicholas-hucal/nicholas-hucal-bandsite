@@ -265,7 +265,7 @@
         }
 
         &--has-error {
-            border: 1px solid colors.$error-red;
+            border: 1px solid colors.$error-red!important;
         }
     }
 
@@ -294,6 +294,9 @@
         text-transform: uppercase;
         &:hover {
             background-color: colors.$secondary-black;
+        }
+        &:focus {
+            outline: 0;
         }
         @include mixins.tablet {
             width: auto;

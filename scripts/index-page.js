@@ -19,13 +19,42 @@ const comments = [
     }
 ]
 const commentContainerEl = document.getElementById('comment__container');
+// setInterval(getTimesDifferencesForDates, 30000);
 
 document.getElementById('addComment')
     .addEventListener('submit', formSubmit);
 
-displayAllComments('desc');
-// setInterval(getTimesDifferencesForDates, 30000);
+document.getElementById('form__input')
+    .addEventListener('focusout', () => {
+        validateField('form__input', 'form__help-name', 'Please enter more than 3 characters', 3);
+    });
 
+document.getElementById('form__textarea')
+    .addEventListener('focusout', () => {
+        validateField('form__textarea', 'form__help-textarea', 'Your comment has to be longer than 10 characters', 10)
+    });
+
+displayAllComments('desc');
+
+/**
+ * Creates elements dynamically to streamline creation
+ * @param {Element} parent final element to be returned with content;
+ * @param {Element} element type of element to be created
+ * @param {String} classes optional if required any classes required in string form
+ * @param {String} text optional if required for inner text
+ * @returns {Element} formatted element ready to be appended
+ */
+function newElement(parent, element, classes = false, text = false) {
+    const el = document.createElement(element);
+    parent.appendChild(el);
+    if (classes) {
+        el.className = classes;
+    }
+    if (text) {
+        el.innerText = text;
+    }
+    return el;
+}
 
 /**
  * Attempts to submit form. Calls the validateForm() function first. If that returns true it attempts to complete a promise
@@ -52,44 +81,43 @@ function formSubmit(event) {
 }
 
 /**
- * Validation of form object on attempted submit. 
- * Appends error classes to inputs and resulting help blocks if form is not valid.
- * @param {Object} form the form object
+ * Form validation runs the individual functions 
  * @return {Boolean} will return true or false depending on the state of validation.
  */
 
-function validateForm(form) {
-    const nameInput = form.target.name;
-    const commentInput = form.target.body;
-    const nameInputHelp = document.querySelector('.form__help-name');
-    const textareaHelp =  document.querySelector('.form__help-textarea');
-    
-    let nameIsValid = false;
-    let commentIsValid = false;
-    
-    if (nameInput.value.length < 3) {
-        nameInput.classList.add('form__input--has-error');
-        nameInputHelp.innerText = 'Please enter more than 3 characters';
-    } else {
-        nameInput.classList.remove('form__input--has-error');
-        nameIsValid = true;
-        nameInputHelp.innerText = '';
-    }
-
-    if (commentInput.value.length < 10) {
-        commentInput.classList.add('form__textarea--has-error');
-        textareaHelp.innerText = 'Your comment has to be longer than 10 characters';
-    } else {
-        commentInput.classList.remove('form__textarea--has-error');
-        commentIsValid = true;
-        textareaHelp.innerText = '';
-    }
+function validateForm() {
+    let nameIsValid = validateField('form__input', 'form__help-name', 'Please enter more than 3 characters', 3);
+    let commentIsValid = validateField('form__textarea', 'form__help-textarea', 'Your comment has to be longer than 10 characters', 10);
     
     if (commentIsValid && nameIsValid) {
         return true;
     }
-
+    
     return false;
+}
+
+/**
+ * Form validation for individual fields
+ * @param {String} field string representation of input class without .
+ * @param {String} fieldHelp string representation of help block class without .
+ * @param {String} message string representation validation error message
+ * @param {Number} characters number of characters to be validated in value
+ * @return {Boolean} will return true or false depending on the state of validation.
+ */
+
+function validateField(field, fieldHelp, message, characters) {
+    const input = document.querySelector(`.${field}`);
+    const inputHelp = document.querySelector(`.${fieldHelp}`);
+
+    if (input.value.length < characters) {
+        input.classList.add(`${field}--has-error`);
+        inputHelp.innerText = message;
+        return false;
+    } else {
+        input.classList.remove(`${field}--has-error`);
+        inputHelp.innerText = '';
+        return true;
+    }
 }
 
 /**
@@ -118,7 +146,6 @@ function createCommentPromise(event) {
     })
 }
 
-
 /**
  * Creates a comment object from the form submission. Adds comment to the comments array;
  * @param {Event} event the form event 
@@ -139,7 +166,7 @@ function createComment(event) {
 }
 
 /**
- * Displays all comments from the comments array. Accepts a sort order 
+ * Displays all comments from the comments array by using the displayComment() function. Accepts a sort order 
  * to apply sorting by date defaults to descending. Also calls the 
  * getTimesDifferencesForDates() function which call an API via axios to calculate
  * the difference between timestamps

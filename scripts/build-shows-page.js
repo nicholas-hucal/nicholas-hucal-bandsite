@@ -64,6 +64,25 @@ function displayShows(order) {
         })
 }
 
+/**
+ * Creates elements dynamically to streamline creation
+ * @param {Element} parent final element to be returned with content;
+ * @param {Element} element type of element to be created
+ * @param {String} classes optional if required any classes required in string form
+ * @param {String} text optional if required for inner text
+ * @returns {Element} formatted element ready to be appended
+ */
+ function newElement(parent, element, classes = false, text = false) {
+    const el = document.createElement(element);
+    parent.appendChild(el);
+    if (classes) {
+        el.className = classes;
+    }
+    if (text) {
+        el.innerText = text;
+    }
+    return el;
+}
 
 /**
  * Creates all elements of a show to be displayed on the shows page.
@@ -77,35 +96,13 @@ function createShow(show) {
     let cardEl = document.createElement('section');
     cardEl.classList.add('card');
 
-    let dateTitleEl = document.createElement('p');
-    dateTitleEl.classList.add('card__description');
-    dateTitleEl.innerText = 'Date';
-
-    let dateEl = document.createElement('p');
-    dateEl.classList.add('card__date');
-    dateEl.innerText = show.date;
-
-    let venueTitleEl = document.createElement('p');
-    venueTitleEl.classList.add('card__description');
-    venueTitleEl.innerText = 'Venue';
-
-    let venueEl = document.createElement('p');
-    venueEl.classList.add('card__venue');
-    venueEl.innerText = show.venue;
-
-    let locationTitleEl = document.createElement('p');
-    locationTitleEl.classList.add('card__description');
-    locationTitleEl.innerText = 'Location';
-
-    let locationEl = document.createElement('p');
-    locationEl.classList.add('card__location');
-    locationEl.innerText = show.location;
-
-    let buttonEl = document.createElement('button');
-    buttonEl.classList.add('card__button');
-    buttonEl.innerText = 'Buy Tickets';
-
-    cardEl.append(dateTitleEl, dateEl, venueTitleEl, venueEl, locationTitleEl, locationEl, buttonEl);
+    newElement(cardEl, 'p', 'card__description', 'Date');
+    newElement(cardEl, 'p', 'card__date', show.date);
+    newElement(cardEl, 'p', 'card__description', 'Venue');
+    newElement(cardEl, 'p', 'card__venue', show.venue);
+    newElement(cardEl, 'p', 'card__description', 'Location');
+    newElement(cardEl, 'p', 'card__location', show.location);
+    newElement(cardEl, 'button', 'card__button', 'Buy Tickets');
 
     return cardEl;
 }
@@ -119,25 +116,12 @@ function createShow(show) {
 function createAndDisplayShowsHeaderRow() {
     let headerEl = document.createElement('section');
     headerEl.classList.add('card__header-row');
-    
-    let dateEl = document.createElement('p');
-    dateEl.classList.add('card__header');
-    dateEl.innerText = 'Date';
 
-    let venueEl = document.createElement('p');
-    venueEl.classList.add('card__header');
-    venueEl.innerText = 'Venue'
+    newElement(headerEl, 'p', 'card__header', 'Date')
+    newElement(headerEl, 'p', 'card__header', 'Venue')
+    newElement(headerEl, 'p', 'card__header', 'Location')
+    newElement(headerEl, 'button', 'card__button card__button--hidden', 'Buy Tickets')
 
-    let locationEl = document.createElement('p');
-    locationEl.classList.add('card__header');
-    locationEl.innerText = 'Location';
-
-    let buttonEl = document.createElement('button');
-    buttonEl.classList.add('card__button');
-    buttonEl.classList.add('card__button--hidden');
-    buttonEl.innerText = 'Buy Tickets';
-
-    headerEl.append(dateEl, venueEl, locationEl, buttonEl);
     cardsContainer.appendChild(headerEl);
 }
 
