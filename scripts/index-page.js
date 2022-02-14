@@ -42,9 +42,12 @@ displayAllComments('desc');
  * @param {Element} element type of element to be created
  * @param {String} classes optional if required any classes required in string form
  * @param {String} text optional if required for inner text
+ * @param {String} attr optional if required target an element attribute
+ * @param {String} attrDetails optional if required setting an element attribute value
  * @returns {Element} formatted element ready to be appended
  */
-function newElement(parent, element, classes = false, text = false) {
+
+function newElement(parent, element, classes = false, text = false, attr = false, attrDetails = false) {
     const el = document.createElement(element);
     parent.appendChild(el);
     if (classes) {
@@ -52,6 +55,9 @@ function newElement(parent, element, classes = false, text = false) {
     }
     if (text) {
         el.innerText = text;
+    }
+    if (attr && attrDetails) {
+        el.setAttribute(attr, attrDetails);
     }
     return el;
 }
@@ -205,108 +211,23 @@ function displayComment(comment) {
     if (comment.last) {
         articleEl.classList.add('comment--last');
     }
-
-    const columnEl = createCommentColumn();
-    const column2El = createCommentColumn('wide');
-
-    const image = createCommentImage(comment);
-    const nameAndDate = createCommentNameDate(comment);
-    const details = createCommentParagraph(comment);
-
-    columnEl.appendChild(image);
-    column2El.appendChild(nameAndDate);
-    column2El.appendChild(details);
-
-    articleEl.appendChild(columnEl);
-    articleEl.appendChild(column2El);
+    
+    const columnEl = newElement(articleEl, 'div', 'comment__column');
+    const columnWideEl = newElement(articleEl, 'div', 'comment__column comment__column--wide');
+    const avatarContainer = newElement(columnEl, 'figure', 'avatar');
+    
+    if (!comment.image) {
+        newElement(avatarContainer, 'div', 'avatar__image avatar__image--no-image');
+    } else {
+        newElement(avatarContainer, 'img', 'avatar__image', null, 'src', comment.image);
+    }
+    
+    const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
+    newElement(nameAndDateRow, 'p', 'comment__name', comment.name);
+    newElement(nameAndDateRow, 'p', 'comment__date', comment.date, 'data-timestamp', comment.timestamp);
+    newElement(columnWideEl, 'p', 'comment__details', comment.body);
 
     commentContainerEl.prepend(articleEl);
-}
-
-/**
- * Creates a figure container for an image for the displayed comment
- * Accepts a comment object, and returns an avatar element to be appended.
- * @param {Object} comment a comment object
- * @returns {Element}
- */
-
-function createCommentImage(comment) {
-    const avatarFigureEl = document.createElement('figure');
-    avatarFigureEl.classList.add('avatar');
-
-    if (!comment.image) {
-        const avatarDivEl = document.createElement('div');
-        avatarDivEl.classList.add('avatar__image');
-        avatarDivEl.classList.add('avatar__image--no-image');
-        avatarFigureEl.appendChild(avatarDivEl);
-    } else {
-        const avatarImgEl = document.createElement('img');
-        avatarImgEl.classList.add('avatar__image');
-        avatarImgEl.src = comment.image;
-        avatarFigureEl.appendChild(avatarImgEl);
-    }
-
-    return avatarFigureEl;
-}
-
-/**
- * Creates a name and date row to be displayed in a comment
- * Accepts a comment object, and returns an div element to be appended.
- * @param {Object} comment a comment object
- * @returns {Element}
- */
-
-function createCommentNameDate(comment) {
-    const rowEl = document.createElement('div');
-    rowEl.classList.add('comment__row');
-
-    const nameEl = document.createElement('p');
-    nameEl.classList.add('comment__name');
-    nameEl.innerText = comment.name;
-
-    const dateEl = document.createElement('p');
-    dateEl.classList.add('comment__date');
-    dateEl.setAttribute('data-timestamp', comment.timestamp);
-    dateEl.innerText = comment.date;
-
-    rowEl.appendChild(nameEl);
-    rowEl.appendChild(dateEl);
-
-    return rowEl;
-}
-
-/**
- * Creates a comment paragraph element to be displayed in a comment
- * Accepts a comment object, and returns an p element to be appended.
- * @param {Object} comment a comment object
- * @returns {Element}
- */
-
-function createCommentParagraph(comment) {
-    const detailsEl = document.createElement('p');
-    detailsEl.classList.add('comment__details');
-    detailsEl.innerText = comment.body;
-
-    return detailsEl;
-}
-
-/**
- * Creates a comment__column to be displayed in a comment
- * Accepts a boolean to determine if additional class to be added, 
- * and returns an div element to be appended.
- * @param {Boolean} wide a boolean 
- * @returns {Element}
- */
-
-function createCommentColumn(wide) {
-    const columnEl = document.createElement('div');
-    columnEl.classList.add('comment__column');
-    
-    if (wide) {
-        columnEl.classList.add('comment__column--wide')
-    }
-
-    return columnEl; 
 }
 
 /**
