@@ -1,3 +1,4 @@
+// array data
 const shows = [
     {
         date: 'Mon Sept 06 2021 ',
@@ -31,10 +32,12 @@ const shows = [
     },
 ]
 
+// Load at page load
 const cardsContainer = document.getElementById('cardsContainer');
 createAndDisplayShowsHeaderRow();
 displayShows('asc');
 
+// Event Listeners
 const cards = document.querySelectorAll('.card');
 cards.forEach((card) => {
     card.addEventListener('click', addActiveClass);
@@ -72,6 +75,7 @@ function displayShows(order) {
  * @param {String} text optional if required for inner text
  * @returns {Element} formatted element ready to be appended
  */
+
  function newElement(parent, element, classes = false, text = false) {
     const el = document.createElement(element);
     parent.appendChild(el);

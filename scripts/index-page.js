@@ -1,3 +1,4 @@
+// array data
 const comments = [
     {
         name: 'Miles Acosta',
@@ -18,23 +19,40 @@ const comments = [
         timestamp: '1610175600000'
     }
 ]
-const commentContainerEl = document.getElementById('comment__container');
-// setInterval(getTimesDifferencesForDates, 30000);
 
-document.getElementById('addComment')
+// Load at page load
+const commentContainerEl = document.getElementById('comment__container');
+const textAreaDetails = {
+    field: 'form__textarea',
+    helpBlock: 'form__help-textarea',
+    message: 'Your comment has to be longer than 10 characters',
+    characters: 10
+};
+const nameDetails = {
+    field: 'form__input',
+    helpBlock: 'form__help-name',
+    message: 'Please enter more than 3 characters',
+    characters: 3
+};
+displayAllComments('desc');
+setInterval(getTimesDifferencesForDates, 30000);
+
+// Event Listeners
+document
+    .getElementById('addComment')
     .addEventListener('submit', formSubmit);
 
-document.getElementById('form__input')
+document
+    .getElementById('form__input')
     .addEventListener('focusout', () => {
-        validateField('form__input', 'form__help-name', 'Please enter more than 3 characters', 3);
+        validateField(nameDetails);
     });
 
-document.getElementById('form__textarea')
+document
+    .getElementById('form__textarea')
     .addEventListener('focusout', () => {
-        validateField('form__textarea', 'form__help-textarea', 'Your comment has to be longer than 10 characters', 10)
+        validateField(textAreaDetails)
     });
-
-displayAllComments('desc');
 
 /**
  * Creates elements dynamically to streamline creation
@@ -92,8 +110,8 @@ function formSubmit(event) {
  */
 
 function validateForm() {
-    let nameIsValid = validateField('form__input', 'form__help-name', 'Please enter more than 3 characters', 3);
-    let commentIsValid = validateField('form__textarea', 'form__help-textarea', 'Your comment has to be longer than 10 characters', 10);
+    let nameIsValid = validateField(nameDetails);
+    let commentIsValid = validateField(textAreaDetails);
     
     if (commentIsValid && nameIsValid) {
         return true;
@@ -111,16 +129,16 @@ function validateForm() {
  * @return {Boolean} will return true or false depending on the state of validation.
  */
 
-function validateField(field, fieldHelp, message, characters) {
-    const input = document.querySelector(`.${field}`);
-    const inputHelp = document.querySelector(`.${fieldHelp}`);
+function validateField(details) {
+    const input = document.querySelector(`.${details.field}`);
+    const inputHelp = document.querySelector(`.${details.helpBlock}`);
 
-    if (input.value.length < characters) {
-        input.classList.add(`${field}--has-error`);
-        inputHelp.innerText = message;
+    if (input.value.length < details.characters) {
+        input.classList.add(`${details.field}--has-error`);
+        inputHelp.innerText = details.message;
         return false;
     } else {
-        input.classList.remove(`${field}--has-error`);
+        input.classList.remove(`${details.field}--has-error`);
         inputHelp.innerText = '';
         return true;
     }
@@ -140,7 +158,7 @@ function createCommentPromise(event) {
         if (comment) {
             return resolve({
                     status: 'Success',
-                    message: 'Added comment to page, thanks for your input',
+                    message: 'Added comment to page, thanks for your input.',
                     timestamp: comment.date 
                 })
         }
@@ -241,16 +259,8 @@ function displayNotification(notification) {
     let containerEl = document.createElement('div');
     containerEl.classList.add('notification');
 
-    let headingEl = document.createElement('h4');
-    headingEl.classList.add('notification__heading');
-    headingEl.innerText = notification.status;
-
-    let bodyEl = document.createElement('p');
-    bodyEl.classList.add('notification__body');
-    bodyEl.innerText = notification.message;
-
-    containerEl.appendChild(headingEl);
-    containerEl.appendChild(bodyEl);
+    newElement(containerEl, 'h4', 'notification__heading', notification.status);
+    newElement(containerEl, 'p', 'notification__body', notification.message);
 
     document.querySelector('body').appendChild(containerEl);
     setTimeout(() => {
@@ -284,20 +294,23 @@ function getTimesDifferencesForDates() {
  * @param {Element} dateToEdit a comment__date element
  */
 
-getTimesDifferencesForDates
-
 function getTimesFromApi(dateToSend, dateToEdit) {
     const differenceURL = 'https://myarchive.ca/api/time/difference';
     const API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
 
     axios
-        .get(differenceURL, { params: { api_key: API_KEY, date: dateToSend } })
+        .get(differenceURL, { 
+            params: { 
+                api_key: API_KEY,
+                date: dateToSend - 2000 
+            } 
+        })
         .then((response) => {
             if (response.data.difference) {
                 dateToEdit.innerText = response.data.difference;
             }
         })
         .catch((error) => {
-            console.log(error.error);
+            alert(error.error);
         })
 }
