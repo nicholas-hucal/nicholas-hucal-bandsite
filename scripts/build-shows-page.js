@@ -1,37 +1,3 @@
-// array data
-const shows = [
-    {
-        date: 'Mon Sept 06 2021 ',
-        venue: 'Ronald Lane ',
-        location: 'San Francisco, CA',
-    },
-    {
-        date: 'Tue Sept 21 2021',
-        venue: 'Pier 3 East',
-        location: 'San Francisco, CA',
-    },
-    {
-        date: 'Fri Oct 15 2021 ',
-        venue: 'View Lounge',
-        location: 'San Francisco, CA ',
-    },
-    {
-        date: 'Sat Nov 06 2021',
-        venue: 'Hyatt Agency',
-        location: 'San Francisco, CA',
-    },
-    {
-        date: 'Fri Nov 26 2021',
-        venue: 'Moscow Center',
-        location: 'San Francisco, CA',
-    },
-    {
-        date: 'Wed Dec 15 2021',
-        venue: 'Press Club',
-        location: 'San Francisco, CA',
-    },
-]
-
 // Load at page load
 const cardsContainer = document.getElementById('cardsContainer');
 createAndDisplayShowsHeaderRow();
@@ -54,7 +20,7 @@ cards.forEach((card) => {
 function displayShows(order) {
     shows
         .sort((a,b) => {
-            if (order == 'desc') {
+            if (order === 'desc') {
                 return new Date(b.date) - new Date(a.date);
             }
             return new Date(a.date) - new Date(b.date);
@@ -63,29 +29,9 @@ function displayShows(order) {
             if (index === array.length - 1) {
                 createdShow.classList.add('card--last');
             }
+
             cardsContainer.appendChild(createdShow);
         })
-}
-
-/**
- * Creates elements dynamically to streamline creation
- * @param {Element} parent final element to be returned with content;
- * @param {Element} element type of element to be created
- * @param {String} classes optional if required any classes required in string form
- * @param {String} text optional if required for inner text
- * @returns {Element} formatted element ready to be appended
- */
-
- function newElement(parent, element, classes = false, text = false) {
-    const el = document.createElement(element);
-    parent.appendChild(el);
-    if (classes) {
-        el.className = classes;
-    }
-    if (text) {
-        el.innerText = text;
-    }
-    return el;
 }
 
 /**

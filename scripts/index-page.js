@@ -1,25 +1,3 @@
-// array data
-const comments = [
-    {
-        name: 'Miles Acosta',
-        body: `I can't stop listening. Every time I hear one of their songs - the vocals - it gives me goosebumps. Shivers straight down my spine. What a beautiful expression of creativity. Can't get enough.`,
-        date: '12/20/2020',
-        timestamp: '1608447600000'
-    },
-    {
-        name: 'Connor Walton',
-        body: `This is art. This is inexplicable magic expressed in the purest way, everything that makes up this majestic work deserves reverence. Let us appreciate this for what it is and what it contains.`,
-        date: '02/17/2021',
-        timestamp: '1613545200000'
-    },
-    {
-        name: 'Emilie Beach',
-        body: `I feel blessed to have seen them in person. What a show! They were just perfection. If there was one day of my life I could relive, this would be it. What an incredible day.`,
-        date: '01/09/2021',
-        timestamp: '1610175600000'
-    }
-]
-
 // Load at page load
 const commentContainerEl = document.getElementById('comment__container');
 const textAreaDetails = {
@@ -53,32 +31,6 @@ document
     .addEventListener('focusout', () => {
         validateField(textAreaDetails)
     });
-
-/**
- * Creates elements dynamically to streamline creation
- * @param {Element} parent final element to be returned with content;
- * @param {Element} element type of element to be created
- * @param {String} classes optional if required any classes required in string form
- * @param {String} text optional if required for inner text
- * @param {String} attr optional if required target an element attribute
- * @param {String} attrDetails optional if required setting an element attribute value
- * @returns {Element} formatted element ready to be appended
- */
-
-function newElement(parent, element, classes = false, text = false, attr = false, attrDetails = false) {
-    const el = document.createElement(element);
-    parent.appendChild(el);
-    if (classes) {
-        el.className = classes;
-    }
-    if (text) {
-        el.innerText = text;
-    }
-    if (attr && attrDetails) {
-        el.setAttribute(attr, attrDetails);
-    }
-    return el;
-}
 
 /**
  * Attempts to submit form. Calls the validateForm() function first. If that returns true it attempts to complete a promise
@@ -201,7 +153,7 @@ function displayAllComments(order) {
     commentContainerEl.innerHTML = '';
     comments
         .sort((a,b) => {
-            if (order == 'asc') {
+            if (order === 'asc') {
                 return new Date(b.date) - new Date(a.date);
             }
             return new Date(a.date) - new Date(b.date);
@@ -237,7 +189,7 @@ function displayComment(comment) {
     if (!comment.image) {
         newElement(avatarContainer, 'div', 'avatar__image avatar__image--no-image');
     } else {
-        newElement(avatarContainer, 'img', 'avatar__image', null, 'src', comment.image);
+        newElement(avatarContainer, 'img', 'avatar__image', false, 'src', comment.image);
     }
     
     const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
@@ -246,26 +198,6 @@ function displayComment(comment) {
     newElement(columnWideEl, 'p', 'comment__details', comment.body);
 
     commentContainerEl.prepend(articleEl);
-}
-
-/**
- * Accepts a notification object. Creates an element to 
- * be appended to the body with a message. Appears for 4000ms
- * and then is removed from the DOM.
- * @param {Object} notification a notification object
- */
-
-function displayNotification(notification) {
-    let containerEl = document.createElement('div');
-    containerEl.classList.add('notification');
-
-    newElement(containerEl, 'h4', 'notification__heading', notification.status);
-    newElement(containerEl, 'p', 'notification__body', notification.message);
-
-    document.querySelector('body').appendChild(containerEl);
-    setTimeout(() => {
-        document.querySelector('.notification').remove();
-    }, 4000);
 }
 
 /**
@@ -296,21 +228,26 @@ function getTimesDifferencesForDates() {
 
 function getTimesFromApi(dateToSend, dateToEdit) {
     const differenceURL = 'https://myarchive.ca/api/time/difference';
-    const API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
-
-    axios
-        .get(differenceURL, { 
-            params: { 
-                api_key: API_KEY,
-                date: dateToSend - 2000 
-            } 
-        })
-        .then((response) => {
-            if (response.data.difference) {
-                dateToEdit.innerText = response.data.difference;
-            }
-        })
-        .catch((error) => {
-            alert(error.error);
-        })
+    const daysAgo = dateToEdit.innerText.slice(dateToEdit.innerText.length - 8);
+    
+    if (daysAgo !== 'days ago') {
+        axios
+            .get(differenceURL, { 
+                params: { 
+                    api_key: MYARCHIVE_API_KEY,
+                    date: Number(dateToSend) - 2000 
+                } 
+            })
+            .then((response) => {
+                console.log(response)
+                if (response.data.difference) {
+                    dateToEdit.innerText = response.data.difference;
+                }
+            })
+            .catch((error) => {
+                if (error.error) {
+                    displayNotification(error.error);
+                }
+            })
+    }
 }
