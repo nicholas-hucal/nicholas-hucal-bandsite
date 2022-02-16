@@ -75,11 +75,9 @@ function validateForm() {
 }
 
 /**
- * Form validation for individual fields
- * @param {String} field string representation of input class without .
- * @param {String} fieldHelp string representation of help block class without .
- * @param {String} message string representation validation error message
- * @param {Number} characters number of characters to be validated in value
+ * Form validation for individual fields. Takes an array consisting of a field class, help block class, the
+ * total character count minimum for validation and the error message.
+ * @param {Array} details an array of the fields details
  * @return {Boolean} will return true or false depending on the state of validation.
  */
 
@@ -237,7 +235,10 @@ function displayComment(comment) {
 }
 
 /**
- * Add like to existing post
+ * Add like to existing post. Takes a click of the like button and increments the like count
+ * by one. It calls add like to row which formats the likes based on quantity. Once done the new
+ * like count is appended to the containing rows span.
+ * @param {Event} event takes the click event data
  */
 
 function addLike(event) {
@@ -261,6 +262,12 @@ function addLike(event) {
     } 
 }
 
+/**
+ * Formats the like count to reflect whether it exists and if it is plural or singular.
+ * @param {Number} likes the current like count
+ * @returns {String} returns a formatted string to display in row
+ */
+
 function addLikeToRow(likes) {
     let likeText = (likes > 1) ? 'likes' : 'like';
     return (likes > 0) ? `${likes} ${likeText}` : likes;
@@ -274,13 +281,14 @@ function addLikeToRow(likes) {
  function addImagesToComments() {
     let avatars = document.querySelectorAll('.avatar__image');
     avatars.forEach((avatar, index) => {
-        //// TRY TO RETRIEVE IMAGE BEFORE APPENDING IT, OR CAN I STORE IMAGES ON THE DOM FOR RETRIEVAL?
         if (index !== 0) {
             let parent = avatar.parentElement;
             let name = avatar.getAttribute('data-name');
-            avatar.remove();
             let random = faces[Math.floor(Math.random() * faces.length) + 1].url;
-            newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random, `an avatar image for ${name}`]);
+            let newAvatar = newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random, `an avatar image for ${name}`]);
+            newAvatar.addEventListener('load', (event) => {
+                avatar.remove();
+            })
         }
     })
 }
@@ -351,11 +359,38 @@ function getTimesFromApi(dateToSend, dateToEdit) {
             } 
         })
         .then((response) => {
-            console.log(response);
             response.data.map((comment) => {
                 return comment.date = formatDateForSite(comment.timestamp);
             })
             displayAllComments(response.data, 'desc');
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
+}
+
+/**
+ * Makes an API call to https://myarchive.ca/api/people/faces to retrieve and
+ * array of random portraits for the comments section. Sets the faces array to the
+ * response and then runs the addImagesToComments function to replace all of the 
+ * image placeholders.
+ */
+
+ function getFacesFromApi() {
+    const facesURL = `${MYARCHIVE_API_URL}people/faces`;
+    axios
+        .get(facesURL, { 
+            params: { 
+                api_key: MYARCHIVE_API_KEY,
+            } 
+        })
+        .then((response) => {
+            if (response.data.length > 1) {
+                faces = response.data;
+                addImagesToComments();
+            }
         })
         .catch((error) => {
             if (error.error) {

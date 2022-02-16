@@ -29,8 +29,8 @@ const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
  * @param {Element} element type of element to be created
  * @param {String} classes optional if required any classes required in string form seperated by spaces
  * @param {String} text optional if required for inner text
- * @param {String} attr optional if required target an element attribute
- * @param {String} attrDetails optional if required setting an element attribute value
+ * @param {Array} attr optional if required target an element attribute in array format
+ * @param {Array} attrDetails optional if required setting an element attribute value in array format
  * @returns {Element} formatted element appended to the parent supplied
  */
 
@@ -52,33 +52,12 @@ const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
 }
 
 /**
- * Makes an API call to https://myarchive.ca/api/people/faces to retrieve and
- * array of random portraits for the comments section. Sets the faces array to the
- * response and then runs the addImagesToComments function to replace all of the 
- * image placeholders.
+ * Accepts an optional timestamp parameter that allows for the returned formatted time to be 
+ * based on that timestamp. If no timestamp is provided then a formatted date based on current
+ * local time is produced in mm/dd/yyyy format.
+ * @param {Element} parent final element to be returned with content;
+ * @returns {String} returns a formatted date string
  */
-
-
-function getFacesFromApi() {
-    const facesURL = `${MYARCHIVE_API_URL}people/faces`;
-    axios
-        .get(facesURL, { 
-            params: { 
-                api_key: MYARCHIVE_API_KEY,
-            } 
-        })
-        .then((response) => {
-            if (response.data.length > 1) {
-                faces = response.data;
-                addImagesToComments();
-            }
-        })
-        .catch((error) => {
-            if (error.error) {
-                displayNotification(error.error);
-            }
-        })
-}
 
 function formatDateForSite(timestamp) {
     if (timestamp) {
