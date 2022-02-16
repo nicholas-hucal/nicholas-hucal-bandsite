@@ -1,23 +1,18 @@
 // Load at page load
 const cardsContainer = document.getElementById('cardsContainer');
 createAndDisplayShowsHeaderRow();
-displayShows('asc');
-
-// Event Listeners
-const cards = document.querySelectorAll('.card');
-cards.forEach((card) => {
-    card.addEventListener('click', addActiveClass);
-})
+getAllShowsFromApi()
 
 /**
- * Displays all shows in the shows array. Accepts a string argument which
+ * Displays all shows in the shows array argument. Accepts a string argument which
  * sorts array order by ascending default and option of sorting descending
  * calls createShow which formats a show object. Appends all shows to the
  * cardsContainer element
+ * @param {Array} shows 
  * @param {String} order 
  */
 
-function displayShows(order) {
+function displayShows(shows, order) {
     shows
         .sort((a,b) => {
             if (order === 'desc') {
@@ -29,7 +24,7 @@ function displayShows(order) {
             if (index === array.length - 1) {
                 createdShow.classList.add('card--last');
             }
-
+            createdShow.addEventListener('click', addActiveClass);
             cardsContainer.appendChild(createdShow);
         })
 }
@@ -45,11 +40,11 @@ function displayShows(order) {
 function createShow(show) {
     let cardEl = document.createElement('section');
     cardEl.classList.add('card');
-
+    
     newElement(cardEl, 'p', 'card__description', 'Date');
-    newElement(cardEl, 'p', 'card__date', show.date);
+    newElement(cardEl, 'p', 'card__date', formatDateForSite(show.date));
     newElement(cardEl, 'p', 'card__description', 'Venue');
-    newElement(cardEl, 'p', 'card__venue', show.venue);
+    newElement(cardEl, 'p', 'card__venue', show.place);
     newElement(cardEl, 'p', 'card__description', 'Location');
     newElement(cardEl, 'p', 'card__location', show.location);
     newElement(cardEl, 'button', 'card__button', 'Buy Tickets');
@@ -99,7 +94,33 @@ function addActiveClass(event) {
  */
 
 function clearActiveClass() {
+    const cards = document.querySelectorAll('.card');
     cards.forEach((card) => {
         card.classList.remove('card--active');
     })
+}
+
+/**
+ * An API call to retrieve all existing shows from the server. Displays
+ * all shows to the site via displayShows function.
+ */
+
+function getAllShowsFromApi() {
+    const url = `${HEROKU_API_URL}showdates`;
+
+    axios
+        .get(url, { 
+            params: { 
+                api_key: HEROKU_API_KEY,
+            } 
+        })
+        .then((response) => {
+            const shows = response.data;
+            displayShows(shows, 'asc');
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
 }

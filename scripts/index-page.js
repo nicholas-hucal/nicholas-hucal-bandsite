@@ -99,9 +99,8 @@ function validateField(details) {
 }
 
 /**
- * A promise to check whether or not the comment was successfully created.
- * Not entirely required, just wanted to include some promise functionality to JS
- * Returns a promise with a resolve/reject for displayNotification() in formSubmit()
+ * Returns a promise with a resolve/reject for displayNotification() in formSubmit() once
+ * a comment has been added to the API
  * @param {Object} event the form details
  * @return {Promise}
  */
@@ -125,9 +124,12 @@ function createCommentPromise(event) {
 }
 
 /**
- * Creates a comment object from the form submission. Adds comment to the comments array;
+ * Creates a comment object from the form submission. Posts the submission to the 
+ * API and then display it to the page on success or displays error notification on error.
+ * Returns a boolean to the createCommentPromise function in order to satisfy those
+ * conditions.
  * @param {Event} event the form event 
- * @return {Object} returns a comment
+ * @return {Boolean} returns a comment
  */
 
 function createComment(event) {
@@ -146,7 +148,7 @@ function createComment(event) {
         })
         .then((response) => {
             let comment = response.data;
-            comment.date = new Date(comment.timestamp).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
+            comment.date = formatDateForSite();
             if (faces.length > 1) {
                 comment.image = faces[Math.floor(Math.random() * faces.length) + 1].url;
             }
@@ -157,22 +159,6 @@ function createComment(event) {
                 displayNotification(error.error);
             }
         })
-}
-
-/**
- * Displays all images on all existing comments. Gets a random image for the avatar
- * from the faces array being populated by an API call to https://myarchive.ca/api/people/faces
- */
-
-function addImagesToComments() {
-    let avatars = document.querySelectorAll('.avatar__image');
-    avatars.forEach((avatar, index) => {
-        if (index !== 0) {
-            let parent = avatar.parentElement;
-            avatar.remove();
-            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * faces.length) + 1].url);
-        }
-    })
 }
 
 /**
@@ -232,6 +218,23 @@ function displayComment(comment) {
 
     commentContainerEl.prepend(articleEl);
     getTimesFromApi(comment.timestamp, dateEl);
+}
+
+/**
+ * Displays all images on all existing comments. Gets a random image for the avatar
+ * from the faces array being populated by an API call to https://myarchive.ca/api/people/faces
+ */
+
+ function addImagesToComments() {
+    let avatars = document.querySelectorAll('.avatar__image');
+    avatars.forEach((avatar, index) => {
+        //// TRY TO RETRIEVE IMAGE BEFORE APPENDING IT, OR CAN I STORE IMAGES ON THE DOM FOR RETRIEVAL?
+        if (index !== 0) {
+            let parent = avatar.parentElement;
+            avatar.remove();
+            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * faces.length) + 1].url);
+        }
+    })
 }
 
 /**
@@ -302,7 +305,7 @@ function getTimesFromApi(dateToSend, dateToEdit) {
         .then((response) => {
             console.log(response);
             response.data.map((comment) => {
-                return comment.date = new Date(comment.timestamp).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
+                return comment.date = formatDateForSite(comment.timestamp);
             })
             displayAllComments(response.data, 'desc');
         })
