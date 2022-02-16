@@ -47,6 +47,35 @@ const MYARCHIVE_API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
     return el;
 }
 
+/**
+ * Makes an API call to https://myarchive.ca/api/people/faces to retrieve and
+ * array of random portraits for the comments section. Sets the faces array to the
+ * response and then runs the addImagesToComments function to replace all of the 
+ * image placeholders.
+ */
+
+
+function getFacesFromApi() {
+    const facesURL = 'https://myarchive.ca/api/people/faces';
+    axios
+        .get(facesURL, { 
+            params: { 
+                api_key: MYARCHIVE_API_KEY,
+            } 
+        })
+        .then((response) => {
+            if (response.data.length > 1) {
+                faces = response.data;
+                addImagesToComments();
+            }
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
+}
+
 // array data
 const comments = [
     {

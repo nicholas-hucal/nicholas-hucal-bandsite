@@ -12,8 +12,10 @@ const nameDetails = {
     message: 'Please enter more than 3 characters',
     characters: 3
 };
+let faces = [];
 displayAllComments('desc');
 setInterval(getTimesDifferencesForDates, 30000);
+getFacesFromApi();
 
 // Event Listeners
 document
@@ -129,9 +131,13 @@ function createCommentPromise(event) {
  */
 
 function createComment(event) {
+    let image = event.target.image.value;
+    if (faces.length > 1) {
+        image = faces[Math.floor(Math.random() * 6) + 1].url;
+    }
     const comment = {
         name: event.target.name.value,
-        image: event.target.image.value,
+        image: image,
         body: event.target.body.value,
         date: Date.now(),
         timestamp: new Date().getTime()
@@ -139,6 +145,22 @@ function createComment(event) {
     comments.push(comment);
     
     return comment;
+}
+
+/**
+ * Displays all images on all existing comments. Gets a random image for the avatar
+ * from the faces array being populated by an API call to https://myarchive.ca/api/people/faces
+ */
+
+function addImagesToComments() {
+    let avatars = document.querySelectorAll('.avatar__image');
+    avatars.forEach((avatar, index) => {
+        if (index !== 0) {
+            let parent = avatar.parentElement;
+            avatar.remove();
+            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * 6) + 1].url);
+        }
+    })
 }
 
 /**
@@ -239,7 +261,6 @@ function getTimesFromApi(dateToSend, dateToEdit) {
                 } 
             })
             .then((response) => {
-                console.log(response)
                 if (response.data.difference) {
                     dateToEdit.innerText = response.data.difference;
                 }
