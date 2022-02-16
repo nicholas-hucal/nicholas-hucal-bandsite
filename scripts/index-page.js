@@ -206,18 +206,64 @@ function displayComment(comment) {
     const avatarContainer = newElement(columnEl, 'figure', 'avatar');
     
     if (!comment.image) {
-        newElement(avatarContainer, 'div', 'avatar__image avatar__image--no-image');
+        newElement(avatarContainer, 'div', 'avatar__image avatar__image--no-image', false, ['data-name'], [comment.name]);
     } else {
-        newElement(avatarContainer, 'img', 'avatar__image', false, 'src', comment.image);
+        newElement(avatarContainer, 'img', 'avatar__image', false, ['src', 'data-name'], [comment.image, comment.name]);
     }
     
     const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
     newElement(nameAndDateRow, 'p', 'comment__name', comment.name);
-    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', comment.date, 'data-timestamp', comment.timestamp);
-    newElement(columnWideEl, 'p', 'comment__details', comment.comment);
+    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', comment.date, ['data-timestamp'], [comment.timestamp]);
+
+    const commentAndLikeRow = newElement(columnWideEl, 'div', 'comment__row comment__row--last');
+    newElement(commentAndLikeRow, 'p', 'comment__details', comment.comment);
+    // const deleteLink = newElement(commentAndLikeRow, 'span', 'comment__delete-link', false, ['data-id'], [comment.id]);
+    // newElement(deleteLink, 'img', 'comment__delete-btn', false, 'src', '../assets/icons/icon-delete.svg');
+
+    const likes = addLikeToRow(comment.likes);
+    const likeLink = newElement(commentAndLikeRow, 'span', 'comment__like-link', likes);
+    const likeBtn = newElement(
+        commentAndLikeRow,
+        'img',
+        'comment__like-btn',
+        false,
+        ['src', 'data-id', 'alt', 'data-likes'],
+        ['../assets/icons/icon-like.svg',comment.id, `like this post by ${comment.name}`, comment.likes]);
+
+    likeBtn.addEventListener('click', addLike);
 
     commentContainerEl.prepend(articleEl);
     getTimesFromApi(comment.timestamp, dateEl);
+}
+
+/**
+ * Add like to existing post
+ */
+
+function addLike(event) {
+    const spanEl = event.target;
+    const id = spanEl.getAttribute('data-id');
+    const likes = spanEl.getAttribute('data-likes');
+    const url = `${HEROKU_API_URL}comments/${id}/like?api_key=${HEROKU_API_KEY}`;
+
+    if (id && likes) {
+        return axios
+        .put(url)
+        .then((response) => {
+            console.log(response.data.likes);
+            spanEl.previousSibling.innerText = addLikeToRow(response.data.likes);
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
+    } 
+}
+
+function addLikeToRow(likes) {
+    let likeText = (likes > 1) ? 'likes' : 'like';
+    return (likes > 0) ? `${likes} ${likeText}` : likes;
 }
 
 /**
@@ -231,8 +277,10 @@ function displayComment(comment) {
         //// TRY TO RETRIEVE IMAGE BEFORE APPENDING IT, OR CAN I STORE IMAGES ON THE DOM FOR RETRIEVAL?
         if (index !== 0) {
             let parent = avatar.parentElement;
+            let name = avatar.getAttribute('data-name');
             avatar.remove();
-            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * faces.length) + 1].url);
+            let random = faces[Math.floor(Math.random() * faces.length) + 1].url;
+            newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random, `an avatar image for ${name}`]);
         }
     })
 }

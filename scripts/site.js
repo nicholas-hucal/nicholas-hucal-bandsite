@@ -43,8 +43,10 @@ const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
     if (text) {
         el.innerText = text;
     }
-    if (attr && attrDetails) {
-        el.setAttribute(attr, attrDetails);
+    if (attr.length >= 1 && attrDetails.length >= 1) {
+        for (let i = 0; i < attr.length; i++) {
+            el.setAttribute(attr[i], attrDetails[i]);
+        }
     }
     return el;
 }
