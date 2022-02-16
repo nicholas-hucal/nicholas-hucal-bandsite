@@ -47,7 +47,7 @@ function formSubmit(event) {
         return;
     }
 
-    createCommentPromise(event)
+    createComment(event)
         .then((result) => {
             // displayAllComments('desc');
             displayNotification(result);
@@ -97,66 +97,49 @@ function validateField(details) {
 }
 
 /**
- * Returns a promise with a resolve/reject for displayNotification() in formSubmit() once
- * a comment has been added to the API
- * @param {Object} event the form details
- * @return {Promise}
+ * Creates a new promise which returns a message to be displayed in displayNotification()
+ * Takes an event which then is posted to the DB via axios. On success the comment is formatted and 
+ * appended to the display container and return a message to be displayed.
+ * If it fails returns a message to be displayed.
+ * @param {Event} event an array of comment objects
+ * @returns {Object} returns a message to be displayed
  */
 
-function createCommentPromise(event) {
+function createComment(event) {
     return new Promise((resolve, reject) => {
-        let comment = createComment(event);
-        if (comment) {
-            return resolve({
+        const url = `${HEROKU_API_URL}comments`;
+        const data = {
+            name: event.target.name.value,
+            comment: event.target.body.value,
+        }
+
+        axios
+            .post(url, data, { 
+                params: { 
+                    api_key: HEROKU_API_KEY,
+                } 
+            })
+            .then((response) => {
+                let comment = response.data;
+                comment.date = formatDateForSite();
+                if (faces.length > 1) {
+                    comment.image = faces[Math.floor(Math.random() * faces.length) + 1].url;
+                }
+                displayComment(comment);
+                return resolve({
                     status: 'Success',
                     message: 'Added comment to page, thanks for your input.',
                     timestamp: comment.date 
                 })
-        }
-        return reject({
-                status: 'Error',
-                message: 'Was not able to create new comment. Please refresh page and try again',
-                timestamp: Date.now() 
+            })
+            .catch(() => {
+                return reject({
+                    status: 'Error',
+                    message: 'Was not able to create new comment. Please refresh page and try again',
+                    timestamp: Date.now() 
+                })
             })
     })
-}
-
-/**
- * Creates a comment object from the form submission. Posts the submission to the 
- * API and then display it to the page on success or displays error notification on error.
- * Returns a boolean to the createCommentPromise function in order to satisfy those
- * conditions.
- * @param {Event} event the form event 
- * @return {Boolean} returns a comment
- */
-
-function createComment(event) {
-    const data = {
-        name: event.target.name.value,
-        comment: event.target.body.value,
-    }
-
-    const url = `${HEROKU_API_URL}comments`;
-
-    return axios
-        .post(url, data, { 
-            params: { 
-                api_key: HEROKU_API_KEY,
-            } 
-        })
-        .then((response) => {
-            let comment = response.data;
-            comment.date = formatDateForSite();
-            if (faces.length > 1) {
-                comment.image = faces[Math.floor(Math.random() * faces.length) + 1].url;
-            }
-            displayComment(comment);
-        })
-        .catch((error) => {
-            if (error.error) {
-                displayNotification(error.error);
-            }
-        })
 }
 
 /**
@@ -218,7 +201,7 @@ function displayComment(comment) {
     // const deleteLink = newElement(commentAndLikeRow, 'span', 'comment__delete-link', false, ['data-id'], [comment.id]);
     // newElement(deleteLink, 'img', 'comment__delete-btn', false, 'src', '../assets/icons/icon-delete.svg');
 
-    const likes = addLikeToRow(comment.likes);
+    const likes = formatLikeText(comment.likes);
     const likeLink = newElement(commentAndLikeRow, 'span', 'comment__like-link', likes);
     const likeBtn = newElement(
         commentAndLikeRow,
@@ -252,7 +235,7 @@ function addLike(event) {
         .put(url)
         .then((response) => {
             console.log(response.data.likes);
-            spanEl.previousSibling.innerText = addLikeToRow(response.data.likes);
+            spanEl.previousSibling.innerText = formatLikeText(response.data.likes);
         })
         .catch((error) => {
             if (error.error) {
@@ -268,7 +251,7 @@ function addLike(event) {
  * @returns {String} returns a formatted string to display in row
  */
 
-function addLikeToRow(likes) {
+function formatLikeText(likes) {
     let likeText = (likes > 1) ? 'likes' : 'like';
     return (likes > 0) ? `${likes} ${likeText}` : likes;
 }
