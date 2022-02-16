@@ -13,8 +13,8 @@ const nameDetails = {
     characters: 3
 };
 let faces = [];
-displayAllComments('desc');
 setInterval(getTimesDifferencesForDates, 30000);
+getAllCommentsFromApi();
 getFacesFromApi();
 
 // Event Listeners
@@ -49,7 +49,7 @@ function formSubmit(event) {
 
     createCommentPromise(event)
         .then((result) => {
-            displayAllComments('desc');
+            // displayAllComments('desc');
             displayNotification(result);
             this.reset();
         })
@@ -131,20 +131,32 @@ function createCommentPromise(event) {
  */
 
 function createComment(event) {
-    let image = event.target.image.value;
-    if (faces.length > 1) {
-        image = faces[Math.floor(Math.random() * 6) + 1].url;
-    }
-    const comment = {
+    const data = {
         name: event.target.name.value,
-        image: image,
-        body: event.target.body.value,
-        date: Date.now(),
-        timestamp: new Date().getTime()
+        comment: event.target.body.value,
     }
-    comments.push(comment);
-    
-    return comment;
+
+    const url = `${HEROKU_API_URL}comments`;
+
+    return axios
+        .post(url, data, { 
+            params: { 
+                api_key: HEROKU_API_KEY,
+            } 
+        })
+        .then((response) => {
+            let comment = response.data;
+            comment.date = new Date(comment.timestamp).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
+            if (faces.length > 1) {
+                comment.image = faces[Math.floor(Math.random() * faces.length) + 1].url;
+            }
+            displayComment(comment);
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
 }
 
 /**
@@ -158,7 +170,7 @@ function addImagesToComments() {
         if (index !== 0) {
             let parent = avatar.parentElement;
             avatar.remove();
-            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * 6) + 1].url);
+            newElement(parent, 'img', 'avatar__image', false, 'src', faces[Math.floor(Math.random() * faces.length) + 1].url);
         }
     })
 }
@@ -168,26 +180,25 @@ function addImagesToComments() {
  * to apply sorting by date defaults to descending. Also calls the 
  * getTimesDifferencesForDates() function which call an API via axios to calculate
  * the difference between timestamps
+ * @param {Array} comments an array of comment objects
  * @param {String} order checks for sort order. 
  */
 
-function displayAllComments(order) {
+function displayAllComments(comments, order) {
     commentContainerEl.innerHTML = '';
     comments
         .sort((a,b) => {
             if (order === 'asc') {
-                return new Date(b.date) - new Date(a.date);
+                return new Date(b.timestamp) - new Date(a.timestamp);
             }
-            return new Date(a.date) - new Date(b.date);
+            return new Date(a.timestamp) - new Date(b.timestamp);
         })
         .forEach((comment, index) => {
             if (index === 0) {
                 comment.last = true;
             }
-            comment.date = new Date(comment.date).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
             displayComment(comment);
         });
-        getTimesDifferencesForDates();
 }
 
 /**
@@ -216,10 +227,11 @@ function displayComment(comment) {
     
     const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
     newElement(nameAndDateRow, 'p', 'comment__name', comment.name);
-    newElement(nameAndDateRow, 'p', 'comment__date', comment.date, 'data-timestamp', comment.timestamp);
-    newElement(columnWideEl, 'p', 'comment__details', comment.body);
+    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', comment.date, 'data-timestamp', comment.timestamp);
+    newElement(columnWideEl, 'p', 'comment__details', comment.comment);
 
     commentContainerEl.prepend(articleEl);
+    getTimesFromApi(comment.timestamp, dateEl);
 }
 
 /**
@@ -249,7 +261,7 @@ function getTimesDifferencesForDates() {
  */
 
 function getTimesFromApi(dateToSend, dateToEdit) {
-    const differenceURL = 'https://myarchive.ca/api/time/difference';
+    const differenceURL = `${MYARCHIVE_API_URL}time/difference`;
     const daysAgo = dateToEdit.innerText.slice(dateToEdit.innerText.length - 8);
     
     if (daysAgo !== 'days ago') {
@@ -271,4 +283,32 @@ function getTimesFromApi(dateToSend, dateToEdit) {
                 }
             })
     }
+}
+
+/**
+ * An API call to retrieve all existing comments from the server. Displays all
+ * comments using the displayAllComments function once a response happens.
+ */
+
+ function getAllCommentsFromApi() {
+    const url = `${HEROKU_API_URL}comments`;
+
+    axios
+        .get(url, { 
+            params: { 
+                api_key: HEROKU_API_KEY,
+            } 
+        })
+        .then((response) => {
+            console.log(response);
+            response.data.map((comment) => {
+                return comment.date = new Date(comment.timestamp).toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'})
+            })
+            displayAllComments(response.data, 'desc');
+        })
+        .catch((error) => {
+            if (error.error) {
+                displayNotification(error.error);
+            }
+        })
 }

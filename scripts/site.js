@@ -1,5 +1,7 @@
 const HEROKU_API_KEY = "5f55f85c-8889-47cf-bbbe-588122e5c487";
 const MYARCHIVE_API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
+const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
+const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
 
 /**
  * Accepts a notification object. Creates an element to 
@@ -56,7 +58,7 @@ const MYARCHIVE_API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
 
 
 function getFacesFromApi() {
-    const facesURL = 'https://myarchive.ca/api/people/faces';
+    const facesURL = `${MYARCHIVE_API_URL}people/faces`;
     axios
         .get(facesURL, { 
             params: { 
@@ -77,26 +79,26 @@ function getFacesFromApi() {
 }
 
 // array data
-const comments = [
-    {
-        name: 'Miles Acosta',
-        body: `I can't stop listening. Every time I hear one of their songs - the vocals - it gives me goosebumps. Shivers straight down my spine. What a beautiful expression of creativity. Can't get enough.`,
-        date: '12/20/2020',
-        timestamp: '1608447600000'
-    },
-    {
-        name: 'Connor Walton',
-        body: `This is art. This is inexplicable magic expressed in the purest way, everything that makes up this majestic work deserves reverence. Let us appreciate this for what it is and what it contains.`,
-        date: '02/17/2021',
-        timestamp: '1613545200000'
-    },
-    {
-        name: 'Emilie Beach',
-        body: `I feel blessed to have seen them in person. What a show! They were just perfection. If there was one day of my life I could relive, this would be it. What an incredible day.`,
-        date: '01/09/2021',
-        timestamp: '1610175600000'
-    }
-]
+// const comments = [
+//     {
+//         name: 'Miles Acosta',
+//         body: `I can't stop listening. Every time I hear one of their songs - the vocals - it gives me goosebumps. Shivers straight down my spine. What a beautiful expression of creativity. Can't get enough.`,
+//         date: '12/20/2020',
+//         timestamp: '1608447600000'
+//     },
+//     {
+//         name: 'Connor Walton',
+//         body: `This is art. This is inexplicable magic expressed in the purest way, everything that makes up this majestic work deserves reverence. Let us appreciate this for what it is and what it contains.`,
+//         date: '02/17/2021',
+//         timestamp: '1613545200000'
+//     },
+//     {
+//         name: 'Emilie Beach',
+//         body: `I feel blessed to have seen them in person. What a show! They were just perfection. If there was one day of my life I could relive, this would be it. What an incredible day.`,
+//         date: '01/09/2021',
+//         timestamp: '1610175600000'
+//     }
+// ]
 
 const shows = [
     {
