@@ -24,7 +24,6 @@ function displayShows(shows, order) {
             if (index === array.length - 1) {
                 createdShow.classList.add('card--last');
             }
-            createdShow.addEventListener('click', addActiveClass);
             cardsContainer.appendChild(createdShow);
         })
 }
@@ -48,6 +47,8 @@ function createShow(show) {
     newElement(cardEl, 'p', 'card__description', 'Location');
     newElement(cardEl, 'p', 'card__location', show.location);
     newElement(cardEl, 'button', 'card__button', 'Buy Tickets');
+
+    cardEl.addEventListener('click', addActiveClass);
 
     return cardEl;
 }

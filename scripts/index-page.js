@@ -12,10 +12,9 @@ const nameDetails = {
     message: 'Please enter more than 3 characters',
     characters: 3
 };
-let faces = [];
+// let faces = [];
 setInterval(getTimesDifferencesForDates, 30000);
 getAllCommentsFromApi();
-getFacesFromApi();
 
 // Event Listeners
 document
@@ -34,6 +33,22 @@ document
         validateField(textAreaDetails)
     });
 
+
+/**
+ * Creates a comment object constructor
+ * @param {*} parent 
+ * @returns 
+ */
+
+function Comment(name, comment, id, likes, timestamp) {
+    this.name = name;
+    this.comment = comment;
+    this.id = id;
+    this.likes = likes;
+    this.timestamp = timestamp
+}
+
+
 /**
  * Attempts to submit form. Calls the validateForm() function first. If that returns true it attempts to complete a promise
  * then, will displayAllComments(), displayNotification() and reset form if successful. Otherwise it will return
@@ -49,7 +64,6 @@ function formSubmit(event) {
 
     createComment(event)
         .then((result) => {
-            // displayAllComments('desc');
             displayNotification(result);
             this.reset();
         })
@@ -120,11 +134,10 @@ function createComment(event) {
                 } 
             })
             .then((response) => {
+                console.log(response.status);
                 let comment = response.data;
                 comment.date = formatDateForSite();
-                if (faces.length > 1) {
-                    comment.image = faces[Math.floor(Math.random() * faces.length) + 1].url;
-                }
+                comment.image = event.target.image.value;
                 displayComment(comment);
                 return resolve({
                     status: 'Success',
@@ -132,10 +145,10 @@ function createComment(event) {
                     timestamp: comment.date 
                 })
             })
-            .catch(() => {
+            .catch((error) => {
                 return reject({
-                    status: 'Error',
-                    message: 'Was not able to create new comment. Please refresh page and try again',
+                    status: error,
+                    message: `Was not able to create new comment. Please refresh page and try again`,
                     timestamp: Date.now() 
                 })
             })
@@ -170,7 +183,7 @@ function displayAllComments(comments, order) {
 
 /**
  * Displays individual comments. Accepts a comment object and displays
- * it in the commentContainerEl. Used by a forEach method in displayAllComment()
+ * it in the commentContainerEl. Used by a forEach method in displayAllComments()
  * @param {Object} comment a comment object
  */
 
@@ -209,7 +222,8 @@ function displayComment(comment) {
         'comment__like-btn',
         false,
         ['src', 'data-id', 'alt', 'data-likes'],
-        ['../assets/icons/icon-like.svg',comment.id, `like this post by ${comment.name}`, comment.likes]);
+        ['../assets/icons/icon-like.svg',comment.id, `like this post by ${comment.name}`, comment.likes]
+    );
 
     likeBtn.addEventListener('click', addLike);
 
@@ -234,7 +248,6 @@ function addLike(event) {
         return axios
         .put(url)
         .then((response) => {
-            console.log(response.data.likes);
             spanEl.previousSibling.innerText = formatLikeText(response.data.likes);
         })
         .catch((error) => {
@@ -261,14 +274,15 @@ function formatLikeText(likes) {
  * from the faces array being populated by an API call to https://myarchive.ca/api/people/faces
  */
 
- function addImagesToComments() {
+ function addImagesToComments(faces) {
     let avatars = document.querySelectorAll('.avatar__image');
     avatars.forEach((avatar, index) => {
         if (index !== 0) {
             let parent = avatar.parentElement;
             let name = avatar.getAttribute('data-name');
-            let random = faces[Math.floor(Math.random() * faces.length) + 1].url;
-            let newAvatar = newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random, `an avatar image for ${name}`]);
+            let randomNum = Math.floor(Math.random() * 18) + 1;
+            let random = faces[randomNum];
+            let newAvatar = newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random.url, `an avatar image for ${name}`]);
             newAvatar.addEventListener('load', (event) => {
                 avatar.remove();
             })
@@ -347,6 +361,9 @@ function getTimesFromApi(dateToSend, dateToEdit) {
             })
             displayAllComments(response.data, 'desc');
         })
+        .then(() => {
+            getFacesFromApi();
+        })
         .catch((error) => {
             if (error.error) {
                 displayNotification(error.error);
@@ -371,8 +388,7 @@ function getTimesFromApi(dateToSend, dateToEdit) {
         })
         .then((response) => {
             if (response.data.length > 1) {
-                faces = response.data;
-                addImagesToComments();
+                addImagesToComments(response.data, length);
             }
         })
         .catch((error) => {
