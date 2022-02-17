@@ -55,7 +55,7 @@ const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
  * Accepts an optional timestamp parameter that allows for the returned formatted time to be 
  * based on that timestamp. If no timestamp is provided then a formatted date based on current
  * local time is produced in mm/dd/yyyy format.
- * @param {Element} parent final element to be returned with content;
+ * @param {Number or String} timestamp in millesceconds since epoch optional
  * @returns {String} returns a formatted date string
  */
 

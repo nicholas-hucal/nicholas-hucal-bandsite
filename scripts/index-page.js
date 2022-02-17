@@ -12,8 +12,6 @@ const nameDetails = {
     message: 'Please enter more than 3 characters',
     characters: 3
 };
-// let faces = [];
-setInterval(getTimesDifferencesForDates, 30000);
 getAllCommentsFromApi();
 
 // Event Listeners
@@ -32,22 +30,6 @@ document
     .addEventListener('focusout', () => {
         validateField(textAreaDetails)
     });
-
-
-/**
- * Creates a comment object constructor
- * @param {*} parent 
- * @returns 
- */
-
-function Comment(name, comment, id, likes, timestamp) {
-    this.name = name;
-    this.comment = comment;
-    this.id = id;
-    this.likes = likes;
-    this.timestamp = timestamp
-}
-
 
 /**
  * Attempts to submit form. Calls the validateForm() function first. If that returns true it attempts to complete a promise
@@ -134,7 +116,6 @@ function createComment(event) {
                 } 
             })
             .then((response) => {
-                console.log(response.status);
                 let comment = response.data;
                 comment.date = formatDateForSite();
                 comment.image = event.target.image.value;
@@ -363,6 +344,7 @@ function getTimesFromApi(dateToSend, dateToEdit) {
         })
         .then(() => {
             getFacesFromApi();
+            setInterval(getTimesDifferencesForDates, 30000);
         })
         .catch((error) => {
             if (error.error) {
