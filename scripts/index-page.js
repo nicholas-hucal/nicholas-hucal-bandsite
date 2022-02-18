@@ -13,7 +13,7 @@ const nameDetails = {
     characters: 3
 };
 getAllCommentsFromApi();
-let faces = [];
+let faces = createFaces();
 
 // Event Listeners
 document
@@ -101,7 +101,6 @@ function validateField(details) {
  * @param {Event} event an array of comment objects
  * @returns {Object} returns a message to be displayed
  */
-
 function createComment(event) {
     return new Promise((resolve, reject) => {
         const url = `${HEROKU_API_URL}comments`;
@@ -120,7 +119,7 @@ function createComment(event) {
                 let comment = response.data;
                 comment.date = formatDateForSite();
                 comment.image = event.target.image.value;
-                displayComment(comment);
+                comment.intervalId = displayComment(comment);
                 return resolve({
                     status: 'Success',
                     message: 'Added comment to page, thanks for your input.',
@@ -147,7 +146,6 @@ function createComment(event) {
  */
 
 function displayAllComments(comments, order) {
-    createFaces();
     commentContainerEl.innerHTML = '';
     comments
         .sort((a,b) => {
@@ -160,7 +158,7 @@ function displayAllComments(comments, order) {
             if (index === 0) {
                 comment.last = true;
             }
-            displayComment(comment);
+            comment.intervalId = displayComment(comment);
         });
 }
 
@@ -168,6 +166,7 @@ function displayAllComments(comments, order) {
  * Displays individual comments. Accepts a comment object and displays
  * it in the commentContainerEl. Used by a forEach method in displayAllComments()
  * @param {Object} comment a comment object
+ * @returns {Number} returns an interval id to be set on each comment in  the array
  */
 
 function displayComment(comment) {
@@ -212,9 +211,10 @@ function displayComment(comment) {
     );
 
     likeBtn.addEventListener('click', addLike);
-
+    let intervalId = updateHumanReadableDates(dateEl);
     commentContainerEl.prepend(articleEl);
-    //updateHumanReadableDates(dateEl);
+
+    return intervalId;
 }
 
 /**
@@ -241,67 +241,60 @@ function getRandomAvatar() {
 
 /**
  * Creates an array of existing faces images to use for the comment avatars
- * The faces array exists at the top of this file in the on page load.
- * This function is called from displayAllComments();
+ * This function is called at page load
+ * @returns {Array} an array of string urls of face images
  */
 
 function createFaces() {
+    let allFaces = []
     for (let i = 1; i < 20; i++) {
         let count = String(i).padStart(3, 0);
-        faces.push(`../assets/images/faces_${count}.jpeg`);
+        allFaces.push(`../assets/images/faces_${count}.jpeg`);
     }
-}
-
-/**
- * Creates a human readable time representation for a comment. Takes a timestamp and
- * converts it to a string i.e 3 days ago, 20 secs ago
- * @param {String or Number} timestamp 
- * @returns {String}
- */
-
-function createHumanReadableDate(timestamp) {
-    let readable = '';
-    let currentTimestamp = new Date().getTime();
-    let timeDifference = currentTimestamp - (timestamp - 1000);
-    let sec = 1000;
-    let min = 60 * sec;
-    let hour = 60 * min;
-    let day = 24 * hour;
-    let month = 30 * day;
-    let year = 365 * day;
-    switch (true) {
-        case timeDifference > min && timeDifference < hour:
-            readable = `${(timeDifference/min).toFixed()} mins ago`;      
-            break;
-        case timeDifference > hour && timeDifference < day:
-            readable = `${(timeDifference/hour).toFixed()} hours ago`;      
-            break;
-        case timeDifference > day && timeDifference < month:
-            readable = `${(timeDifference/day).toFixed()} days ago`;      
-            break;
-        case timeDifference > month && timeDifference < year:
-            readable = `${(timeDifference/month).toFixed()} months ago`;      
-            break;
-        case timeDifference > year:
-            readable = `${(timeDifference/year).toFixed()} years ago`;      
-            break;
-        default:
-            readable = `${(timeDifference/1000).toFixed()} secs ago`;
-            break;     
-    }
-    return readable;
+    return allFaces;
 }
 
 /**
  * Function to update the human readable dates every 15 secs.
  * Called after inital display of displayAllComments is complete;
+ * @returns {Number} returns interval id to be set on comment in array for future use
  */
 
 function updateHumanReadableDates(date) {
-    setInterval(() => {
+    return setInterval(() => {
         const timestamp = date.getAttribute('data-timestamp');
         date.innerText = createHumanReadableDate(timestamp);
     }, 15000);
+}
+
+/**
+ * Function to get human readable dates with array methods
+ */
+
+function createHumanReadableDate(timestamp) {
+    let currentTimestamp = new Date().getTime();
+    let timeDifference = currentTimestamp - timestamp;
+    let types = ['seconds', 'mins', 'hours', 'days', 'months', 'years'];
+    let seconds = [1000, 60000, 3600000, 86400000, 2592000000, 31536000000, 63072000000000];
+    let times = types.map((type, index) => {
+        let obj = {
+            type: type,
+            seconds: seconds[index],
+            next: seconds[index + 1],
+            plural: `${type} ago`,
+            singular: `${type.slice(0, -1)} ago` 
+        }
+        return obj;
+    })
+    let howLongAgo = times.find((time) => time.seconds < timeDifference && time.next > timeDifference);
+    if (howLongAgo) {
+        if (howLongAgo.seconds * 2 > timeDifference) {
+            return `${Math.floor(timeDifference/howLongAgo.seconds)} ${howLongAgo.singular}`;
+        } else {
+            return `${Math.floor(timeDifference/howLongAgo.seconds)} ${howLongAgo.plural}`;
+        }
+    }
+    return 'now';
 }
 
 /**
@@ -349,7 +342,7 @@ function addLike(event) {
             response.data.map((comment) => {
                 return comment.date = formatDateForSite(comment.timestamp);
             })
-            displayAllComments(response.data, 'desc');
+            return displayAllComments(response.data, 'desc');
         })
         .catch((error) => {
             if (error.error) {
