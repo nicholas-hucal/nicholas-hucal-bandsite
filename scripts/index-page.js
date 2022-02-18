@@ -13,6 +13,7 @@ const nameDetails = {
     characters: 3
 };
 getAllCommentsFromApi();
+let faces = [];
 
 // Event Listeners
 document
@@ -146,6 +147,7 @@ function createComment(event) {
  */
 
 function displayAllComments(comments, order) {
+    createFaces();
     commentContainerEl.innerHTML = '';
     comments
         .sort((a,b) => {
@@ -180,36 +182,126 @@ function displayComment(comment) {
     const columnWideEl = newElement(articleEl, 'div', 'comment__column comment__column--wide');
     const avatarContainer = newElement(columnEl, 'figure', 'avatar');
     
-    if (!comment.image) {
-        newElement(avatarContainer, 'div', 'avatar__image avatar__image--no-image', false, ['data-name'], [comment.name]);
-    } else {
-        newElement(avatarContainer, 'img', 'avatar__image', false, ['src', 'data-name'], [comment.image, comment.name]);
-    }
+    newElement(
+        avatarContainer,
+        'img',
+        'avatar__image',
+        false,
+        ['src', 'alt'],
+        [comment.image ? comment.image : getRandomAvatar(), `Avatar image for ${comment.name}`]
+    );
     
     const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
     newElement(nameAndDateRow, 'p', 'comment__name', comment.name);
-    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', comment.date, ['data-timestamp'], [comment.timestamp]);
+    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', createHumanReadableDate(comment.timestamp), ['data-timestamp'], [comment.timestamp]);
 
     const commentAndLikeRow = newElement(columnWideEl, 'div', 'comment__row comment__row--last');
     newElement(commentAndLikeRow, 'p', 'comment__details', comment.comment);
     // const deleteLink = newElement(commentAndLikeRow, 'span', 'comment__delete-link', false, ['data-id'], [comment.id]);
-    // newElement(deleteLink, 'img', 'comment__delete-btn', false, 'src', '../assets/icons/icon-delete.svg');
+    // newElement(deleteLink, 'img', 'comment__delete-btn', false, ['src'], ['../assets/icons/icon-delete.svg']);
 
     const likes = formatLikeText(comment.likes);
-    const likeLink = newElement(commentAndLikeRow, 'span', 'comment__like-link', likes);
+    newElement(commentAndLikeRow, 'span', 'comment__like-link', likes);
     const likeBtn = newElement(
         commentAndLikeRow,
         'img',
         'comment__like-btn',
         false,
         ['src', 'data-id', 'alt', 'data-likes'],
-        ['../assets/icons/icon-like.svg',comment.id, `like this post by ${comment.name}`, comment.likes]
+        ['../assets/icons/icon-like.svg', comment.id, `like this post by ${comment.name}`, comment.likes]
     );
 
     likeBtn.addEventListener('click', addLike);
 
     commentContainerEl.prepend(articleEl);
-    getTimesFromApi(comment.timestamp, dateEl);
+    //updateHumanReadableDates(dateEl);
+}
+
+/**
+ * Formats the like count to reflect whether it exists and if it is plural or singular.
+ * @param {Number} likes the current like count
+ * @returns {String} returns a formatted string to display in row
+ */
+
+ function formatLikeText(likes) {
+    let likeText = (likes > 1) ? 'likes' : 'like';
+    return (likes > 0) ? `${likes} ${likeText}` : likes;
+}
+
+/**
+ * Gets a random image to use when constructing the comment element. It 
+ * is called by displayComment
+ * @returns {String} returns a string for an image on the server
+ */
+
+function getRandomAvatar() {
+    let randomNum = Math.floor(Math.random() * 18) + 1;
+    return faces[randomNum];
+}
+
+/**
+ * Creates an array of existing faces images to use for the comment avatars
+ * The faces array exists at the top of this file in the on page load.
+ * This function is called from displayAllComments();
+ */
+
+function createFaces() {
+    for (let i = 1; i < 20; i++) {
+        let count = String(i).padStart(3, 0);
+        faces.push(`../assets/images/faces_${count}.jpeg`);
+    }
+}
+
+/**
+ * Creates a human readable time representation for a comment. Takes a timestamp and
+ * converts it to a string i.e 3 days ago, 20 secs ago
+ * @param {String or Number} timestamp 
+ * @returns {String}
+ */
+
+function createHumanReadableDate(timestamp) {
+    let readable = '';
+    let currentTimestamp = new Date().getTime();
+    let timeDifference = currentTimestamp - (timestamp - 1000);
+    let sec = 1000;
+    let min = 60 * sec;
+    let hour = 60 * min;
+    let day = 24 * hour;
+    let month = 30 * day;
+    let year = 365 * day;
+    switch (true) {
+        case timeDifference > min && timeDifference < hour:
+            readable = `${(timeDifference/min).toFixed()} mins ago`;      
+            break;
+        case timeDifference > hour && timeDifference < day:
+            readable = `${(timeDifference/hour).toFixed()} hours ago`;      
+            break;
+        case timeDifference > day && timeDifference < month:
+            readable = `${(timeDifference/day).toFixed()} days ago`;      
+            break;
+        case timeDifference > month && timeDifference < year:
+            readable = `${(timeDifference/month).toFixed()} months ago`;      
+            break;
+        case timeDifference > year:
+            readable = `${(timeDifference/year).toFixed()} years ago`;      
+            break;
+        default:
+            readable = `${(timeDifference/1000).toFixed()} secs ago`;
+            break;     
+    }
+    return readable;
+}
+
+/**
+ * Function to update the human readable dates every 15 secs.
+ * Called after inital display of displayAllComments is complete;
+ */
+
+function updateHumanReadableDates(date) {
+    setInterval(() => {
+        const timestamp = date.getAttribute('data-timestamp');
+        date.innerText = createHumanReadableDate(timestamp);
+    }, 15000);
 }
 
 /**
@@ -240,89 +332,6 @@ function addLike(event) {
 }
 
 /**
- * Formats the like count to reflect whether it exists and if it is plural or singular.
- * @param {Number} likes the current like count
- * @returns {String} returns a formatted string to display in row
- */
-
-function formatLikeText(likes) {
-    let likeText = (likes > 1) ? 'likes' : 'like';
-    return (likes > 0) ? `${likes} ${likeText}` : likes;
-}
-
-/**
- * Displays all images on all existing comments. Gets a random image for the avatar
- * from the faces array being populated by an API call to https://myarchive.ca/api/people/faces
- */
-
- function addImagesToComments(faces) {
-    let avatars = document.querySelectorAll('.avatar__image');
-    avatars.forEach((avatar, index) => {
-        if (index !== 0) {
-            let parent = avatar.parentElement;
-            let name = avatar.getAttribute('data-name');
-            let randomNum = Math.floor(Math.random() * 18) + 1;
-            let random = faces[randomNum];
-            let newAvatar = newElement(parent, 'img', 'avatar__image', false, ['src', 'alt'], [random.url, `an avatar image for ${name}`]);
-            newAvatar.addEventListener('load', (event) => {
-                avatar.remove();
-            })
-        }
-    })
-}
-
-/**
- * Called by displayAllComments(). Gets all current comment__date elements and
- * creates a new array of them. Goes through a forEach to run the getTimesFromApi()
- * function on each date element.
- */
-
-function getTimesDifferencesForDates() {
-    const currentDates = document.querySelectorAll('.comment__date');
-    currentDates.forEach((currentDate) => {
-        const timestamp = currentDate.getAttribute('data-timestamp');
-        getTimesFromApi(timestamp, currentDate);
-    })
-}
-
-/**
- * An API call to calculate the time since in human readable format.
- * Called by getTimesDifferencesForDates(), on page load, and every 30 secs by setInterval();
- * The API is a basic PHP script which calculates the difference between two
- * timestamps and sends back a JSON object whether an error or success.
- * More details are available at https://myarchive.ca/api on my server.
- * The API was created by me, just to try out the axios feature we learned last week.
- * Originally provided calculation in JS, but wanted some further challenge.
- * @param {String} dateToSend a timestamp in JS milleseconds format
- * @param {Element} dateToEdit a comment__date element
- */
-
-function getTimesFromApi(dateToSend, dateToEdit) {
-    const differenceURL = `${MYARCHIVE_API_URL}time/difference`;
-    const daysAgo = dateToEdit.innerText.slice(dateToEdit.innerText.length - 8);
-    
-    if (daysAgo !== 'days ago') {
-        axios
-            .get(differenceURL, { 
-                params: { 
-                    api_key: MYARCHIVE_API_KEY,
-                    date: Number(dateToSend) - 2000 
-                } 
-            })
-            .then((response) => {
-                if (response.data.difference) {
-                    dateToEdit.innerText = response.data.difference;
-                }
-            })
-            .catch((error) => {
-                if (error.error) {
-                    displayNotification(error.error);
-                }
-            })
-    }
-}
-
-/**
  * An API call to retrieve all existing comments from the server. Displays all
  * comments using the displayAllComments function once a response happens.
  */
@@ -341,37 +350,6 @@ function getTimesFromApi(dateToSend, dateToEdit) {
                 return comment.date = formatDateForSite(comment.timestamp);
             })
             displayAllComments(response.data, 'desc');
-        })
-        .then(() => {
-            getFacesFromApi();
-            setInterval(getTimesDifferencesForDates, 30000);
-        })
-        .catch((error) => {
-            if (error.error) {
-                displayNotification(error.error);
-            }
-        })
-}
-
-/**
- * Makes an API call to https://myarchive.ca/api/people/faces to retrieve and
- * array of random portraits for the comments section. Sets the faces array to the
- * response and then runs the addImagesToComments function to replace all of the 
- * image placeholders.
- */
-
- function getFacesFromApi() {
-    const facesURL = `${MYARCHIVE_API_URL}people/faces`;
-    axios
-        .get(facesURL, { 
-            params: { 
-                api_key: MYARCHIVE_API_KEY,
-            } 
-        })
-        .then((response) => {
-            if (response.data.length > 1) {
-                addImagesToComments(response.data, length);
-            }
         })
         .catch((error) => {
             if (error.error) {
