@@ -238,11 +238,28 @@ input:focus, textarea:focus, select:focus{
     color: white;
     background-color: colors.$primary-black;
     border: 1px solid colors.$primary-silver;
+    animation: fade 4.0s ease-in-out forwards;
+
     @include mixins.tablet {
         width: 30vw;
     }
 
     &__heading {
         margin: 0rem;
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }

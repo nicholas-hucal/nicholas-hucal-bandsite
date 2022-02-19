@@ -22,13 +22,13 @@ document
 
 document
     .getElementById('form__input')
-    .addEventListener('focusout', () => {
+    .addEventListener('keyup', () => {
         validateField(nameDetails);
     });
 
 document
     .getElementById('form__textarea')
-    .addEventListener('focusout', () => {
+    .addEventListener('keyup', () => {
         validateField(textAreaDetails)
     });
 
@@ -86,11 +86,10 @@ function validateField(details) {
         input.classList.add(`${details.field}--has-error`);
         inputHelp.innerText = details.message;
         return false;
-    } else {
-        input.classList.remove(`${details.field}--has-error`);
-        inputHelp.innerText = '';
-        return true;
     }
+    input.classList.remove(`${details.field}--has-error`);
+    inputHelp.innerText = '';
+    return true;
 }
 
 /**
@@ -119,7 +118,7 @@ function createComment(event) {
                 let comment = response.data;
                 comment.date = formatDateForSite();
                 comment.image = event.target.image.value;
-                comment.intervalId = displayComment(comment);
+                displayComment(comment);
                 return resolve({
                     status: 'Success',
                     message: 'Added comment to page, thanks for your input.',
@@ -158,15 +157,14 @@ function displayAllComments(comments, order) {
             if (index === 0) {
                 comment.last = true;
             }
-            comment.intervalId = displayComment(comment);
+            displayComment(comment);
         });
 }
 
 /**
  * Displays individual comments. Accepts a comment object and displays
- * it in the commentContainerEl. Used by a forEach method in displayAllComments()
+ * it in the commentContainerEl. Used by a forEach method in displayAllComments() and in createComment()
  * @param {Object} comment a comment object
- * @returns {Number} returns an interval id to be set on each comment in  the array
  */
 
 function displayComment(comment) {
@@ -179,10 +177,10 @@ function displayComment(comment) {
     
     const columnEl = newElement(articleEl, 'div', 'comment__column');
     const columnWideEl = newElement(articleEl, 'div', 'comment__column comment__column--wide');
-    const avatarContainer = newElement(columnEl, 'figure', 'avatar');
+    const avatarContainerEl = newElement(columnEl, 'figure', 'avatar');
     
-    newElement(
-        avatarContainer,
+    const avatarImageEl = newElement(
+        avatarContainerEl,
         'img',
         'avatar__image',
         false,
@@ -190,19 +188,19 @@ function displayComment(comment) {
         [comment.image ? comment.image : getRandomAvatar(), `Avatar image for ${comment.name}`]
     );
     
-    const nameAndDateRow = newElement(columnWideEl, 'div', 'comment__row');
-    newElement(nameAndDateRow, 'p', 'comment__name', comment.name);
-    const dateEl = newElement(nameAndDateRow, 'p', 'comment__date', createHumanReadableDate(comment.timestamp), ['data-timestamp'], [comment.timestamp]);
+    const nameAndDateRowEl = newElement(columnWideEl, 'div', 'comment__row');
+    const nameEl = newElement(nameAndDateRowEl, 'p', 'comment__name', comment.name);
+    const dateEl = newElement(nameAndDateRowEl, 'p', 'comment__date', createHumanReadableDate(comment.timestamp), ['data-timestamp'], [comment.timestamp]);
 
-    const commentAndLikeRow = newElement(columnWideEl, 'div', 'comment__row comment__row--last');
-    newElement(commentAndLikeRow, 'p', 'comment__details', comment.comment);
+    const commentAndLikeRowEl = newElement(columnWideEl, 'div', 'comment__row comment__row--last');
+    const commentEl = newElement(commentAndLikeRowEl, 'p', 'comment__details', comment.comment);
     // const deleteLink = newElement(commentAndLikeRow, 'span', 'comment__delete-link', false, ['data-id'], [comment.id]);
     // newElement(deleteLink, 'img', 'comment__delete-btn', false, ['src'], ['../assets/icons/icon-delete.svg']);
 
-    const likes = formatLikeText(comment.likes);
-    newElement(commentAndLikeRow, 'span', 'comment__like-link', likes);
-    const likeBtn = newElement(
-        commentAndLikeRow,
+    const likesText = formatLikeText(comment.likes);
+    const likesSpanEl = newElement(commentAndLikeRowEl, 'span', 'comment__like-link', likesText);
+    const likeBtnEl = newElement(
+        commentAndLikeRowEl,
         'img',
         'comment__like-btn',
         false,
@@ -210,11 +208,9 @@ function displayComment(comment) {
         ['../assets/icons/icon-like.svg', comment.id, `like this post by ${comment.name}`, comment.likes]
     );
 
-    likeBtn.addEventListener('click', addLike);
-    let intervalId = updateHumanReadableDates(dateEl);
+    likeBtnEl.addEventListener('click', addLike);
+    articleEl.setAttribute('data-interval-id', updateHumanReadableDates(dateEl));
     commentContainerEl.prepend(articleEl);
-
-    return intervalId;
 }
 
 /**
@@ -230,7 +226,7 @@ function displayComment(comment) {
 
 /**
  * Gets a random image to use when constructing the comment element. It 
- * is called by displayComment
+ * is called by displayComment()
  * @returns {String} returns a string for an image on the server
  */
 
@@ -257,7 +253,9 @@ function createFaces() {
 /**
  * Function to update the human readable dates every 15 secs.
  * Called after inital display of displayAllComments is complete;
- * @returns {Number} returns interval id to be set on comment in array for future use
+ * Returns and interval id to be appended to a comment row to cancel interval
+ * as required. Set as a 'data-interval-id' attribute.
+ * @returns {Number} returns interval id 
  */
 
 function updateHumanReadableDates(date) {
@@ -268,7 +266,10 @@ function updateHumanReadableDates(date) {
 }
 
 /**
- * Function to get human readable dates with array methods
+ * Function to get human readable dates with array methods. Accepts a timestamp
+ * and returns a string of human readable dates in format of (quantity type) ago
+ * @param {String or Number}
+ * @returns {String}
  */
 
 function createHumanReadableDate(timestamp) {
@@ -277,14 +278,14 @@ function createHumanReadableDate(timestamp) {
     let types = ['seconds', 'mins', 'hours', 'days', 'months', 'years'];
     let seconds = [1000, 60000, 3600000, 86400000, 2592000000, 31536000000, 63072000000000];
     let times = types.map((type, index) => {
-        let obj = {
+        let time = {
             type: type,
             seconds: seconds[index],
             next: seconds[index + 1],
             plural: `${type} ago`,
             singular: `${type.slice(0, -1)} ago` 
         }
-        return obj;
+        return time;
     })
     let howLongAgo = times.find((time) => time.seconds < timeDifference && time.next > timeDifference);
     if (howLongAgo) {
@@ -299,8 +300,10 @@ function createHumanReadableDate(timestamp) {
 
 /**
  * Add like to existing post. Takes a click of the like button and increments the like count
- * by one. It calls add like to row which formats the likes based on quantity. Once done the new
- * like count is appended to the containing rows span.
+ * by one. It calls formatLikeText which formats the likes based on quantity. Once done the new
+ * like count is appended to the containing rows span. A simple scale animation is added via
+ * the class comment__like-btn--clicked and then removed. If a like cannot be added a notification
+ * is displayed with the error.
  * @param {Event} event takes the click event data
  */
 
@@ -312,26 +315,30 @@ function addLike(event) {
 
     if (id && likes) {
         return axios
-        .put(url)
-        .then((response) => {
-            spanEl.previousSibling.innerText = formatLikeText(response.data.likes);
-        })
-        .catch((error) => {
-            if (error.error) {
-                displayNotification(error.error);
-            }
-        })
+            .put(url)
+            .then((response) => {
+                spanEl.previousSibling.innerText = formatLikeText(response.data.likes);
+                spanEl.classList.add('comment__like-btn--clicked');
+                setTimeout(() => {
+                    spanEl.classList.remove('comment__like-btn--clicked');
+                }, 250);
+            })
+            .catch((error) => {
+                if (error) {
+                    displayNotification(error);
+                }
+            })
     } 
 }
 
 /**
  * An API call to retrieve all existing comments from the server. Displays all
  * comments using the displayAllComments function once a response happens.
+ * Otherwise displays an error notification on failure.
  */
 
  function getAllCommentsFromApi() {
     const url = `${HEROKU_API_URL}comments`;
-
     axios
         .get(url, { 
             params: { 
@@ -339,14 +346,13 @@ function addLike(event) {
             } 
         })
         .then((response) => {
-            response.data.map((comment) => {
-                return comment.date = formatDateForSite(comment.timestamp);
+            let comments = response.data.map((comment) => {
+                comment.date = formatDateForSite(comment.timestamp);
+                return comment;
             })
-            return displayAllComments(response.data, 'desc');
+            displayAllComments(comments, 'desc');
         })
         .catch((error) => {
-            if (error.error) {
-                displayNotification(error.error);
-            }
+            displayNotification(error);
         })
 }

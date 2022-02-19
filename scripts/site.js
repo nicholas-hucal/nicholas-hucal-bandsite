@@ -1,7 +1,5 @@
 const HEROKU_API_KEY = "5f55f85c-8889-47cf-bbbe-588122e5c487";
 const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
-const MYARCHIVE_API_KEY = 'c6823960-c4c7-49e3-b052-261c4e43ac07';
-const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
 
 /**
  * Accepts a notification object. Creates an element to 
@@ -19,7 +17,7 @@ const MYARCHIVE_API_URL = 'https://myarchive.ca/api/';
 
     document.querySelector('body').appendChild(containerEl);
     setTimeout(() => {
-        document.querySelector('.notification').remove();
+        containerEl.remove();
     }, 4000);
 }
 
