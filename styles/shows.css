@@ -95,6 +95,7 @@ footer p, footer a {
 
 label, button {
   margin: 0;
+  font-family: "avenir";
   font-weight: 700;
   font-size: 0.625rem;
   line-height: 1.25rem;
@@ -613,6 +614,9 @@ input:focus, textarea:focus, select:focus {
 .card--active {
   background-color: #E1E1E1;
 }
+.card--active:hover {
+  background-color: #E1E1E1 !important;
+}
 .card:hover {
   background-color: #FAFAFA;
 }
@@ -680,9 +684,9 @@ input:focus, textarea:focus, select:focus {
   color: #FFFFFF;
   border: none;
   border-radius: 0.25rem;
-  font-size: 1rem;
-  height: 2.5rem;
+  font-size: 0.85rem;
   font-weight: 400;
+  height: 2.5rem;
   text-transform: uppercase;
 }
 @media (min-width: 768px) {

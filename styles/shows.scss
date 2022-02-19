@@ -115,6 +115,10 @@
         background-color: colors.$secondary-mercury;
     }
 
+    &--active:hover {
+        background-color: colors.$secondary-mercury!important;
+    }
+
     &:hover {
         background-color: colors.$secondary-alabaster;
     }
@@ -169,9 +173,9 @@
         color: colors.$primary-white;
         border: none;
         border-radius: 0.25rem;
-        font-size: 1rem;
-        height: 2.5rem;
+        font-size: 0.85rem;
         font-weight: 400;
+        height: 2.5rem;
         text-transform: uppercase;
         @include mixins.tablet {
             width: auto;
