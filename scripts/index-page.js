@@ -93,50 +93,6 @@ function validateField(details) {
 }
 
 /**
- * Creates a new promise which returns a message to be displayed in displayNotification()
- * Takes an event which then is posted to the DB via axios. On success the comment is formatted and 
- * appended to the display container and return a message to be displayed.
- * If it fails returns a message to be displayed.
- * @param {Event} event an array of comment objects
- * @returns {Object} returns a message to be displayed
- */
-function createComment(event) {
-    return new Promise((resolve, reject) => {
-        const url = `${HEROKU_API_URL}comments`;
-        const data = {
-            name: event.target.name.value,
-            comment: event.target.body.value,
-        }
-
-        axios
-            .post(url, data, { 
-                params: { 
-                    api_key: HEROKU_API_KEY,
-                } 
-            })
-            .then((response) => {
-                let comment = response.data;
-                comment.date = formatDateForSite();
-                comment.image = event.target.image.value;
-                comment.added = true;
-                displayComment(comment);
-                return resolve({
-                    status: 'Success',
-                    message: 'Added comment to page, thanks for your input.',
-                    timestamp: comment.date 
-                })
-            })
-            .catch((error) => {
-                return reject({
-                    status: error,
-                    message: `Was not able to create new comment. Please refresh page and try again`,
-                    timestamp: Date.now() 
-                })
-            })
-    })
-}
-
-/**
  * Displays all comments from the comments array by using the displayComment() function. Accepts a sort order 
  * to apply sorting by date defaults to descending. Also calls the 
  * getTimesDifferencesForDates() function which call an API via axios to calculate
@@ -172,7 +128,6 @@ function displayComment(comment) {
     const articleEl = document.createElement('article');
     articleEl.classList.add('comment');
     articleEl.setAttribute('id', comment.id);
-    
     if (comment.last) {
         articleEl.classList.add('comment--last');
     }
@@ -183,8 +138,8 @@ function displayComment(comment) {
     
     const columnEl = newElement(articleEl, 'div', 'comment__column');
     const columnWideEl = newElement(articleEl, 'div', 'comment__column comment__column--wide');
-    const avatarContainerEl = newElement(columnEl, 'figure', 'avatar');
     
+    const avatarContainerEl = newElement(columnEl, 'figure', 'avatar');
     const avatarImageEl = newElement(
         avatarContainerEl,
         'img',
@@ -203,7 +158,6 @@ function displayComment(comment) {
 
     const likesRowEl = newElement(columnWideEl, 'div', 'comment__row comment__row--last')
     const likesContainerEl = newElement(likesRowEl, 'div', 'comment__likes-container')
-    
     const likesText = formatLikeText(comment.likes);
     const likesSpanEl = newElement(likesContainerEl, 'span', 'comment__like-link', likesText);
     const likeBtnEl = newElement(
@@ -214,6 +168,7 @@ function displayComment(comment) {
         ['src', 'data-id', 'alt', 'data-likes'],
         ['../assets/icons/icon-like.svg', comment.id, `like this post by ${comment.name}`, comment.likes]
     );
+    likeBtnEl.addEventListener('click', addLike);
 
     const deleteBtnEl = newElement(
         articleEl,
@@ -227,8 +182,6 @@ function displayComment(comment) {
     deleteBtnEl.addEventListener('click', (event) => {
         displayModal(event.target, articleEl.cloneNode(true));
     });
-    
-    likeBtnEl.addEventListener('click', addLike);
 
     commentContainerEl.prepend(articleEl);
 }
@@ -417,4 +370,48 @@ function deleteComment(commentInfo) {
         .catch((error) => {
             displayNotification(error);
         })
+}
+
+/**
+ * Creates a new promise which returns a message to be displayed in displayNotification()
+ * Takes an event which then is posted to the DB via axios. On success the comment is formatted and 
+ * appended to the display container and return a message to be displayed.
+ * If it fails returns a message to be displayed.
+ * @param {Event} event an array of comment objects
+ * @returns {Object} returns a message to be displayed
+ */
+ function createComment(event) {
+    return new Promise((resolve, reject) => {
+        const url = `${HEROKU_API_URL}comments`;
+        const data = {
+            name: event.target.name.value,
+            comment: event.target.body.value,
+        }
+
+        axios
+            .post(url, data, { 
+                params: { 
+                    api_key: HEROKU_API_KEY,
+                } 
+            })
+            .then((response) => {
+                let comment = response.data;
+                comment.date = formatDateForSite();
+                comment.image = event.target.image.value;
+                comment.added = true;
+                displayComment(comment);
+                return resolve({
+                    status: 'Success',
+                    message: 'Added comment to page, thanks for your input.',
+                    timestamp: comment.date 
+                })
+            })
+            .catch((error) => {
+                return reject({
+                    status: error,
+                    message: `Was not able to create new comment. Please refresh page and try again`,
+                    timestamp: Date.now() 
+                })
+            })
+    })
 }
