@@ -320,11 +320,11 @@ input:focus, textarea:focus, select:focus{
     }
 
     &__cancel-button {
-        background-color: colors.$primary-silver;
+        background-color: colors.$secondary-mercury;
         color: colors.$primary-black;
         margin-right: 0.25rem;
         &:hover {
-            background-color: colors.$secondary-mercury;
+            background-color: colors.$primary-silver;
         }
     }
 }

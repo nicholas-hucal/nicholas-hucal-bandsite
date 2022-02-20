@@ -118,6 +118,7 @@ function createComment(event) {
                 let comment = response.data;
                 comment.date = formatDateForSite();
                 comment.image = event.target.image.value;
+                comment.added = true;
                 displayComment(comment);
                 return resolve({
                     status: 'Success',
@@ -174,6 +175,10 @@ function displayComment(comment) {
     
     if (comment.last) {
         articleEl.classList.add('comment--last');
+    }
+    if (comment.added) {
+        articleEl.classList.add('comment--added');
+        setTimeout(() => articleEl.classList.remove('comment--added'), 250);
     }
     
     const columnEl = newElement(articleEl, 'div', 'comment__column');
@@ -336,7 +341,7 @@ function addLike(event) {
                 imgEl.classList.add('comment__like-btn--clicked');
                 setTimeout(() => {
                     imgEl.classList.remove('comment__like-btn--clicked');
-                }, 250);
+                }, 150);
             })
             .catch((error) => {
                 if (error) {
@@ -371,7 +376,7 @@ function deleteComment(commentInfo) {
                 commentEl.classList.add('comment--deleted');
                 setTimeout(() => {
                     commentEl.remove();
-                }, 1000);
+                }, 500);
                 clearInterval(intervalId);
                 displayNotification({
                     status: 'Success',

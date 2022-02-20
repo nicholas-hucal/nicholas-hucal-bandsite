@@ -33,6 +33,7 @@ const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
  function displayModal(commentInfo, commentEl) {
     let containerEl = document.createElement('div');
     containerEl.classList.add('modal');
+    commentEl.removeAttribute('id');
 
     let modalContainerEl = newElement(containerEl, 'section', 'modal__container');
     let modalHeaderContainerEl = newElement(modalContainerEl, 'div', 'modal__heading-container');
@@ -44,6 +45,7 @@ const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
     commentEl.classList.add('comment--last');
     commentEl.classList.add('comment--modal');
     modalContainerEl.appendChild(commentEl);
+
     let btnContainerEl = newElement(modalContainerEl, 'div', 'modal__button-container');
     let cancelBtnEl = newElement(btnContainerEl, 'button', 'modal__cancel-button', 'No');
     let confirmBtnEl = newElement(btnContainerEl, 'button', 'modal__submit-button', 'Yes');
@@ -57,8 +59,7 @@ const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
 
     confirmBtnEl.addEventListener('click', (event) => {
         event.preventDefault();
-        let deleted = deleteComment(commentInfo);
-        if (deleted) {
+        if (deleteComment(commentInfo)) {
             document.querySelector('.modal').remove();
         }
     });

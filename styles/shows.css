@@ -480,12 +480,12 @@ input:focus, textarea:focus, select:focus {
   background-color: #000000;
 }
 .modal__cancel-button {
-  background-color: #AFAFAF;
+  background-color: #E1E1E1;
   color: #323232;
   margin-right: 0.25rem;
 }
 .modal__cancel-button:hover {
-  background-color: #E1E1E1;
+  background-color: #AFAFAF;
 }
 
 @-webkit-keyframes fade {
