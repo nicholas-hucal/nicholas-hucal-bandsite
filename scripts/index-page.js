@@ -170,6 +170,7 @@ function displayAllComments(comments, order) {
 function displayComment(comment) {
     const articleEl = document.createElement('article');
     articleEl.classList.add('comment');
+    articleEl.setAttribute('id', comment.id);
     
     if (comment.last) {
         articleEl.classList.add('comment--last');
@@ -192,15 +193,16 @@ function displayComment(comment) {
     const nameEl = newElement(nameAndDateRowEl, 'p', 'comment__name', comment.name);
     const dateEl = newElement(nameAndDateRowEl, 'p', 'comment__date', createHumanReadableDate(comment.timestamp), ['data-timestamp'], [comment.timestamp]);
 
-    const commentAndLikeRowEl = newElement(columnWideEl, 'div', 'comment__row comment__row--last');
-    const commentEl = newElement(commentAndLikeRowEl, 'p', 'comment__details', comment.comment);
-    // const deleteLink = newElement(commentAndLikeRow, 'span', 'comment__delete-link', false, ['data-id'], [comment.id]);
-    // newElement(deleteLink, 'img', 'comment__delete-btn', false, ['src'], ['../assets/icons/icon-delete.svg']);
+    const commentRowEl = newElement(columnWideEl, 'div', 'comment__row');
+    const commentEl = newElement(commentRowEl, 'p', 'comment__details', comment.comment);
 
+    const likesRowEl = newElement(columnWideEl, 'div', 'comment__row comment__row--last')
+    const likesContainerEl = newElement(likesRowEl, 'div', 'comment__likes-container')
+    
     const likesText = formatLikeText(comment.likes);
-    const likesSpanEl = newElement(commentAndLikeRowEl, 'span', 'comment__like-link', likesText);
+    const likesSpanEl = newElement(likesContainerEl, 'span', 'comment__like-link', likesText);
     const likeBtnEl = newElement(
-        commentAndLikeRowEl,
+        likesContainerEl,
         'img',
         'comment__like-btn',
         false,
@@ -208,8 +210,21 @@ function displayComment(comment) {
         ['../assets/icons/icon-like.svg', comment.id, `like this post by ${comment.name}`, comment.likes]
     );
 
+    const deleteBtnEl = newElement(
+        articleEl,
+        'img',
+        'comment__delete-btn',
+        false,
+        ['src', 'data-comment-id'],
+        ['../assets/icons/icon-x.svg', comment.id]
+    );
+    deleteBtnEl.setAttribute('data-interval-id', updateHumanReadableDates(dateEl));
+    deleteBtnEl.addEventListener('click', (event) => {
+        displayModal(event.target, articleEl.cloneNode(true));
+    });
+    
     likeBtnEl.addEventListener('click', addLike);
-    articleEl.setAttribute('data-interval-id', updateHumanReadableDates(dateEl));
+
     commentContainerEl.prepend(articleEl);
 }
 
@@ -221,7 +236,7 @@ function displayComment(comment) {
 
  function formatLikeText(likes) {
     let likeText = (likes > 1) ? 'likes' : 'like';
-    return (likes > 0) ? `${likes} ${likeText}` : likes;
+    return (likes > 0) ? `${likes} ${likeText}` : 'be first';
 }
 
 /**
@@ -308,25 +323,67 @@ function createHumanReadableDate(timestamp) {
  */
 
 function addLike(event) {
-    const spanEl = event.target;
-    const id = spanEl.getAttribute('data-id');
-    const likes = spanEl.getAttribute('data-likes');
+    const imgEl = event.target;
+    const id = imgEl.getAttribute('data-id');
+    const likes = imgEl.getAttribute('data-likes');
     const url = `${HEROKU_API_URL}comments/${id}/like?api_key=${HEROKU_API_KEY}`;
 
     if (id && likes) {
         return axios
             .put(url)
             .then((response) => {
-                spanEl.previousSibling.innerText = formatLikeText(response.data.likes);
-                spanEl.classList.add('comment__like-btn--clicked');
+                imgEl.previousSibling.innerText = formatLikeText(response.data.likes);
+                imgEl.classList.add('comment__like-btn--clicked');
                 setTimeout(() => {
-                    spanEl.classList.remove('comment__like-btn--clicked');
+                    imgEl.classList.remove('comment__like-btn--clicked');
                 }, 250);
             })
             .catch((error) => {
                 if (error) {
                     displayNotification(error);
                 }
+            })
+    } 
+}
+
+/**
+ * Delete comment from api. This is called from a modal when a delete button is clicked on a comment.
+ * If it is successful it removes the attached interval for refreshing human readable time and
+ * then removes the corresponding rows from the DOM, then returns true, to remove the modal
+ * from the DOM; A notification is shown in either case whether successful or not. 
+ * @returns {Boolean}
+ */
+
+function deleteComment(commentInfo) {
+    let intervalId = commentInfo.getAttribute('data-interval-id');
+    let commentId = commentInfo.getAttribute('data-comment-id');
+    const url = `${HEROKU_API_URL}comments/${commentId}`;
+
+    if (intervalId && commentId) {
+        return axios
+            .delete(url, { 
+                params: { 
+                    api_key: HEROKU_API_KEY,
+                } 
+            })
+            .then((response) => {
+                let commentEl = document.getElementById(response.data.id);
+                commentEl.classList.add('comment--deleted');
+                setTimeout(() => {
+                    commentEl.remove();
+                }, 1000);
+                clearInterval(intervalId);
+                displayNotification({
+                    status: 'Success',
+                    message: 'Deleted Comment'
+                });
+                return true
+            })
+            .catch((error) => {
+                if (error) {
+                    displayNotification(error);
+                }
+                return true;
             })
     } 
 }

@@ -22,6 +22,50 @@ const HEROKU_API_URL = 'https://project-1-api.herokuapp.com/';
 }
 
 /**
+ * Displays a modal with confirmation options for comment delete. If no is chosen
+ * the modal is removed from the DOM and that is it. If yes is chose it runs deleteComment
+ * which makes an axios call and removes comment from DB. Then the comment is removed from the
+ * DOM, then the modal is removed from the DOM;
+ * @param {Object} commentInfo a comment object
+ * @param {Element} commentEl an element
+ */
+
+ function displayModal(commentInfo, commentEl) {
+    let containerEl = document.createElement('div');
+    containerEl.classList.add('modal');
+
+    let modalContainerEl = newElement(containerEl, 'section', 'modal__container');
+    let modalHeaderContainerEl = newElement(modalContainerEl, 'div', 'modal__heading-container');
+    let trashIconEl = newElement(modalHeaderContainerEl, 'img', 'modal__heading-image', false, ['src'], ['../assets/icons/icon-delete.svg']);
+    let modalHeaderEl = newElement(modalHeaderContainerEl, 'h4', 'modal__heading', 'Delete this comment?');
+    
+    commentEl.querySelector('.comment__row--last').remove();
+    commentEl.querySelector('.comment__delete-btn').remove();
+    commentEl.classList.add('comment--last');
+    commentEl.classList.add('comment--modal');
+    modalContainerEl.appendChild(commentEl);
+    let btnContainerEl = newElement(modalContainerEl, 'div', 'modal__button-container');
+    let cancelBtnEl = newElement(btnContainerEl, 'button', 'modal__cancel-button', 'No');
+    let confirmBtnEl = newElement(btnContainerEl, 'button', 'modal__submit-button', 'Yes');
+
+    document.querySelector('body').appendChild(containerEl);
+
+    cancelBtnEl.addEventListener('click', (event) => {
+        event.preventDefault();
+        document.querySelector('.modal').remove();
+    });
+
+    confirmBtnEl.addEventListener('click', (event) => {
+        event.preventDefault();
+        let deleted = deleteComment(commentInfo);
+        if (deleted) {
+            document.querySelector('.modal').remove();
+        }
+    });
+}
+
+
+/**
  * Creates elements dynamically to streamline creation
  * @param {Element} parent final element to be returned with content;
  * @param {Element} element type of element to be created

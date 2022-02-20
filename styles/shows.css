@@ -414,6 +414,80 @@ input:focus, textarea:focus, select:focus {
   margin: 0rem;
 }
 
+.modal {
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal__container {
+  width: 90vw;
+  border-radius: 0.25rem;
+  padding: 1rem 1rem 0 1rem;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+}
+@media (min-width: 768px) {
+  .modal__container {
+    width: 60vw;
+  }
+}
+@media (min-width: 1280px) {
+  .modal__container {
+    width: 30vw;
+    padding: 2rem 2rem 1rem 2rem;
+  }
+}
+.modal__heading-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.modal__heading {
+  margin: 0 0 0.5rem 0;
+}
+.modal__heading-image {
+  margin-right: 0.5rem;
+}
+.modal__submit-button, .modal__cancel-button {
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  height: 2.5rem;
+  font-weight: 400;
+  flex: 1;
+  text-transform: uppercase;
+}
+.modal__submit-button:focus, .modal__cancel-button:focus {
+  outline: 0;
+}
+.modal__button-container {
+  display: flex;
+  padding: 1rem 0;
+  justify-content: space-between;
+}
+.modal__submit-button {
+  background-color: #323232;
+  margin-left: 0.25rem;
+}
+.modal__submit-button:hover {
+  background-color: #000000;
+}
+.modal__cancel-button {
+  background-color: #AFAFAF;
+  color: #323232;
+  margin-right: 0.25rem;
+}
+.modal__cancel-button:hover {
+  background-color: #E1E1E1;
+}
+
 @-webkit-keyframes fade {
   0% {
     opacity: 0;
